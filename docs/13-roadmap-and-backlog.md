@@ -1,7 +1,7 @@
 ---
 文档编号: 13
 标题: 路线图与 Backlog
-状态: Draft
+状态: Approved
 最后更新: 2026-10-23
 维护者: 陈陇刚
 ---
@@ -18,8 +18,8 @@
 | M3 | 内容与页面 | schema、12 个案例、首页/项目库/详情/关于/404/RSS | 12 页构建、JSON-LD 校验 | ✅ 完成 |
 | M4 | 进阶体验 | 搜索、过渡、滚动动效、OG、图片优化 | 预算达标、搜索可用 | ✅ 完成 |
 | M5 | 质量门禁 | 单测/集成/e2e/a11y/LHCI | `pnpm ci:verify` 全绿 | ✅ 完成 |
-| M6 | 开源发布 | LICENSE、社区文件、CHANGELOG、v1.0.0 | 部署成功、文档 Approved | 进行中 |
-| M7 | 长期运营 | notes、英文、CMS、打印样式、升级 | 按 Backlog 推进 | 待开始 |
+| M6 | 开源发布 | LICENSE、社区文件、CHANGELOG、v1.0.0 | 部署成功、文档 Approved | ✅ 完成 |
+| M7 | 长期运营 | notes、英文、CMS、打印样式、升级 | 按 Backlog 推进 | 进行中 |
 
 ## 2. Backlog
 

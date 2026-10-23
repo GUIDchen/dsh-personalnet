@@ -1,7 +1,7 @@
 ---
 文档编号: 11
 标题: 部署与运维
-状态: Draft
+状态: Approved
 最后更新: 2026-10-23
 维护者: 陈陇刚
 ---
@@ -52,6 +52,8 @@ dist/
 3. 如需自定义域名，填写 Custom domain 并开启 Enforce HTTPS。
 
 ### 3.2 工作流
+
+仓库中的 [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) 已实现以下流程（构建后先跑产物集成校验，再发布）：
 
 ```yaml
 name: deploy

@@ -8,7 +8,7 @@
 |---|---|
 | 项目 | dsh-personalnet（个人网站） |
 | 文档负责人 | 陈陇刚 |
-| 状态 | Approved（M0 基线） |
+| 状态 | Approved（v1.0.0） |
 | 最后更新 | 2026-10-23 |
 | 文档语言 | 简体中文（术语首现保留英文） |
 
@@ -34,11 +34,11 @@
 | 08 | [08-content-model.md](./08-content-model.md) | 内容 schema 与写作规范 | Approved |
 | 09 | [09-seo-performance-a11y.md](./09-seo-performance-a11y.md) | SEO、性能预算、可访问性 | Approved |
 | 10 | [10-testing-strategy.md](./10-testing-strategy.md) | 测试策略与 CI 门禁 | Approved |
-| 11 | [11-deployment-operations.md](./11-deployment-operations.md) | 部署、运维、回滚 | Draft |
-| 12 | [12-security-privacy-licensing.md](./12-security-privacy-licensing.md) | 安全、隐私、许可 | Draft |
-| 13 | [13-roadmap-and-backlog.md](./13-roadmap-and-backlog.md) | 路线图与 Backlog | Draft |
-| 14 | [14-content-migration.md](./14-content-migration.md) | 简历到站点的内容迁移 | Draft |
-| 15 | [15-writing-style.md](./15-writing-style.md) | 中文写作与图表规范 | Draft |
+| 11 | [11-deployment-operations.md](./11-deployment-operations.md) | 部署、运维、回滚 | Approved |
+| 12 | [12-security-privacy-licensing.md](./12-security-privacy-licensing.md) | 安全、隐私、许可 | Approved |
+| 13 | [13-roadmap-and-backlog.md](./13-roadmap-and-backlog.md) | 路线图与 Backlog | Approved |
+| 14 | [14-content-migration.md](./14-content-migration.md) | 简历到站点的内容迁移 | Approved |
+| 15 | [15-writing-style.md](./15-writing-style.md) | 中文写作与图表规范 | Approved |
 | 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
 | ADR | [adr/](./adr/) | 12 篇架构决策记录 | Approved |
 
@@ -55,3 +55,4 @@
 | 日期 | 版本 | 说明 |
 |---|---|---|
 | 2026-10-23 | 0.1.0 | 建立 M0 文档基线：00–05、12 篇 ADR |
+| 2026-10-23 | 1.0.0 | 全部文档 Approved，补充搜索、OG/封面、质量门禁与开源发布说明 |

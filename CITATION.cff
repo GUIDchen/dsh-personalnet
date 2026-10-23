@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "如果本项目的工程结构或文档对你的工作有帮助，欢迎引用。"
+title: "dsh-personalnet：个人网站（Astro 7 静态站点）"
+abstract: "面向多领域项目展示的个人网站工程：类型安全内容模型、静态搜索、性能与可访问性门禁、完整软件工程文档。"
+authors:
+  - family-names: "陈"
+    given-names: "陇刚"
+    alias: "Chen Longgang"
+version: 1.0.0
+date-released: "2026-10-23"
+license: MIT
+keywords:
+  - astro
+  - static-site
+  - portfolio
+  - typescript
+  - tailwindcss

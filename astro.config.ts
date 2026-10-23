@@ -4,8 +4,8 @@ import sitemap from "@astrojs/sitemap";
 import pagefind from "astro-pagefind";
 import tailwindcss from "@tailwindcss/vite";
 
-const site = process.env.SITE_URL ?? "https://example.com";
-const base = process.env.BASE_PATH ?? "/";
+const site = process.env.SITE_URL || "https://example.com";
+const base = process.env.BASE_PATH || "/";
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({

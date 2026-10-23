@@ -5,17 +5,27 @@
 [![文档](https://img.shields.io/badge/docs-17%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
 
+## 预览
+
+| 首页                            | 项目库                                |
+| ------------------------------- | ------------------------------------- |
+| ![首页](./docs/assets/home.png) | ![项目库](./docs/assets/projects.png) |
+
+| 项目详情                              | 搜索                              |
+| ------------------------------------- | --------------------------------- |
+| ![项目详情](./docs/assets/detail.png) | ![搜索](./docs/assets/search.png) |
+
 ## 状态
 
-| 里程碑 | 内容                                  | 状态      |
-| ------ | ------------------------------------- | --------- |
-| M0     | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成   |
-| M1     | Astro 7 工程脚手架 + CI               | ✅ 完成   |
-| M2     | 设计系统与页面骨架                    | ✅ 完成   |
-| M3     | 内容模型与全部页面                    | ✅ 完成   |
-| M4     | 搜索、动效、OG、图片优化              | ✅ 完成   |
-| M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成   |
-| M6     | MIT 开源发布 v1.0.0                   | 🚧 进行中 |
+| 里程碑 | 内容                                  | 状态    |
+| ------ | ------------------------------------- | ------- |
+| M0     | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成 |
+| M1     | Astro 7 工程脚手架 + CI               | ✅ 完成 |
+| M2     | 设计系统与页面骨架                    | ✅ 完成 |
+| M3     | 内容模型与全部页面                    | ✅ 完成 |
+| M4     | 搜索、动效、OG、图片优化              | ✅ 完成 |
+| M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成 |
+| M6     | MIT 开源发布 v1.0.0                   | ✅ 完成 |
 
 ## 技术栈
 
@@ -40,18 +50,33 @@ pnpm install
 pnpm dev        # http://localhost:4321
 ```
 
-常用命令（M1 起可用）：
+常用命令：
 
 ```bash
-pnpm build          # 生产构建
-pnpm preview        # 预览构建产物
-pnpm check          # astro check（类型 + 内容 schema）
-pnpm lint           # ESLint
-pnpm test           # 单元测试
-pnpm test:e2e       # Playwright
-pnpm perf           # Lighthouse CI
-pnpm test:docs      # 校验文档索引与结构
+pnpm dev             # 本地开发
+pnpm build           # 生产构建
+pnpm preview         # 预览构建产物
+pnpm check           # astro check（类型 + 内容 schema）
+pnpm lint            # ESLint
+pnpm test:unit       # 单元测试
+pnpm test:coverage   # 覆盖率（阈值 80/70）
+pnpm test:e2e        # Playwright（含 axe 可访问性）
+pnpm test:a11y       # 仅可访问性
+pnpm test:integration # 构建产物集成校验
+pnpm check:budget    # 体积预算
+pnpm perf            # Lighthouse CI
+pnpm test:docs       # 文档索引与结构
+pnpm test:content    # 内容与隐私校验
+pnpm gen:og          # 重新生成 OG 图与封面（需先 build）
 ```
+
+## 部署
+
+1. 仓库 Settings → Pages → Source 选择 **GitHub Actions**。
+2. 设置仓库变量 `SITE_URL`（如 `https://example.com`）与 `BASE_PATH`（根域为 `/`，项目页为 `/repo/`）。
+3. push 到 `main` 后由 [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) 构建并发布。
+
+Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.md)。
 
 ## 目录结构
 
@@ -77,7 +102,7 @@ pnpm test:docs      # 校验文档索引与结构
 
 ## 贡献
 
-见 [CONTRIBUTING.md](./CONTRIBUTING.md)（M6 提供）。在此之前欢迎通过 Issue 反馈。
+见 [CONTRIBUTING.md](./CONTRIBUTING.md)、[行为准则](./CODE_OF_CONDUCT.md) 与 [安全策略](./SECURITY.md)。
 
 ## 许可
 

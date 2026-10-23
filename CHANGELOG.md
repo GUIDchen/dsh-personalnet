@@ -5,38 +5,41 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
-## [Unreleased]
+## [1.0.0] - 2026-10-23
 
-### Fixed
-
-- 项目库筛选栏由 hidden 改为首屏前由 .js 控制，消除 CLS 0.27 的布局偏移。
-- 项目库卡片标题按页面层级渲染为 h2，消除 h1→h3 的标题跳级。
+首个可开源版本：个人网站上线所需的内容、设计、交互、质量门禁与文档全部就绪。
 
 ### Added
 
-- 质量门禁：axe 扫描 6 个关键页面 0 serious/critical；体积预算（JS 6–8KB、CSS 5.5KB、字体 68KB）；构建产物集成校验（17 页、sitemap 15、RSS 12、JSON-LD、OG、内部链接）；Lighthouse CI 4 页全部达标（Performance 1.0、A11y 1.0、BP 1.0、SEO 1.0）。
-- 覆盖率达到 98.3% 语句 / 91.8% 分支，Vitest 阈值 80/70 生效。
-- 搜索：Pagefind 构建期索引（17 页）+ /search/ 自定义界面，⌘K / Ctrl+K 全局唤起，支持无结果态。
-- 视图过渡：ClientRouter，主题/菜单/筛选脚本在导航后重新初始化，Esc 与焦点行为有回归测试。
-- OG 图：13 张 1200×630 社交分享图；项目封面 1600×1000 经 astro:assets 输出 AVIF/WebP/JPG 响应式图片。
-- 内容：12 个项目案例覆盖 7 个领域，标签词表 34 项；内容校验脚本检查字段、长度、标签、隐私。
-- 项目库支持领域/标签筛选、三种排序、URL 状态同步与无 JavaScript 降级。
-- 项目详情新增目录（TOC）与结构化数据（CreativeWork + BreadcrumbList）；首页/关于注入 Person 与 WebSite。
-- 新增 /rss.xml 与 /projects.json 机器可读输出。
-- 单元测试 17 项、E2E 16 项（WebKit）覆盖筛选、排序、TOC、搜索、视图过渡、OG 与主题/菜单。
-- 设计系统：OKLCH 令牌、双主题（跟随系统 + 手动切换）、自托管 Geist / JetBrains Mono 拉丁子集。
-- 站点骨架：Header / 导航 / 主题切换 / Footer / 按钮 / 徽标 / 章节标题 / 项目卡片。
-- 首页、项目库、项目详情、关于、404 的视觉实现与响应式布局（390–1920px）。
-- Astro 7 + TypeScript 6 + Tailwind CSS 4 工程脚手架，静态构建通过。
-- 内容集合 schema（Zod）与首个 MDX 案例，构建期校验生效。
-- 基础页面：首页、项目库、项目详情、关于、404。
-- 设计令牌与对比度校验脚本（`check:contrast`）。
-- ESLint 10 / Prettier 3 / Vitest 5 / Playwright 配置与单元测试。
-- GitHub Actions CI（lint、format、check、test、build、docs、contrast）。
+- 站点：首页、项目库、项目详情、关于、搜索、404，响应式 390–1920px，深浅双主题。
+- 内容：12 个真实项目案例覆盖 7 个领域；Zod schema 校验 + 内容 lint（字段、长度、标签词表、隐私）。
+- 设计系统：OKLCH 令牌、对比度校验、自托管 Geist / JetBrains Mono 拉丁子集、滚动驱动入场。
+- 交互：项目领域/标签筛选、三种排序、URL 状态同步、无 JavaScript 降级；Pagefind 全站搜索与 ⌘K / Ctrl+K 唤起。
+- 导航：ClientRouter 视图过渡；主题、菜单、筛选脚本在客户端导航后重新初始化。
+- 元数据：Person / WebSite / CreativeWork / BreadcrumbList JSON-LD、canonical、OG/Twitter 卡片。
+- 资源：13 张 1200×630 OG 图；13 张 1600×1000 封面经 astro:assets 输出 AVIF/WebP/JPG（4 个宽度）。
+- 机器可读输出：/rss.xml、/projects.json、/sitemap-index.xml、/robots.txt。
+- 工程：Astro 7 + TypeScript 6 + Tailwind CSS 4 + MDX，pnpm 锁定依赖。
+- 质量门禁：ESLint 10 / Prettier 3 / astro check / Vitest（17 项，覆盖率 98.3%）/ Playwright（22 项）/ axe（6 页）/ Lighthouse CI（4 页全 1.0）。
+- 预算：首页 JS 6.0KB、详情 6.0KB、搜索 7.6KB、CSS 5.6KB、字体 68KB（gzip）。
+- CI：lint、format、类型检查、覆盖率、构建、文档、内容、对比度、产物集成校验、体积预算、E2E、a11y、Lighthouse。
+- 部署：GitHub Pages 工作流；Cloudflare Pages 配置写入文档。
+- 文档：17 篇工程文档 + 12 篇 ADR（arc42、C4、需求追溯、测试策略、部署 runbook、安全与许可）。
+- 社区：CONTRIBUTING、CODE_OF_CONDUCT、SECURITY、CITATION.cff、PR/Issue 模板、Dependabot。
 
-- M0 文档基线：docs/00–16 共 17 篇工程文档。
-- 12 篇架构决策记录（ADR 0001–0012）。
-- 技术调研与加权对比（8 个候选方案、敏感性分析、TCO）。
+### Fixed
+
+- 项目库筛选栏由 hidden 改为首屏前由 `.js` 控制，消除 CLS 0.27 的布局偏移。
+- 项目库卡片标题按页面层级渲染为 h2，消除 h1→h3 跳级。
+- 视图过渡重置 `<html>` 运行态属性导致主题与移动端菜单失效的问题（`astro:after-swap`）。
+- WebKit 点击按钮不聚焦导致 Esc 无法关闭菜单的问题（document 级监听）。
+- 子路径部署下 canonical、sitemap、RSS、OG 地址统一走 `BASE_PATH`。
+
+### Security
+
+- 默认零第三方脚本、无 Cookie、无跟踪；分析默认关闭。
+- 内容发布前运行隐私检查，拦截手机号与敏感字段。
+- 依赖锁文件 + Dependabot + 安全披露流程。
 
 ## [0.1.0] - 2026-10-23
 
@@ -44,3 +47,4 @@
 
 - 初始化 Git 仓库与目录结构。
 - README、MIT LICENSE、文档索引与校验脚本。
+- 技术调研（8 个候选方案）与 12 篇 ADR。

@@ -1,6 +1,6 @@
 {
   "name": "dsh-personalnet",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "个人网站：7 个领域、12 个项目案例的作品集（Astro 7 + Tailwind 4）",

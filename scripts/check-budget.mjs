@@ -31,7 +31,8 @@ function walk(dir, acc = []) {
 }
 
 const files = walk(DIST);
-const htmlFiles = files.filter((file) => file.endsWith(".html"));
+// 管理后台是独立的第三方 SPA，不计入站点预算。
+const htmlFiles = files.filter((file) => file.endsWith(".html") && !file.includes("/admin/"));
 const cssFiles = files.filter((file) => file.endsWith(".css"));
 const fontFiles = files.filter((file) => /\.woff2?$/.test(file));
 

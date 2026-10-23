@@ -1,0 +1,151 @@
+# Sveltia CMS 配置：项目与笔记内容管理。
+# 线上模式需把 repo 改成实际仓库，并按 docs/22-admin.md 配置认证。
+backend:
+  name: github
+  repo: OWNER/dsh-personalnet
+  branch: main
+
+media_folder: public/media
+public_folder: /media
+
+collections:
+  - name: projects
+    label: 项目
+    label_singular: 项目
+    description: 项目案例；字段与 src/content.config.ts 保持一致。
+    folder: src/content/projects
+    extension: mdx
+    format: yaml-frontmatter
+    create: true
+    delete: true
+    identifier_field: title
+    preview_path: projects/{{slug}}/
+    fields:
+      - { label: 标题, name: title, widget: string, hint: "2–40 字" }
+      - { label: 摘要, name: summary, widget: text, hint: "20–200 字" }
+      - label: 领域
+        name: domain
+        widget: select
+        options:
+          - { label: 大模型 / NLP, value: ai-llm }
+          - { label: 计算机视觉, value: computer-vision }
+          - { label: 数据分析, value: data-analytics }
+          - { label: 嵌入式 / 端侧, value: embedded-systems }
+          - { label: 基础设施 / 运维, value: infrastructure }
+          - { label: Web 工程, value: web-engineering }
+          - { label: 科研项目, value: research }
+      - {
+          label: 标签,
+          name: tags,
+          widget: list,
+          min: 1,
+          max: 6,
+          hint: "小写字母、数字与连字符，1–6 个",
+        }
+      - { label: 角色, name: role, widget: string, hint: "40 字以内" }
+      - { label: 团队, name: team, widget: string, required: false, hint: "选填，60 字以内" }
+      - label: 时间
+        name: timeframe
+        widget: object
+        fields:
+          - { label: 开始, name: start, widget: string, hint: "YYYY.MM" }
+          - {
+              label: 结束,
+              name: end,
+              widget: string,
+              required: false,
+              hint: "YYYY.MM；进行中可留空",
+            }
+          - { label: 进行中, name: ongoing, widget: boolean, default: false }
+      - label: 状态
+        name: status
+        widget: select
+        options:
+          - { label: 进行中, value: active }
+          - { label: 已完成, value: completed }
+          - { label: 已归档, value: archived }
+          - { label: 实验性, value: experimental }
+      - { label: 精选, name: featured, widget: boolean, default: false }
+      - { label: 排序, name: order, widget: number, default: 999, value_type: int }
+      - label: 封面
+        name: cover
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: 路径, name: src, widget: string, hint: "选填；当前页面使用生成式封面" }
+          - { label: Alt, name: alt, widget: string, hint: "封面存在时必填" }
+      - label: 图库
+        name: gallery
+        widget: list
+        required: false
+        max: 6
+        hint: "src 为相对 src/assets/projects/ 的路径"
+        fields:
+          - { label: 路径, name: src, widget: string }
+          - { label: Alt, name: alt, widget: string }
+      - { label: 技术栈, name: stack, widget: list, min: 1, max: 12, hint: "1–12 项" }
+      - label: 链接
+        name: links
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: 源码, name: repo, widget: string, required: false }
+          - { label: Demo, name: demo, widget: string, required: false }
+          - { label: 论文 / 报告, name: paper, widget: string, required: false }
+          - { label: 文档, name: doc, widget: string, required: false }
+      - label: 指标
+        name: metrics
+        widget: list
+        required: false
+        max: 4
+        fields:
+          - { label: 名称, name: label, widget: string }
+          - { label: 数值, name: value, widget: string }
+          - { label: 单位, name: unit, widget: string, required: false }
+      - {
+          label: 亮点,
+          name: highlights,
+          widget: list,
+          required: false,
+          max: 4,
+          hint: "每条 80 字以内",
+        }
+      - { label: 草稿, name: draft, widget: boolean, default: false }
+      - label: SEO
+        name: seo
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: 标题, name: title, widget: string, required: false, hint: "60 字以内" }
+          - { label: 描述, name: description, widget: string, required: false, hint: "160 字以内" }
+          - { label: OG 图, name: ogImage, widget: string, required: false }
+      - { label: 正文, name: body, widget: markdown }
+
+  - name: notes
+    label: 笔记
+    label_singular: 笔记
+    description: 技术笔记；字段与 src/content.config.ts 保持一致。
+    folder: src/content/notes
+    extension: mdx
+    format: yaml-frontmatter
+    create: true
+    delete: true
+    identifier_field: title
+    preview_path: notes/{{slug}}/
+    fields:
+      - { label: 标题, name: title, widget: string, hint: "2–60 字" }
+      - { label: 摘要, name: summary, widget: text, hint: "20–200 字" }
+      - {
+          label: 日期,
+          name: date,
+          widget: datetime,
+          date_format: "YYYY-MM-DD",
+          time_format: false,
+          format: "YYYY-MM-DD",
+        }
+      - { label: 标签, name: tags, widget: list, required: false, max: 6, hint: "0–6 个" }
+      - { label: 草稿, name: draft, widget: boolean, default: false }
+      - { label: 正文, name: body, widget: markdown }

@@ -43,6 +43,7 @@ const descriptions = new Map();
 for (const file of walk(DIST)) {
   const html = readFileSync(file, "utf8");
   const route = "/" + relative(DIST, file).replace(/\\/g, "/");
+  if (route.startsWith("/admin/")) continue;
   const noindex = (metaContent(html, "robots") ?? "").includes("noindex");
 
   const lang = /<html\b[^>]*\slang="([^"]+)"/i.exec(html)?.[1];

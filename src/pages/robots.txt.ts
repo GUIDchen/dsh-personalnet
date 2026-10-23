@@ -6,6 +6,7 @@ export function GET(_context: APIContext) {
     "User-agent: *",
     "Allow: /",
     `Disallow: ${withBase("search/")}`,
+    `Disallow: ${withBase("admin/")}`,
     "",
     `Sitemap: ${absoluteUrl("sitemap-index.xml")}`,
     "",

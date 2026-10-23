@@ -24,10 +24,11 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:docs": "node scripts/check-docs.mjs",
-    "ci:verify": "pnpm lint && pnpm format:check && pnpm check && pnpm test:unit && pnpm build && pnpm test:docs && pnpm test:content && pnpm check:contrast && pnpm test:integration && pnpm test:seo && pnpm check:budget",
+    "ci:verify": "pnpm lint && pnpm format:check && pnpm check && pnpm test:unit && pnpm build && pnpm test:docs && pnpm test:content && pnpm check:admin && pnpm check:contrast && pnpm test:integration && pnpm test:seo && pnpm check:budget",
     "check:contrast": "node scripts/check-contrast.mjs",
     "screenshots": "node scripts/screenshots.mjs",
     "test:content": "node scripts/check-content.mjs",
+    "check:admin": "node scripts/check-admin.mjs",
     "gen:og": "node scripts/generate-og.mjs",
     "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
     "test:coverage": "vitest run --coverage",
@@ -66,7 +67,8 @@
     "sharp": "0.35.5",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.0",
-    "vitest": "5.0.5"
+    "vitest": "5.0.5",
+    "yaml": "^2.9.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

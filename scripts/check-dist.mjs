@@ -19,7 +19,10 @@ function walk(dir) {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) walk(full);
-    else if (entry.endsWith(".html")) htmlFiles.push(full);
+    else if (entry.endsWith(".html")) {
+      // 管理后台是 public/ 下的独立 SPA，不参与站点页面/索引检查。
+      if (!full.includes("/admin/")) htmlFiles.push(full);
+    }
   }
 }
 walk(DIST);

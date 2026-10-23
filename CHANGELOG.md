@@ -18,6 +18,8 @@
 - 中英文界面：/en/ 路由、语言切换、hreflang、英文个人资料/经历/技能/Now/Uses/404。
 - 英文页面标注中文正文；项目/笔记详情保持中文，语言切换回退到英文列表。
 - check-seo 支持 zh-CN/en；check-dist 的 sitemap 期望值按 noindex 页面动态计算。
+- Sveltia CMS 管理后台：/admin/、projects/notes 字段映射、noindex + robots 禁止、固定版本 + SRI。
+- check-admin 校验字段与 Zod schema 对齐；admin E2E 覆盖配置、索引与 robots。
 
 ## [1.2.0] - 2026-10-23
 

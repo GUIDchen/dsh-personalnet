@@ -1,0 +1,28 @@
+---
+title: 给静态站点加一个媒体工作流
+summary: 用 Sveltia 的图片字段把封面与图库上传到 public/media，并在 Astro 里统一解析子路径与尺寸约束。
+date: "2026-10-23"
+tags: [astro, cms, media]
+draft: false
+---
+
+## 背景
+
+项目案例需要真实截图，但早期封面是程序化生成的。后台可以编辑 MDX，却没有办法上传图片；即使上传，部署在 GitHub Pages 子路径下也容易把路径写错。
+
+## 方案
+
+把 Sveltia 项目 collection 的媒体目录指向 `public/media/projects`，封面和图库字段改成 `image`：
+
+- CMS 上传后返回 `/media/projects/...`；
+- 组件统一调用 `ProjectMedia`，自动补 `BASE_URL`；
+- 没有真实封面时回退到 `src/assets/covers` 的生成图；
+- 单文件限制 300KB、总量 8MB，由 `check-media` 拦截。
+
+## 取舍
+
+`public/media` 的图片不经过 `astro:assets` 的构建期优化，换来的是 CMS 预览与路径简单。图片懒加载、固定比例与体积检查仍然保留；如果以后图片量变大，再引入 Sharp 变体管线。
+
+## 结果
+
+图库与封面可以在后台完成，部署到 `/dsh-personalnet/` 时路径仍然正确。没有图片的项目继续使用生成封面，不会出现空图。

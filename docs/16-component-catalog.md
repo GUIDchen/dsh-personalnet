@@ -51,7 +51,8 @@
 | Toc | `headings`、`lang?` | 嵌套列表；当前项高亮（IntersectionObserver） |
 | Metric | `label`、`value`、`unit?` | 数值强调，单位弱化 |
 | Timeline | `items` | 教育/经历；`<ol>` |
-| Gallery | `images: { src: ImageMetadata; alt; caption? }[]` | 网格 + 原生 dialog 灯箱；无图片时不渲染 |
+| Gallery | `images: { src: string; alt; caption? }[]` | 网格 + 原生 dialog 灯箱；支持 /media 与 assets URL |
+| ProjectMedia | `src`、`alt`、`loading?` | 统一补 BASE_URL；public/media 与外链 |
 | Figure | `src`、`alt`、`caption?` | 单图 + 题注；强制 alt |
 | Lightbox | — | Gallery 内部实现；Esc 关闭；箭头切换 |
 | Breadcrumbs | `items` | 最后一项 `aria-current="page"` |

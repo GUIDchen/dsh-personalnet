@@ -4,8 +4,8 @@ test.describe("技术笔记", () => {
   test("列表展示全部已发布笔记", async ({ page }) => {
     await page.goto("/notes/");
     await expect(page.locator("h1")).toHaveText("笔记");
-    await expect(page.locator(".notes li")).toHaveCount(3);
-    await expect(page.locator(".notes li").first()).toContainText("把质量门禁写进 CI");
+    await expect(page.locator(".notes li")).toHaveCount(6);
+    await expect(page.locator(".notes")).toContainText("给静态站点加一个媒体工作流");
   });
 
   test("详情渲染 TOC 与结构化数据", async ({ page }) => {
@@ -51,7 +51,7 @@ test.describe("技术笔记", () => {
     const response = await request.get("/rss.xml");
     expect(response.ok()).toBeTruthy();
     const text = await response.text();
-    expect((text.match(/<item>/g) ?? []).length).toBe(15);
+    expect((text.match(/<item>/g) ?? []).length).toBe(18);
     expect(text).toContain("/notes/quality-gates-in-ci/");
     expect(text).toContain("/projects/yolo-object-detection/");
   });

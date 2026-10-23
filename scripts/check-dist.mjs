@@ -109,6 +109,16 @@ const expectedFeed = projectRoutes.length + noteRoutes.length;
 if (rssItems !== expectedFeed) errors.push(`RSS 条目应为 ${expectedFeed}，实际 ${rssItems}`);
 if (!rss.includes("<language>zh-cn</language>")) warnings.push("RSS 缺少 language");
 
+// JSON Feed
+const feed = exists("feed.json") ? JSON.parse(read("feed.json")) : null;
+if (!feed) errors.push("缺少 feed.json");
+else {
+  if (feed.version !== "https://jsonfeed.org/version/1.1") errors.push("feed.json version 不正确");
+  if (!Array.isArray(feed.items) || feed.items.length !== expectedFeed) {
+    errors.push(`feed.json 条目应为 ${expectedFeed}，实际 ${feed.items?.length ?? 0}`);
+  }
+}
+
 // projects.json
 const json = exists("projects.json") ? JSON.parse(read("projects.json")) : null;
 if (!json) errors.push("缺少 projects.json");

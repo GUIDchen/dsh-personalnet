@@ -22,6 +22,8 @@ collections:
     delete: true
     identifier_field: title
     preview_path: projects/{{slug}}/
+    media_folder: public/media/projects
+    public_folder: /media/projects
     fields:
       - { label: 标题, name: title, widget: string, hint: "2–40 字" }
       - { label: 摘要, name: summary, widget: text, hint: "20–200 字" }
@@ -75,7 +77,12 @@ collections:
         required: false
         collapsed: true
         fields:
-          - { label: 路径, name: src, widget: string, hint: "选填；当前页面使用生成式封面" }
+          - {
+              label: 封面图,
+              name: src,
+              widget: image,
+              hint: "选填；≤300KB，16:10；未上传时使用生成式封面",
+            }
           - { label: Alt, name: alt, widget: string, hint: "封面存在时必填" }
       - label: 图库
         name: gallery
@@ -84,7 +91,7 @@ collections:
         max: 6
         hint: "src 为相对 src/assets/projects/ 的路径"
         fields:
-          - { label: 路径, name: src, widget: string }
+          - { label: 图片, name: src, widget: image, hint: "≤300KB，长边 ≤2000" }
           - { label: Alt, name: alt, widget: string }
       - { label: 技术栈, name: stack, widget: list, min: 1, max: 12, hint: "1–12 项" }
       - label: 链接

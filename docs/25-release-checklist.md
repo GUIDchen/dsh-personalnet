@@ -8,7 +8,7 @@
 
 # 上线发布检查清单
 
-> 当前状态：**v2.1.0 已上线** <https://guidchen.github.io/dsh-personalnet/>。本文保留为后续发布/回滚的执行清单。
+> 当前状态：**v2.2.0 已上线** <https://guidchen.github.io/dsh-personalnet/>。本文保留为后续发布/回滚的执行清单。
 
 ## 1. 前置条件
 

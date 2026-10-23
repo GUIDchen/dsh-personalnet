@@ -40,6 +40,10 @@
     "testing",
     "ci",
     "architecture",
-    "seo"
+    "seo",
+    "cms",
+    "media",
+    "json-feed",
+    "content-ops"
   ]
 }

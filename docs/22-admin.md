@@ -48,8 +48,8 @@
 | timeframe | object | start/end（YYYY.MM）、ongoing |
 | status | select | active/completed/archived/experimental |
 | featured / order | boolean / number | 首页精选与排序 |
-| cover | object | src/alt（选填） |
-| gallery | list | 最多 6 张；src 相对 `src/assets/projects/` |
+| cover | object | src（image 上传）/alt；无封面时用生成封面 |
+| gallery | list | 最多 6 张；src（image 上传）/alt |
 | stack | list | 1–12 项 |
 | links | object | repo/demo/paper/doc |
 | metrics | list | 最多 4 项 |
@@ -57,6 +57,8 @@
 | draft | boolean | 草稿不进入构建 |
 | seo | object | title/description/ogImage（选填） |
 | body | markdown | 项目正文（MDX 中的 Markdown 部分） |
+
+媒体目录为 `public/media/projects/`（`/media/projects/...`）；单文件 ≤300KB、总量 ≤8MB，由 `check:media` 校验。详见 [27-media-and-evidence.md](./27-media-and-evidence.md)。
 
 ### notes
 

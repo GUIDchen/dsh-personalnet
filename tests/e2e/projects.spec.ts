@@ -90,13 +90,17 @@ test.describe("机器可读输出", () => {
     const rss = await request.get("/rss.xml");
     expect(rss.ok()).toBeTruthy();
     const rssText = await rss.text();
-    // 12 个项目 + 3 篇笔记
-    expect((rssText.match(/<item>/g) ?? []).length).toBe(15);
+    // 12 个项目 + 6 篇笔记
+    expect((rssText.match(/<item>/g) ?? []).length).toBe(18);
 
     const json = await request.get("/projects.json");
     expect(json.ok()).toBeTruthy();
     const payload = await json.json();
     expect(payload.count).toBe(12);
     expect(payload.projects).toHaveLength(12);
+    const javaProject = payload.projects.find(
+      (project: { slug: string }) => project.slug === "javaweb-blog",
+    );
+    expect(javaProject.repo).toBe("https://github.com/GUIDchen/javaee-blog");
   });
 });

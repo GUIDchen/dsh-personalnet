@@ -5,6 +5,28 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.2.0] - 2026-10-23
+
+媒体、内容证据与持续完善版本。
+
+### Added
+
+- 项目封面/图库改为 Sveltia image 字段，上传到 `public/media/projects/`；`ProjectMedia` 统一处理 base 路径。
+- 详情页支持 CMS 封面与图库灯箱；无真实封面时回退生成封面。
+- `check:media` 校验格式、单文件 300KB、总量 8MB 与引用存在。
+- 后台仪表盘新增内容证据完整度（源码/封面/图库/指标/Demo 或论文）与缺失清单。
+- 后台新增最新部署状态（只读 GitHub Actions API，无 token）。
+- 新增 3 篇技术笔记：媒体工作流、内容健康度、JSON Feed/子路径。
+- 新增 `/feed.json`（JSON Feed 1.1）并在 head 声明。
+
+### Changed
+
+- Sitemap、checks、admin/docs 同步 v2.2 路由与媒体字段。
+
+### Fixed
+
+- 笔记/RSS 从 3 篇扩到 6 篇后的计数与测试。
+
 ## [2.1.0] - 2026-10-23
 
 后台管理平台与视觉升级。

@@ -28,6 +28,9 @@
 | M13 | 上线发布（v2.0.0） | GitHub Pages、远程建仓、最终回归、tag | 公网 URL + LHCI/axe/SEO | ✅ 完成 |
 | M14 | 管理平台（v2.1.0） | /admin 仪表盘、/admin/cms、site collection、JSON 迁移 | 后台 E2E、check-site、手工发布 | ✅ 完成 |
 | M15 | 视觉升级（v2.1.0） | 项目封面卡、GitHub 链接、About 双栏、搜索快捷词 | 截图走查、axe/LHCI、预算 | ✅ 完成 |
+| M16 | 媒体与证据（v2.2.0） | CMS 图片字段、ProjectMedia、Gallery 灯箱、check-media、内容健康度 | 上传/渲染/E2E | ✅ 完成 |
+| M17 | 内容与 Feed（v2.2.0） | 3 篇笔记、JSON Feed、后台部署状态、视觉细化 | feed/笔记/后台测试 | ✅ 完成 |
+| M18 | v2.2.0 发布 | 文档、版本、tag、部署、公网验收 | 公网 200 + LHCI/axe/链接 | 进行中 |
 
 ## 2. Backlog
 

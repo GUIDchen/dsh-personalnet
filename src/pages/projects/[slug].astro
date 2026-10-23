@@ -7,6 +7,7 @@ import Badge from "@/components/ui/Badge.astro";
 import ProjectCard from "@/components/project/ProjectCard.astro";
 import Gallery from "@/components/project/Gallery.astro";
 import RepoLink from "@/components/project/RepoLink.astro";
+import ProjectMedia from "@/components/project/ProjectMedia.astro";
 import Toc from "@/components/project/Toc.astro";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { getPublishedProjects, getRelatedProjects } from "@/lib/content";
@@ -31,13 +32,10 @@ const galleryAssets = import.meta.glob<{ default: ImageMetadata }>(
   "../../assets/projects/**/*.{jpg,jpeg,png,webp,avif}",
   { eager: true },
 );
-const galleryImages = data.gallery
-  .map((item) => ({
-    ...item,
-    image: galleryAssets[`../../assets/projects/${item.src}`]?.default,
-  }))
-  .filter((item): item is typeof item & { image: ImageMetadata } => Boolean(item.image))
-  .map((item) => ({ src: item.image, alt: item.alt, caption: undefined }));
+const galleryImages = data.gallery.map((item) => {
+  const asset = galleryAssets[`../../assets/projects/${item.src}`]?.default;
+  return { src: asset?.src ?? item.src, alt: item.alt };
+});
 const domain = DOMAIN_META[data.domain];
 const statusLabels = {
   active: "进行中",
@@ -113,24 +111,30 @@ const period = data.timeframe.ongoing
       </dl>
     </header>
 
-    {cover && (
+    {(data.cover || cover) && (
       <figure
         class="cover"
         style={
-          lqip
+          !data.cover && lqip
             ? `background-image:url("${lqip}");background-size:cover;background-position:center`
             : undefined
         }
       >
-        <Picture
-          src={cover.default}
-          formats={["avif", "webp"]}
-          widths={[640, 960, 1280, 1600]}
-          sizes="(max-width: 960px) 100vw, 896px"
-          alt={`${data.title} 项目封面`}
-          loading="lazy"
-          decoding="async"
-        />
+        {data.cover ? (
+          <ProjectMedia src={data.cover.src} alt={data.cover.alt} loading="eager" />
+        ) : (
+          cover && (
+            <Picture
+              src={cover.default}
+              formats={["avif", "webp"]}
+              widths={[640, 960, 1280, 1600]}
+              sizes="(max-width: 960px) 100vw, 896px"
+              alt={`${data.title} 项目封面`}
+              loading="lazy"
+              decoding="async"
+            />
+          )
+        )}
       </figure>
     )}
 

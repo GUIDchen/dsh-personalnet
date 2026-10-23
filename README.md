@@ -1,10 +1,10 @@
 # dsh-personalnet
 
-> 个人网站：7 个领域、12 个项目案例与 3 篇技术笔记。静态优先、零运行时后端、MIT 开源，支持中英文界面。
+> 个人网站：7 个领域、12 个项目案例与 6 篇技术笔记。静态优先、零运行时后端、MIT 开源，支持中英文界面。
 
-**在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Release**：[v2.1.0](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.1.0)
+**在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Release**：[v2.2.0](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.2.0)
 
-[![文档](https://img.shields.io/badge/docs-27%20%E7%AF%87-4B5563)](#文档)
+[![文档](https://img.shields.io/badge/docs-28%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
 
 ## 预览
@@ -35,30 +35,34 @@
 - 编辑器：`/admin/cms/`（Sveltia CMS，项目/笔记 Markdown + 站点资料 JSON）。
 - 本地编辑：`pnpm dev` 后用 Chrome 打开 `/admin/cms/index.html`，选择仓库目录直接写文件。
 - 线上编辑：`backend.repo` 已指向本仓库；配置 GitHub PAT 或 OAuth Worker 后访问 `/admin/cms/`。
+- 图片：项目封面/图库在编辑器中上传到 `public/media/projects/`；单文件 ≤300KB。
 - 安全：`noindex`、`robots.txt` 禁止、固定版本 + SRI；详见 [管理后台文档](./docs/22-admin.md)。
 
 ![管理后台](./docs/assets/admin.png)
 
 ## 状态
 
-| 里程碑 | 内容                                  | 状态    |
-| ------ | ------------------------------------- | ------- |
-| M0     | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成 |
-| M1     | Astro 7 工程脚手架 + CI               | ✅ 完成 |
-| M2     | 设计系统与页面骨架                    | ✅ 完成 |
-| M3     | 内容模型与全部页面                    | ✅ 完成 |
-| M4     | 搜索、动效、OG、图片优化              | ✅ 完成 |
-| M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成 |
-| M6     | MIT 开源发布 v1.0.0                   | ✅ 完成 |
-| M7     | 维护基线（手册/简历页/robots/脚手架） | ✅ 完成 |
-| M8     | 技术笔记、合并 RSS、SEO 审计、LQIP    | ✅ 完成 |
-| M9     | 审阅借鉴、Hero、Now/Uses、命令面板    | ✅ 完成 |
-| M10    | 中英文界面、/en 路由、hreflang        | ✅ 完成 |
-| M11    | Sveltia 管理后台、内容模型、校验      | ✅ 完成 |
-| M12    | 健康报告、每周审计、Agent 长跑契约    | ✅ 完成 |
-| M13    | 公网部署与 v2.0.0 发布                | ✅ 完成 |
-| M14    | 管理仪表盘、站点资料 CMS、JSON 迁移   | ✅ 完成 |
-| M15    | 项目封面卡、GitHub 链接、视觉升级     | ✅ 完成 |
+| 里程碑 | 内容                                  | 状态      |
+| ------ | ------------------------------------- | --------- |
+| M0     | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成   |
+| M1     | Astro 7 工程脚手架 + CI               | ✅ 完成   |
+| M2     | 设计系统与页面骨架                    | ✅ 完成   |
+| M3     | 内容模型与全部页面                    | ✅ 完成   |
+| M4     | 搜索、动效、OG、图片优化              | ✅ 完成   |
+| M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成   |
+| M6     | MIT 开源发布 v1.0.0                   | ✅ 完成   |
+| M7     | 维护基线（手册/简历页/robots/脚手架） | ✅ 完成   |
+| M8     | 技术笔记、合并 RSS、SEO 审计、LQIP    | ✅ 完成   |
+| M9     | 审阅借鉴、Hero、Now/Uses、命令面板    | ✅ 完成   |
+| M10    | 中英文界面、/en 路由、hreflang        | ✅ 完成   |
+| M11    | Sveltia 管理后台、内容模型、校验      | ✅ 完成   |
+| M12    | 健康报告、每周审计、Agent 长跑契约    | ✅ 完成   |
+| M13    | 公网部署与 v2.0.0 发布                | ✅ 完成   |
+| M14    | 管理仪表盘、站点资料 CMS、JSON 迁移   | ✅ 完成   |
+| M15    | 项目封面卡、GitHub 链接、视觉升级     | ✅ 完成   |
+| M16    | 媒体上传、图库、内容健康度            | ✅ 完成   |
+| M17    | 3 篇笔记、JSON Feed、后台部署状态     | ✅ 完成   |
+| M18    | v2.2.0 发布                           | ⏳ 进行中 |
 
 ## 技术栈
 
@@ -125,7 +129,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 
 ```
 .
-├─ docs/            # 软件工程文档（27 篇 + 16 篇 ADR）
+├─ docs/            # 软件工程文档（28 篇 + 17 篇 ADR）
 ├─ src/             # Astro 源码（页面/组件/内容/样式/逻辑）
 ├─ scripts/         # 内容校验、体积预算、文档检查、OG 生成
 ├─ tests/           # unit / integration / e2e / a11y
@@ -136,7 +140,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 ## 文档
 
 - [文档索引](./docs/README.md)
-- 决策记录：[ADR 0001–0016](./docs/adr/)
+- 决策记录：[ADR 0001–0017](./docs/adr/)
 - 需求与范围：[SRS](./docs/02-requirements.md)、[愿景](./docs/01-vision-and-scope.md)
 - 设计：[设计系统](./docs/06-design-system.md)、[信息架构](./docs/07-information-architecture.md)
 - 内容：[内容模型](./docs/08-content-model.md)、[迁移清单](./docs/14-content-migration.md)
@@ -146,6 +150,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 - 项目审阅：[完成度审计](./docs/19-project-completion-audit.md)、[借鉴笔记](./docs/20-borrowing-notes.md)
 - 国际化：[中英文界面与路由](./docs/21-i18n.md)
 - 管理后台：[Sveltia CMS](./docs/22-admin.md)、[后台与视觉调研](./docs/26-admin-and-design-research.md)
+- 媒体：[媒体与内容证据](./docs/27-media-and-evidence.md)
 - 自动化：[自动审阅与长跑维护](./docs/23-autonomy.md)、[维护日志](./docs/24-maintenance-log.md)
 - 上线：[发布检查清单](./docs/25-release-checklist.md)
 

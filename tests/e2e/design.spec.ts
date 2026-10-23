@@ -21,6 +21,11 @@ test.describe("项目封面与 GitHub 链接", () => {
     await expect(repos.first()).toHaveAttribute("rel", /noopener/);
   });
 
+  test("无图库项目不渲染图库区块", async ({ page }) => {
+    await page.goto("/projects/yolo-object-detection/");
+    await expect(page.locator(".gallery")).toHaveCount(0);
+  });
+
   test("详情页标题旁显示源码链接", async ({ page }) => {
     await page.goto("/projects/javaweb-blog/");
     const repo = page.locator(".title-actions .repo-link");

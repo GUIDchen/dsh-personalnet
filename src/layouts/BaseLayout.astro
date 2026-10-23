@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer.astro";
 import CommandPalette from "@/components/ui/CommandPalette.astro";
 import Meta from "@/components/seo/Meta.astro";
 import { profile } from "@/data/profile";
+import { absoluteUrl } from "@/lib/seo";
 import geistFont from "@/assets/fonts/geist-latin-wght-normal.woff2?url";
 import { htmlLang, ui, type Lang } from "@/i18n";
 import { getAlternates, getLangFromUrl, type Alternates } from "@/i18n/routing";
@@ -50,6 +51,12 @@ const descriptionText =
       alternates={alternates}
     />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/feed+json"
+      title="JSON Feed"
+      href={absoluteUrl("feed.json")}
+    />
     <link rel="preload" href={geistFont} as="font" type="font/woff2" crossorigin />
     <script is:inline>
       (() => {

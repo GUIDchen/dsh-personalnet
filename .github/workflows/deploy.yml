@@ -19,8 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ASTRO_TELEMETRY_DISABLED: "1"
-      SITE_URL: ${{ vars.SITE_URL }}
-      BASE_PATH: ${{ vars.BASE_PATH }}
+      # 未设置仓库变量时，按 GitHub Pages 的默认地址推导；自定义域名请设置 SITE_URL。
+      SITE_URL: ${{ vars.SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
+      BASE_PATH: ${{ vars.BASE_PATH || (github.event.repository.name == format('{0}.github.io', github.repository_owner) && '/' || format('/{0}/', github.event.repository.name)) }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

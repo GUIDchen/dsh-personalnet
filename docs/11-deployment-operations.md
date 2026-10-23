@@ -50,6 +50,8 @@ dist/
 1. 创建仓库并推送（命令见 §8）。
 2. Settings → Pages → Source 选择 **GitHub Actions**。
 3. 如需自定义域名，填写 Custom domain 并开启 Enforce HTTPS。
+4. 可选仓库变量：`SITE_URL`、`BASE_PATH`；未设置时 `deploy.yml` 按仓库名推导（项目页 `/<repo>/`，用户页 `/`）。
+5. 本地预检：`pnpm deploy:check`（检查 remote、变量、工作流与后台占位）。
 
 ### 3.2 工作流
 
@@ -96,9 +98,11 @@ jobs:
 
 ```bash
 SITE_URL=https://<user>.github.io BASE_PATH=/<repo>/ pnpm build
+BASE_PATH=/<repo>/ node scripts/check-dist.mjs
+BASE_PATH=/<repo>/ node scripts/check-budget.mjs
 ```
 
-所有内部链接通过 helper 拼接 base，禁止硬编码 `/projects/`。
+所有内部链接通过 helper 拼接 base，禁止硬编码 `/projects/`；`check-dist` 与 `check-budget` 已支持 `BASE_PATH`。完整上线步骤见 [25-release-checklist.md](./25-release-checklist.md)。
 
 ## 4. Cloudflare Pages（备选）
 

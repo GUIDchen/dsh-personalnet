@@ -8,8 +8,16 @@ import { join, relative, resolve } from "node:path";
 
 const ROOT = resolve(process.cwd());
 const DIST = join(ROOT, "dist");
+const BASE = (process.env.BASE_PATH || "/").replace(/\/+$/, "");
 const errors = [];
 const warnings = [];
+
+/** 去掉部署 base，得到站点根相对路径。 */
+function withoutBase(pathname) {
+  if (BASE && pathname.startsWith(BASE + "/")) return pathname.slice(BASE.length);
+  if (BASE && pathname === BASE) return "/";
+  return pathname;
+}
 
 const read = (path) => readFileSync(join(DIST, path), "utf8");
 const exists = (path) => existsSync(join(DIST, path));
@@ -84,7 +92,8 @@ if (sitemapUrls.some((url) => url.endsWith("/404/"))) errors.push("sitemap 不�
 const robots = exists("robots.txt") ? read("robots.txt") : "";
 if (!robots) errors.push("缺少 robots.txt");
 else {
-  if (!robots.includes("Disallow: /search/")) errors.push("robots.txt 未禁止搜索页");
+  const searchDisallow = `Disallow: ${BASE || ""}/search/`;
+  if (!robots.includes(searchDisallow)) errors.push("robots.txt 未禁止搜索页");
   if (!/Sitemap: https?:\/\/.+sitemap-index\.xml/.test(robots)) {
     errors.push("robots.txt 未声明 sitemap 绝对地址");
   }
@@ -130,7 +139,7 @@ for (const file of htmlFiles) {
   }
 }
 for (const href of linkTargets) {
-  const clean = decodeURIComponent(href.split("?")[0]);
+  const clean = withoutBase(decodeURIComponent(href.split("?")[0]));
   if (clean === "/") continue;
   if (/\.[a-z0-9]+$/i.test(clean) && !clean.endsWith("/")) {
     if (!exists(clean.slice(1))) errors.push("内部链接指向不存在的文件: " + href);

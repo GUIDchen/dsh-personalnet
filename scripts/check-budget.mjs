@@ -36,8 +36,13 @@ const htmlFiles = files.filter((file) => file.endsWith(".html") && !file.include
 const cssFiles = files.filter((file) => file.endsWith(".css"));
 const fontFiles = files.filter((file) => /\.woff2?$/.test(file));
 
+const BASE = (process.env.BASE_PATH || "/").replace(/^\/+|\/+$/g, "");
+
 const assetPath = (url) => {
-  const clean = url.split("?")[0].replace(/^\/+/, "");
+  let clean = url.split("?")[0].replace(/^\/+/, "");
+  if (BASE && (clean === BASE || clean.startsWith(BASE + "/"))) {
+    clean = clean.slice(BASE.length).replace(/^\/+/, "");
+  }
   return join(DIST, clean);
 };
 

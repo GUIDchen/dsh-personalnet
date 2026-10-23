@@ -23,6 +23,8 @@
 - 健康报告脚本（pnpm health）：内容/SEO/产物/后台/对比度/预算/链接，输出 reports/health.md。
 - 每周 maintenance workflow：构建 + 检查 + artifact + 创建/更新 maintenance Issue；不自动提交。
 - Agent 长跑契约（docs/23）与维护日志（docs/24）；ADR 0015 明确自动化边界。
+- 部署预检 `pnpm deploy:check`；Pages 变量未设置时按仓库名推导。
+- `check-dist`/`check-budget` 支持 `BASE_PATH` 子路径；上线清单 docs/25。
 
 ## [1.2.0] - 2026-10-23
 

@@ -20,6 +20,9 @@
 - check-seo 支持 zh-CN/en；check-dist 的 sitemap 期望值按 noindex 页面动态计算。
 - Sveltia CMS 管理后台：/admin/、projects/notes 字段映射、noindex + robots 禁止、固定版本 + SRI。
 - check-admin 校验字段与 Zod schema 对齐；admin E2E 覆盖配置、索引与 robots。
+- 健康报告脚本（pnpm health）：内容/SEO/产物/后台/对比度/预算/链接，输出 reports/health.md。
+- 每周 maintenance workflow：构建 + 检查 + artifact + 创建/更新 maintenance Issue；不自动提交。
+- Agent 长跑契约（docs/23）与维护日志（docs/24）；ADR 0015 明确自动化边界。
 
 ## [1.2.0] - 2026-10-23
 

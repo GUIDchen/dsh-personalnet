@@ -2,7 +2,7 @@
 
 > 个人网站：7 个领域、12 个项目案例与 3 篇技术笔记。静态优先、零运行时后端、MIT 开源，支持中英文界面。
 
-[![文档](https://img.shields.io/badge/docs-23%20%E7%AF%87-4B5563)](#文档)
+[![文档](https://img.shields.io/badge/docs-25%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
 
 ## 预览
@@ -52,6 +52,7 @@
 | M9     | 审阅借鉴、Hero、Now/Uses、命令面板    | ✅ 完成 |
 | M10    | 中英文界面、/en 路由、hreflang        | ✅ 完成 |
 | M11    | Sveltia 管理后台、内容模型、校验      | ✅ 完成 |
+| M12    | 健康报告、每周审计、Agent 长跑契约    | ✅ 完成 |
 
 ## 技术栈
 
@@ -118,7 +119,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 
 ```
 .
-├─ docs/            # 软件工程文档（23 篇 + 14 篇 ADR）
+├─ docs/            # 软件工程文档（25 篇 + 15 篇 ADR）
 ├─ src/             # Astro 源码（页面/组件/内容/样式/逻辑）
 ├─ scripts/         # 内容校验、体积预算、文档检查、OG 生成
 ├─ tests/           # unit / integration / e2e / a11y
@@ -129,7 +130,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 ## 文档
 
 - [文档索引](./docs/README.md)
-- 决策记录：[ADR 0001–0014](./docs/adr/)
+- 决策记录：[ADR 0001–0015](./docs/adr/)
 - 需求与范围：[SRS](./docs/02-requirements.md)、[愿景](./docs/01-vision-and-scope.md)
 - 设计：[设计系统](./docs/06-design-system.md)、[信息架构](./docs/07-information-architecture.md)
 - 内容：[内容模型](./docs/08-content-model.md)、[迁移清单](./docs/14-content-migration.md)
@@ -139,6 +140,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 - 项目审阅：[完成度审计](./docs/19-project-completion-audit.md)、[借鉴笔记](./docs/20-borrowing-notes.md)
 - 国际化：[中英文界面与路由](./docs/21-i18n.md)
 - 管理后台：[Sveltia CMS](./docs/22-admin.md)
+- 自动化：[自动审阅与长跑维护](./docs/23-autonomy.md)、[维护日志](./docs/24-maintenance-log.md)
 
 ## 贡献
 

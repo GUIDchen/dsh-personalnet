@@ -1,0 +1,92 @@
+name: maintenance
+
+on:
+  schedule:
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: maintenance
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    env:
+      ASTRO_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Health checks
+        id: health
+        continue-on-error: true
+        run: pnpm health
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report
+          path: reports/health.md
+          if-no-files-found: warn
+      - name: Create or update maintenance issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const marker = "<!-- maintenance-report -->";
+            const file = "reports/health.md";
+            const report = fs.existsSync(file)
+              ? fs.readFileSync(file, "utf8")
+              : "健康报告未生成，请查看 workflow 日志。";
+            const body = marker + "\n\n" + report;
+
+            try {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "maintenance",
+                color: "0E8A16",
+                description: "Automated maintenance audit",
+              });
+            } catch (error) {
+              if (error.status !== 422) throw error;
+            }
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "maintenance",
+              per_page: 20,
+            });
+            const existing = issues.find((issue) => (issue.body || "").includes(marker));
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: "Weekly maintenance report",
+                body,
+                labels: ["maintenance"],
+              });
+            }
+      - name: Fail when checks failed
+        if: steps.health.outcome == 'failure'
+        run: exit 1

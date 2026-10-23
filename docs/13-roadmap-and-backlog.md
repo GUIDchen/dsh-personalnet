@@ -24,6 +24,7 @@
 | M9 | 审阅与借鉴（v1.3.0） | 完成度审计、Hero 重构、/now、/uses、命令面板、证据组件 | 新页面/交互 E2E 通过 | ✅ 完成 |
 | M10 | 中英文界面（v1.4.0） | i18n 字典/路由、8 个英文页面、语言切换、hreflang、英文资料 | E2E/axe/LHCI/SEO 通过 | ✅ 完成 |
 | M11 | 管理后台（v1.5.0） | Sveltia CMS、内容模型映射、noindex/robots、校验脚本 | check:admin + E2E + 手工本地编辑 | ✅ 完成 |
+| M12 | 自动化长跑（v1.6.0） | 健康报告、每周 maintenance workflow、Agent 契约与日志 | health + workflow 解析 + 日志 | ✅ 完成 |
 
 ## 2. Backlog
 

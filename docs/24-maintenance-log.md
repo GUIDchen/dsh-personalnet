@@ -17,10 +17,11 @@
 | M9 | 审计、Hero、Now/Uses、命令面板、Gallery | 3a82e67 | ci:verify、E2E 44、axe 11、LHCI 8 | 项目真实证据待补 |
 | M10 | 中英文界面、/en 路由、hreflang | 5851c19 | ci:verify、E2E 59、axe 17、LHCI 10 | 项目/笔记正文仍为中文 |
 | M11 | Sveltia 后台、内容模型、check-admin | 1ecadeb | ci:verify、E2E 61、Chrome 本地入口实测 | 线上认证需仓库与 PAT/OAuth |
+| M12 | 健康报告、maintenance workflow、长跑契约 | 6054c27 | ci:verify、pnpm health、E2E 61、axe 17 | 定时任务需远程仓库 |
 
 ### 备注
 
-- M9–M11 均在本地 commit，未 push；远程仓库尚未创建。
+- M9–M12 均在本地 commit，未 push；远程仓库尚未创建。
 - 项目截图、仓库/Demo 链接、量化指标需要作者提供，Agent 未伪造。
 - 英文页面中的中文正文已用 `lang="zh-CN"` 标注，并在页面提示。
 - 后台 `backend.repo` 仍为 `OWNER/dsh-personalnet` 占位。

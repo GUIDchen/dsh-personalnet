@@ -35,6 +35,7 @@
 | ThemeToggle | — | `aria-pressed`；三态循环 |
 | Footer | — | 链接、许可、RSS、返回顶部 |
 | SkipLink | — | 首个可聚焦，指向 `#main` |
+| CommandPalette | `email` | ⌘K 命令面板：导航/主题/复制邮箱/RSS；role=dialog + listbox |
 
 ## 3. project/
 
@@ -48,8 +49,9 @@
 | Toc | `headings` | 嵌套列表；当前项高亮（IntersectionObserver） |
 | Metric | `label`、`value`、`unit?` | 数值强调，单位弱化 |
 | Timeline | `items` | 教育/经历；`<ol>` |
-| Gallery | `images` | 网格；点击打开 `<dialog>` 灯箱 |
-| Lightbox | — | 原生 dialog；Esc 关闭；焦点返回；箭头切换 |
+| Gallery | `images: { src: ImageMetadata; alt; caption? }[]` | 网格 + 原生 dialog 灯箱；无图片时不渲染 |
+| Figure | `src`、`alt`、`caption?` | 单图 + 题注；强制 alt |
+| Lightbox | — | Gallery 内部实现；Esc 关闭；箭头切换 |
 | Breadcrumbs | `items` | 最后一项 `aria-current="page"` |
 | RelatedProjects | `projects` | 同领域最多 3 个 |
 | PrevNext | `prev?`、`next?` | 上下篇链接 |
@@ -66,7 +68,6 @@
 | 组件 | 用途 | 约束 |
 |---|---|---|
 | Callout | 提示/警告 | `type: info\|warn\|success` |
-| Figure | 带题注图片 | 强制 `alt` 与 `caption` |
 | CodeBlock | 代码块包装 | 由 Astro 默认高亮，不引入客户端库 |
 | StatGrid | 指标网格 | 最多 4 项 |
 

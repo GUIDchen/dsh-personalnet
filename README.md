@@ -2,7 +2,7 @@
 
 > 个人网站：7 个领域、12 个项目案例与 3 篇技术笔记。静态优先、零运行时后端、MIT 开源。
 
-[![文档](https://img.shields.io/badge/docs-17%20%E7%AF%87-4B5563)](#文档)
+[![文档](https://img.shields.io/badge/docs-21%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
 
 ## 预览
@@ -19,6 +19,10 @@
 | ------------------------------------ | ------------------------------------------ |
 | ![笔记列表](./docs/assets/notes.png) | ![笔记详情](./docs/assets/note-detail.png) |
 
+| 现在                           | 常用工具                            |
+| ------------------------------ | ----------------------------------- |
+| ![现在](./docs/assets/now.png) | ![常用工具](./docs/assets/uses.png) |
+
 ## 状态
 
 | 里程碑 | 内容                                  | 状态    |
@@ -32,6 +36,7 @@
 | M6     | MIT 开源发布 v1.0.0                   | ✅ 完成 |
 | M7     | 维护基线（手册/简历页/robots/脚手架） | ✅ 完成 |
 | M8     | 技术笔记、合并 RSS、SEO 审计、LQIP    | ✅ 完成 |
+| M9     | 审阅借鉴、Hero、Now/Uses、命令面板    | ✅ 完成 |
 
 ## 技术栈
 
@@ -98,7 +103,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 
 ```
 .
-├─ docs/            # 软件工程文档（18 篇 + 12 篇 ADR）
+├─ docs/            # 软件工程文档（21 篇 + 12 篇 ADR）
 ├─ src/             # Astro 源码（页面/组件/内容/样式/逻辑）
 ├─ scripts/         # 内容校验、体积预算、文档检查、OG 生成
 ├─ tests/           # unit / integration / e2e / a11y
@@ -116,6 +121,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 - 工程：[架构](./docs/05-architecture.md)、[测试](./docs/10-testing-strategy.md)、[部署](./docs/11-deployment-operations.md)
 - 安全与许可：[安全、隐私与许可](./docs/12-security-privacy-licensing.md)
 - 基准调研：[优秀个人网站对比与差距分析](./docs/18-benchmark-and-gap-analysis.md)
+- 项目审阅：[完成度审计](./docs/19-project-completion-audit.md)、[借鉴笔记](./docs/20-borrowing-notes.md)
 
 ## 贡献
 

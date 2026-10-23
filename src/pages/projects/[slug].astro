@@ -5,6 +5,7 @@ import type { ImageMetadata } from "astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Badge from "@/components/ui/Badge.astro";
 import ProjectCard from "@/components/project/ProjectCard.astro";
+import Gallery from "@/components/project/Gallery.astro";
 import Toc from "@/components/project/Toc.astro";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { getPublishedProjects, getRelatedProjects } from "@/lib/content";
@@ -25,6 +26,17 @@ const covers = import.meta.glob<{ default: ImageMetadata }>("../../assets/covers
 const cover = covers[`../../assets/covers/${project.id}.jpg`];
 const lqip = (placeholders as Record<string, string>)[project.id];
 const { data } = project;
+const galleryAssets = import.meta.glob<{ default: ImageMetadata }>(
+  "../../assets/projects/**/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true },
+);
+const galleryImages = data.gallery
+  .map((item) => ({
+    ...item,
+    image: galleryAssets[`../../assets/projects/${item.src}`]?.default,
+  }))
+  .filter((item): item is typeof item & { image: ImageMetadata } => Boolean(item.image))
+  .map((item) => ({ src: item.image, alt: item.alt, caption: undefined }));
 const domain = DOMAIN_META[data.domain];
 const statusLabels = {
   active: "进行中",
@@ -176,6 +188,8 @@ const period = data.timeframe.ongoing
       </aside>
     </div>
   </article>
+
+  <Gallery images={galleryImages} />
 
   {related.length > 0 && (
     <section class="related" aria-labelledby="related-title">

@@ -124,6 +124,8 @@ draft: false
 - 图片放 `src/assets/`，通过 `astro:assets` 引用，禁止直接引用 `public/` 大图。
 - 必须提供有意义的中文 `alt`，装饰图用 `alt=""`。
 - 文件名：`<slug>-<序号>-<含义>.png`。
+- 案例图库：放到 `src/assets/projects/<slug>/`，在 frontmatter 的 `gallery` 中写 `{ src: "<slug>/<file>", alt: "..." }`；详情页通过 `Gallery` 组件渲染（无图片时自动隐藏）。
+- 每个项目至少一项"可验证证据"：截图、仓库、Demo、论文/报告或指标；没有量化数据时写清验证方式。
 
 ## 8. 校验规则与报错
 

@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
+import CommandPalette from "@/components/ui/CommandPalette.astro";
 import Meta from "@/components/seo/Meta.astro";
 import { profile } from "@/data/profile";
 
@@ -60,8 +61,9 @@ const { title, description = profile.tagline, noindex = false, image } = Astro.p
       </div>
     </main>
     <Footer />
+    <CommandPalette email={profile.email} />
     <script>
-      import "@/scripts/shortcuts";
+      import "@/scripts/command-palette";
     </script>
   </body>
 </html>

@@ -7,14 +7,12 @@ import { profile } from "@/data/profile";
 import { getPublishedProjects } from "@/lib/content";
 import { getPublishedNotes } from "@/lib/notes";
 import { DOMAIN_LIST } from "@/data/domains";
-import { SKILL_GROUPS } from "@/data/skills";
-import { TIMELINE } from "@/data/timeline";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
 
 const projects = await getPublishedProjects();
 const notes = (await getPublishedNotes()).slice(0, 3);
-const contactIndex = notes.length > 0 ? "06" : "05";
+const contactIndex = notes.length > 0 ? "04" : "03";
 const featured = projects.slice(0, 3);
 const counts = new Map<string, number>();
 for (const project of projects) {
@@ -32,6 +30,12 @@ const base = import.meta.env.BASE_URL;
     <p class="kicker">
       <span class="dot" aria-hidden="true"></span>
       {profile.availability}
+      <span class="sep" aria-hidden="true">
+        ·
+      </span>
+      <span data-local-time data-timezone={profile.timezone}>
+        UTC+8
+      </span>
     </p>
     <h1 id="hero-title">
       <span class="name">{profile.name}</span>
@@ -39,14 +43,21 @@ const base = import.meta.env.BASE_URL;
         {profile.nameEn}
       </span>
     </h1>
-    <p class="role">{profile.role}</p>
-    <p class="tagline">{profile.tagline}</p>
+    <p class="statement">{profile.statement}</p>
+    <p class="bio-short">{profile.bioShort}</p>
+    <details class="bio-more">
+      <summary>完整介绍</summary>
+      <p>{profile.bio}</p>
+    </details>
     <div class="cta">
       <Button href={`${base}projects/`} size="lg">
         查看项目
       </Button>
-      <Button href={`${base}about/`} variant="secondary" size="lg">
-        关于我
+      <Button href={`${base}now/`} variant="secondary" size="lg">
+        现在在做什么
+      </Button>
+      <Button href={`${base}about/`} variant="ghost" size="lg">
+        关于我 →
       </Button>
     </div>
     <dl class="facts">
@@ -119,50 +130,11 @@ const base = import.meta.env.BASE_URL;
     </ul>
   </section>
 
-  <section class="section" aria-labelledby="skills-title">
-    <SectionHeading
-      id="skills-title"
-      index="03"
-      title="能力"
-      description="工具只是手段，重要的是把问题拆开、验证并交付。"
-    />
-    <div class="skills">
-      {SKILL_GROUPS.map((group) => (
-        <div class="skill-group">
-          <h3>{group.label}</h3>
-          <p>{group.items.join(" · ")}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="timeline-title">
-    <SectionHeading
-      id="timeline-title"
-      index="04"
-      title="经历"
-      description="教育、工作与科研的几条主线。"
-    />
-    <ol class="timeline">
-      {TIMELINE.map((item) => (
-        <li>
-          <span class="period">{item.period}</span>
-          <div>
-            <h3>{item.title}</h3>
-            <p class="org">{item.org}</p>
-            {item.detail && <p class="detail">{item.detail}</p>}
-          </div>
-          <span class="kind">{item.kind}</span>
-        </li>
-      ))}
-    </ol>
-  </section>
-
   {notes.length > 0 && (
     <section class="section" aria-labelledby="notes-title">
       <SectionHeading
         id="notes-title"
-        index="05"
+        index="03"
         title="最近笔记"
         description="关于工程取舍、内容建模与质量门禁的记录。"
       />
@@ -202,6 +174,23 @@ const base = import.meta.env.BASE_URL;
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  function updateLocalTime(): void {
+    document.querySelectorAll<HTMLElement>("[data-local-time]").forEach((element) => {
+      const timezone = element.dataset.timezone || "Asia/Shanghai";
+      const time = new Intl.DateTimeFormat("zh-CN", {
+        timeZone: timezone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(new Date());
+      element.textContent = `${time} · 本地时间`;
+    });
+  }
+
+  document.addEventListener("astro:page-load", updateLocalTime);
+</script>
 
 <style>
   .hero {
@@ -252,16 +241,43 @@ const base = import.meta.env.BASE_URL;
     color: var(--muted);
   }
 
-  .role {
-    margin: 1.25rem 0 0;
-    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-    color: var(--fg);
+  .statement {
+    margin: 1.5rem 0 0;
+    max-width: 34rem;
+    font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+    line-height: 1.28;
+    letter-spacing: -0.02em;
   }
 
-  .tagline {
-    margin: 0.4rem 0 0;
-    max-width: 34rem;
+  .bio-short {
+    margin: 0.9rem 0 0;
+    max-width: 36rem;
     color: var(--muted);
+  }
+
+  .bio-more {
+    margin-top: 0.6rem;
+    max-width: 36rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .bio-more summary {
+    cursor: pointer;
+    color: var(--fg);
+    font-size: 0.875rem;
+  }
+
+  .bio-more p {
+    margin: 0.5rem 0 0;
+  }
+
+  .sep {
+    color: var(--border-strong);
+  }
+
+  [data-local-time] {
+    font-variant-numeric: tabular-nums;
   }
 
   .cta {

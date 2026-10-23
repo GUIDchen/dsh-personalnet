@@ -21,6 +21,7 @@
 | M6 | 开源发布 | LICENSE、社区文件、CHANGELOG、v1.0.0 | 部署成功、文档 Approved | ✅ 完成 |
 | M7 | 长期运营 | 维护手册、简历打印页、robots、内容脚手架、链接检查 | 维护基线交付；其余按 Backlog 推进 | ✅ 基线完成 |
 | M8 | 内容与发现性（v1.2.0） | notes 集合、合并 RSS、中文 SEO 审计、封面 LQIP | E2E ≥34、SEO 审计通过、LHCI 6 页 | ✅ 完成 |
+| M9 | 审阅与借鉴（v1.3.0） | 完成度审计、Hero 重构、/now、/uses、命令面板、证据组件 | 新页面/交互 E2E 通过 | ✅ 完成 |
 
 ## 2. Backlog
 

@@ -1,0 +1,106 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { NOW } from "@/data/now";
+import { profile } from "@/data/profile";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="现在"
+  description={`${profile.name} 现在在做什么：正在做的项目、学习方向与关注点。`}
+>
+  <header class="page-head">
+    <p class="mono-label">现在 / Now · {NOW.updated}</p>
+    <h1>现在在做什么</h1>
+    <p class="lead">{NOW.intro}</p>
+    <p class="links">
+      <a href={`${base}uses/`}>常用工具 →</a>
+      <a href={`${base}about/`}>关于我 →</a>
+    </p>
+  </header>
+
+  <div class="sections">
+    {NOW.sections.map((section, index) => (
+      <section aria-labelledby={`now-${index}`}>
+        <p class="mono-label">{String(index + 1).padStart(2, "0")}</p>
+        <h2 id={`now-${index}`}>{section.title}</h2>
+        <ul>
+          {section.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .page-head {
+    max-width: 46rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  h1 {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    letter-spacing: -0.04em;
+  }
+
+  .lead {
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 1.9vw, 1.2rem);
+  }
+
+  .links {
+    display: flex;
+    gap: 1.25rem;
+    margin: 1.25rem 0 0;
+    font-size: 0.875rem;
+  }
+
+  .sections {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+
+  section {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0.5rem 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  section .mono-label {
+    padding-top: 0.45rem;
+  }
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  }
+
+  ul {
+    grid-column: 2;
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  li + li {
+    margin-top: 0.4rem;
+  }
+
+  @media (max-width: 639px) {
+    section {
+      grid-template-columns: 1fr;
+    }
+
+    ul {
+      grid-column: 1;
+    }
+  }
+</style>

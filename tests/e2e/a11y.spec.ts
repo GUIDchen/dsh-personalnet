@@ -8,6 +8,8 @@ const pages = [
   { path: "/about/", name: "关于" },
   { path: "/notes/", name: "笔记列表" },
   { path: "/notes/why-astro-7/", name: "笔记详情" },
+  { path: "/now/", name: "现在" },
+  { path: "/uses/", name: "工具" },
   { path: "/cv/", name: "简历" },
   { path: "/search/", name: "搜索" },
   { path: "/404.html", name: "404" },

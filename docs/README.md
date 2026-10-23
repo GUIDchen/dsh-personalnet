@@ -42,6 +42,8 @@
 | 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
 | 17 | [17-maintenance-runbook.md](./17-maintenance-runbook.md) | 维护手册（发布/升级/内容/故障） | Approved |
 | 18 | [18-benchmark-and-gap-analysis.md](./18-benchmark-and-gap-analysis.md) | 优秀个人网站基准调研与差距分析 | Approved |
+| 19 | [19-project-completion-audit.md](./19-project-completion-audit.md) | v1.2.0 完成度审计与 v2.0 KPI | Approved |
+| 20 | [20-borrowing-notes.md](./20-borrowing-notes.md) | 优秀站点借鉴清单与不借鉴理由 | Approved |
 | ADR | [adr/](./adr/) | 12 篇架构决策记录 | Approved |
 
 ## 文档规则
@@ -60,4 +62,4 @@
 | 2026-10-23 | 1.0.0 | 全部文档 Approved，补充搜索、OG/封面、质量门禁与开源发布说明 |
 | 2026-10-23 | 1.1.0 | 新增维护手册、简历打印页与 robots；补充内容脚手架说明 |
 | 2026-10-23 | 1.2.0 | 新增技术笔记、合并 RSS、中文 SEO 审计与封面 LQIP |
-| 2026-10-23 | 未发布 | 新增优秀个人网站基准调研与差距分析（docs/18） |
+| 2026-10-23 | 未发布 | 新增基准调研（docs/18）、完成度审计（docs/19）与借鉴笔记（docs/20） |

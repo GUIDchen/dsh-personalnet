@@ -1,0 +1,217 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface GalleryImage {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+}
+
+const { images } = Astro.props;
+---
+
+{images.length > 0 && (
+  <section class="gallery" aria-labelledby="gallery-title">
+    <h2 id="gallery-title">图库</h2>
+    <ul>
+      {images.map((image, index) => (
+        <li>
+          <button
+            type="button"
+            data-gallery-open={index}
+            aria-label={`查看第 ${index + 1} 张图：${image.alt}`}
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              widths={[400, 800]}
+              sizes="(max-width: 960px) 50vw, 280px"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+        </li>
+      ))}
+    </ul>
+
+    <dialog class="lightbox" data-gallery-dialog aria-label="图片查看器">
+      <div class="stage">
+        {images.map((image, index) => (
+          <figure data-gallery-frame={index} hidden>
+            <Image src={image.src} alt={image.alt} widths={[800, 1280, 1600]} sizes="90vw" />
+            {image.caption && <figcaption>{image.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+      <div class="controls">
+        <button type="button" data-gallery-prev aria-label="上一张">
+          ←
+        </button>
+        <span data-gallery-count>1 / {images.length}</span>
+        <button type="button" data-gallery-next aria-label="下一张">
+          →
+        </button>
+        <button type="button" data-gallery-close aria-label="关闭">
+          关闭
+        </button>
+      </div>
+    </dialog>
+  </section>
+)}
+
+<style>
+  .gallery {
+    margin-top: clamp(3rem, 7vw, 5rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    cursor: zoom-in;
+    overflow: hidden;
+  }
+
+  button :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .lightbox {
+    width: min(94vw, 72rem);
+    max-height: 90vh;
+    padding: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  .lightbox::backdrop {
+    background: rgb(0 0 0 / 0.7);
+  }
+
+  .stage {
+    max-height: 76vh;
+    overflow: auto;
+    padding: 1rem;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  figure :global(img) {
+    max-height: 68vh;
+    width: auto;
+    max-width: 100%;
+    margin-inline: auto;
+    border-radius: var(--radius-md);
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .controls button {
+    width: auto;
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+    color: var(--fg);
+    font-size: 0.875rem;
+  }
+
+  .controls span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  function initGallery(): void {
+    document.querySelectorAll<HTMLElement>("[data-gallery-dialog]").forEach((dialogRoot) => {
+      const dialog = dialogRoot as HTMLDialogElement;
+      if (dialog.dataset.bound === "true") return;
+      dialog.dataset.bound = "true";
+
+      const section = dialog.closest<HTMLElement>(".gallery");
+      if (!section) return;
+      const frames = [...section.querySelectorAll<HTMLElement>("[data-gallery-frame]")];
+      const count = section.querySelector<HTMLElement>("[data-gallery-count]");
+      const openers = [...section.querySelectorAll<HTMLButtonElement>("[data-gallery-open]")];
+      let index = 0;
+
+      const show = (next: number): void => {
+        index = (next + frames.length) % frames.length;
+        frames.forEach((frame, frameIndex) => {
+          frame.hidden = frameIndex !== index;
+        });
+        if (count) count.textContent = `${index + 1} / ${frames.length}`;
+      };
+
+      for (const opener of openers) {
+        opener.addEventListener("click", () => {
+          show(Number(opener.dataset.galleryOpen ?? 0));
+          dialog.showModal();
+        });
+      }
+
+      section
+        .querySelector("[data-gallery-prev]")
+        ?.addEventListener("click", () => show(index - 1));
+      section
+        .querySelector("[data-gallery-next]")
+        ?.addEventListener("click", () => show(index + 1));
+      section
+        .querySelector("[data-gallery-close]")
+        ?.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+      dialog.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") show(index - 1);
+        if (event.key === "ArrowRight") show(index + 1);
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initGallery);
+</script>

@@ -22,9 +22,13 @@ test.describe("全站搜索", () => {
     await expect(page.locator("[data-search-status]")).toContainText("没有找到");
   });
 
-  test("⌘K 从任意页面唤起搜索", async ({ page }) => {
+  test("⌘K 打开命令面板并进入搜索", async ({ page }) => {
     await page.goto("/");
     await page.keyboard.press("Meta+k");
+    await expect(page.locator("[data-palette-dialog]")).toBeVisible();
+
+    await page.locator("[data-palette-input]").fill("搜索");
+    await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/search\/\?focus=1/);
     await expect(page.locator("[data-search-input]")).toBeFocused();
   });

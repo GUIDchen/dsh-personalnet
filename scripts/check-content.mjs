@@ -3,7 +3,7 @@
  * 内容校验：frontmatter 字段、标签词表、领域枚举、六段式结构、隐私敏感信息。
  * 运行：node scripts/check-content.mjs
  */
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const ROOT = resolve(process.cwd());
@@ -102,6 +102,15 @@ for (const file of files) {
   const fm = readFileSync(join(PROJECTS_DIR, file), "utf8");
   const domain = /^domain:\s*(\S+)/m.exec(fm)?.[1];
   if (domain) domainsUsed.add(domain);
+
+  const slug = file.replace(/\.mdx$/, "");
+  if (!existsSync(join(ROOT, "public/og", slug + ".jpg"))) {
+    errors.push(`${file}: 缺少 OG 图 public/og/${slug}.jpg（运行 pnpm gen:og）`);
+  }
+}
+
+if (!existsSync(join(ROOT, "public/og/default.jpg"))) {
+  errors.push("缺少默认 OG 图 public/og/default.jpg（运行 pnpm gen:og）");
 }
 
 console.log("内容校验");

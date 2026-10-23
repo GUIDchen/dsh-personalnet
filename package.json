@@ -27,7 +27,8 @@
     "ci:verify": "pnpm lint && pnpm format:check && pnpm check && pnpm test:unit && pnpm build && pnpm test:docs && pnpm test:content && pnpm check:contrast",
     "check:contrast": "node scripts/check-contrast.mjs",
     "screenshots": "node scripts/screenshots.mjs",
-    "test:content": "node scripts/check-content.mjs"
+    "test:content": "node scripts/check-content.mjs",
+    "gen:og": "node scripts/generate-og.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.4",
@@ -37,6 +38,8 @@
     "@astrojs/sitemap": "3.7.4",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.4.2",
+    "astro-pagefind": "2.0.1",
+    "pagefind": "1.5.2",
     "tailwindcss": "4.3.3",
     "zod": "4.6.7"
   },
@@ -51,6 +54,7 @@
     "prettier": "3.9.10",
     "prettier-plugin-astro": "1.1.1",
     "prettier-plugin-tailwindcss": "0.8.1",
+    "sharp": "0.35.5",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.0",
     "vitest": "5.0.5"

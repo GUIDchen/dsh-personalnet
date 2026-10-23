@@ -30,7 +30,7 @@
 | 04 | [04-technology-comparison.md](./04-technology-comparison.md) | 加权对比、敏感性分析、结论 | Approved |
 | 05 | [05-architecture.md](./05-architecture.md) | arc42 架构与 C4 视图 | Approved |
 | 06 | [06-design-system.md](./06-design-system.md) | 视觉语言与设计令牌 | Approved |
-| 07 | [07-information-architecture.md](./07-information-architecture.md) | 站点地图、页面规格 | Draft |
+| 07 | [07-information-architecture.md](./07-information-architecture.md) | 站点地图、页面规格 | Approved |
 | 08 | [08-content-model.md](./08-content-model.md) | 内容 schema 与写作规范 | Approved |
 | 09 | [09-seo-performance-a11y.md](./09-seo-performance-a11y.md) | SEO、性能预算、可访问性 | Draft |
 | 10 | [10-testing-strategy.md](./10-testing-strategy.md) | 测试策略与 CI 门禁 | Draft |
@@ -39,7 +39,7 @@
 | 13 | [13-roadmap-and-backlog.md](./13-roadmap-and-backlog.md) | 路线图与 Backlog | Draft |
 | 14 | [14-content-migration.md](./14-content-migration.md) | 简历到站点的内容迁移 | Draft |
 | 15 | [15-writing-style.md](./15-writing-style.md) | 中文写作与图表规范 | Draft |
-| 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Draft |
+| 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
 | ADR | [adr/](./adr/) | 12 篇架构决策记录 | Approved |
 
 ## 文档规则

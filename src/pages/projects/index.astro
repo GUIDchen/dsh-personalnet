@@ -120,7 +120,7 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
 
 <script>
   import { initProjectFilters } from "@/scripts/projects-filter";
-  initProjectFilters();
+  document.addEventListener("astro:page-load", initProjectFilters);
 </script>
 
 <style>

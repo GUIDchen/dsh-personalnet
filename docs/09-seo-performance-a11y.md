@@ -63,6 +63,8 @@
 | `/projects.json` | 机器可读作品集（非 SEO 用途，供集成方消费） |
 | `404.html` | 自定义 404，返回正确状态码 |
 
+> OG 图与封面由 pnpm gen:og 生成：1200×630 社交分享图写入 public/og/，1600×1000 项目封面写入 src/assets/covers/ 并由 astro:assets 输出 AVIF/WebP/JPG。内容变更后需重新生成；check-content 会校验每个项目的 OG 文件是否存在。
+
 ## 5. 性能预算
 
 | 资源 | 预算（gzip） | 测量 |

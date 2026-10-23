@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Meta from "@/components/seo/Meta.astro";
@@ -9,9 +10,10 @@ interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
+  image?: string;
 }
 
-const { title, description = profile.tagline, noindex = false } = Astro.props;
+const { title, description = profile.tagline, noindex = false, image } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,23 +21,31 @@ const { title, description = profile.tagline, noindex = false } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Meta title={title} description={description} noindex={noindex} />
+    <ClientRouter />
+    <Meta title={title} description={description} noindex={noindex} image={image} />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <script is:inline>
       (() => {
-        document.documentElement.classList.add("js");
-        try {
-          const stored = localStorage.getItem("theme");
-          const theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
-          document.documentElement.dataset.theme = theme;
-        } catch {
-          /* 忽略隐私模式下的异常 */
-        }
+        const apply = () => {
+          document.documentElement.classList.add("js");
+          try {
+            const stored = localStorage.getItem("theme");
+            const theme =
+              stored === "light" || stored === "dark"
+                ? stored
+                : window.matchMedia("(prefers-color-scheme: dark)").matches
+                  ? "dark"
+                  : "light";
+            document.documentElement.dataset.theme = theme;
+          } catch {
+            /* 忽略隐私模式下的异常 */
+          }
+        };
+
+        apply();
+
+        // 视图过渡会替换 body，并可能重置 <html> 上的运行时属性，需要在交换后重新应用。
+        document.addEventListener("astro:after-swap", apply);
       })();
     </script>
   </head>
@@ -44,12 +54,15 @@ const { title, description = profile.tagline, noindex = false } = Astro.props;
       跳到主要内容
     </a>
     <Header />
-    <main id="main">
+    <main id="main" data-pagefind-body {...(noindex ? { "data-pagefind-ignore": "" } : {})}>
       <div class="page-shell">
         <slot />
       </div>
     </main>
     <Footer />
+    <script>
+      import "@/scripts/shortcuts";
+    </script>
   </body>
 </html>
 

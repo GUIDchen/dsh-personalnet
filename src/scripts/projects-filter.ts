@@ -11,7 +11,8 @@ const SORTS: SortMode[] = ["featured", "latest", "title"];
 /** 项目库的渐进增强：领域/标签筛选、排序、URL 状态与无结果态。 */
 export function initProjectFilters(): void {
   const root = document.querySelector<HTMLElement>("[data-projects-root]");
-  if (!root) return;
+  if (!root || root.dataset.bound === "true") return;
+  root.dataset.bound = "true";
 
   const grid = root.querySelector<HTMLElement>("[data-project-grid]");
   const bar = root.querySelector<HTMLElement>("[data-filter-bar]");

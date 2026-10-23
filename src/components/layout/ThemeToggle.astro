@@ -86,20 +86,25 @@
     return theme === "dark" ? "light" : "system";
   }
 
-  document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const value = nextTheme(stored());
-      if (value === "system") localStorage.removeItem(KEY);
-      else localStorage.setItem(KEY, value);
-      paint(value);
+  function initThemeToggle(): void {
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
+      if (button.dataset.bound === "true") return;
+      button.dataset.bound = "true";
+      button.addEventListener("click", () => {
+        const value = nextTheme(stored());
+        if (value === "system") localStorage.removeItem(KEY);
+        else localStorage.setItem(KEY, value);
+        paint(value);
+      });
     });
-  });
+    paint(stored());
+  }
 
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
     if (stored() === "system") paint("system");
   });
 
-  paint(stored());
+  document.addEventListener("astro:page-load", initThemeToggle);
 </script>
 
 <style>

@@ -1,4 +1,6 @@
 ---
+import { absoluteUrl } from "@/lib/seo";
+
 interface Props {
   title: string;
   description: string;
@@ -7,11 +9,17 @@ interface Props {
   image?: string;
 }
 
-const { title, description, noindex = false, type = "website", image } = Astro.props;
+const {
+  title,
+  description,
+  noindex = false,
+  type = "website",
+  image = "/og/default.jpg",
+} = Astro.props;
 const siteName = "陈陇刚";
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const ogImage = absoluteUrl(image);
 ---
 
 <title>{fullTitle}</title>
@@ -24,6 +32,8 @@ const ogImage = image ? new URL(image, Astro.site).href : undefined;
 <meta property="og:url" content={canonical} />
 <meta property="og:site_name" content={siteName} />
 {ogImage && <meta property="og:image" content={ogImage} />}
-<meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />

@@ -7,9 +7,10 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const basePath = base.replace(/\/$/, "");
 
 const links = [
-  { href: base, label: "首页", match: basePath || "/" },
-  { href: `${base}projects/`, label: "项目", match: `${basePath}/projects` },
-  { href: `${base}about/`, label: "关于", match: `${basePath}/about` },
+  { href: base, label: "首页", match: basePath || "/", kbd: "" },
+  { href: `${base}projects/`, label: "项目", match: `${basePath}/projects`, kbd: "" },
+  { href: `${base}search/`, label: "搜索", match: `${basePath}/search`, kbd: "⌘K" },
+  { href: `${base}about/`, label: "关于", match: `${basePath}/about`, kbd: "" },
 ];
 
 const isActive = (match: string) => (match === "/" ? path === "/" : path.startsWith(match));
@@ -29,8 +30,17 @@ const isActive = (match: string) => (match === "/" ? path === "/" : path.startsW
         <ul>
           {links.map((link) => (
             <li>
-              <a href={link.href} aria-current={isActive(link.match) ? "page" : undefined}>
+              <a
+                href={link.href}
+                aria-current={isActive(link.match) ? "page" : undefined}
+                aria-keyshortcuts={link.kbd ? "Meta+K Control+K" : undefined}
+              >
                 {link.label}
+                {link.kbd && (
+                  <kbd class="nav-kbd" aria-hidden="true">
+                    {link.kbd}
+                  </kbd>
+                )}
               </a>
             </li>
           ))}
@@ -52,22 +62,34 @@ const isActive = (match: string) => (match === "/" ? path === "/" : path.startsW
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>("[data-site-header]");
-  const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
-  if (header && toggle) {
-    const setOpen = (open: boolean) => {
-      header.dataset.menuOpen = String(open);
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.querySelector(".sr-only")!.textContent = open ? "关闭导航菜单" : "打开导航菜单";
-    };
-    toggle.addEventListener("click", () => setOpen(header.dataset.menuOpen !== "true"));
+  function setHeaderOpen(open: boolean): void {
+    const header = document.querySelector<HTMLElement>("[data-site-header]");
+    const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    if (!header || !toggle) return;
+    header.dataset.menuOpen = String(open);
+    toggle.setAttribute("aria-expanded", String(open));
+    const label = toggle.querySelector(".sr-only");
+    if (label) label.textContent = open ? "关闭导航菜单" : "打开导航菜单";
+  }
+
+  function initHeader(): void {
+    const header = document.querySelector<HTMLElement>("[data-site-header]");
+    const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    if (!header || !toggle || header.dataset.bound === "true") return;
+    header.dataset.bound = "true";
+
+    setHeaderOpen(false);
+    toggle.addEventListener("click", () => setHeaderOpen(header.dataset.menuOpen !== "true"));
     header.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => setOpen(false));
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") setOpen(false);
+      link.addEventListener("click", () => setHeaderOpen(false));
     });
   }
+
+  // WebKit 点击按钮不会自动聚焦，Esc 需要在 document 上监听；模块只执行一次，避免重复绑定。
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setHeaderOpen(false);
+  });
+  document.addEventListener("astro:page-load", initHeader);
 </script>
 
 <style>
@@ -138,6 +160,22 @@ const isActive = (match: string) => (match === "/" ? path === "/" : path.startsW
   .nav-panel a[aria-current="page"] {
     color: var(--fg);
     border-bottom-color: var(--accent);
+  }
+
+  .nav-kbd {
+    margin-left: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.05rem 0.3rem;
+  }
+
+  @media (max-width: 767px) {
+    .nav-kbd {
+      display: none;
+    }
   }
 
   .menu-toggle {

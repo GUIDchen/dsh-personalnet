@@ -9,6 +9,9 @@
 
 ### Added
 
+- 搜索：Pagefind 构建期索引（17 页）+ /search/ 自定义界面，⌘K / Ctrl+K 全局唤起，支持无结果态。
+- 视图过渡：ClientRouter，主题/菜单/筛选脚本在导航后重新初始化，Esc 与焦点行为有回归测试。
+- OG 图：13 张 1200×630 社交分享图；项目封面 1600×1000 经 astro:assets 输出 AVIF/WebP/JPG 响应式图片。
 - 内容：12 个项目案例覆盖 7 个领域，标签词表 34 项；内容校验脚本检查字段、长度、标签、隐私。
 - 项目库支持领域/标签筛选、三种排序、URL 状态同步与无 JavaScript 降级。
 - 项目详情新增目录（TOC）与结构化数据（CreativeWork + BreadcrumbList）；首页/关于注入 Person 与 WebSite。

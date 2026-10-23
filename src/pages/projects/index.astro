@@ -3,6 +3,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProjectCard from "@/components/project/ProjectCard.astro";
 import { getPublishedProjects } from "@/lib/content";
 import { DOMAIN_LIST } from "@/data/domains";
+import { getFacets } from "@/lib/filter";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
+import { TAG_VOCABULARY } from "@/data/tags";
+import JsonLd from "@/components/seo/JsonLd.astro";
 
 const projects = await getPublishedProjects();
 const counts = new Map<string, number>();
@@ -10,44 +14,114 @@ for (const project of projects) {
   counts.set(project.data.domain, (counts.get(project.data.domain) ?? 0) + 1);
 }
 const domainCount = counts.size;
+
+// 标签按使用次数排序，次数相同则按词表顺序，保证首屏展示的是有意义的标签。
+const tagCounts = getFacets(projects).tags;
+const tagCountMap = new Map(tagCounts.map((tag) => [tag.id, tag.count]));
+const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
+  .sort((a, b) => {
+    const diff = (tagCountMap.get(b) ?? 0) - (tagCountMap.get(a) ?? 0);
+    return diff !== 0 ? diff : TAG_VOCABULARY.indexOf(a) - TAG_VOCABULARY.indexOf(b);
+  })
+  .slice(0, 12)
+  .map((id) => ({ id, count: tagCountMap.get(id) ?? 0 }));
 ---
 
 <BaseLayout
   title="项目"
   description={`共 ${projects.length} 个项目案例，覆盖 ${domainCount} 个领域。`}
 >
+  <JsonLd
+    data={breadcrumbJsonLd([
+      { name: "首页", path: "/" },
+      { name: "项目", path: "/projects/" },
+    ])}
+  />
+
   <header class="page-head">
     <p class="mono-label">索引 / 项目</p>
     <h1>项目</h1>
     <p class="lead">
       {projects.length} 个案例，覆盖 {domainCount}{" "}
-      个领域。按精选与时间排序，每个案例都写清了问题、约束、方案与结果。
+      个领域。可按领域与标签筛选。每个案例都写清了问题、约束、方案与结果。
     </p>
   </header>
 
-  <nav class="chips" aria-label="按领域筛选">
-    <a class="chip is-active" href={`${import.meta.env.BASE_URL}projects/`}>
-      全部 <span>{projects.length}</span>
-    </a>
-    {DOMAIN_LIST.filter((domain) => (counts.get(domain.id) ?? 0) > 0).map((domain) => (
-      <a
-        class="chip"
-        href={`${import.meta.env.BASE_URL}projects/?domain=${domain.id}`}
-        data-filter-domain={domain.id}
-      >
-        {domain.label} <span>{counts.get(domain.id)}</span>
-      </a>
-    ))}
-  </nav>
+  <div data-projects-root>
+    <div class="toolbar" data-filter-bar hidden>
+      <div class="chip-row" role="group" aria-label="按领域筛选">
+        <button type="button" class="chip" data-filter-domain="" aria-pressed="true">
+          全部 <span>{projects.length}</span>
+        </button>
+        {DOMAIN_LIST.filter((domain) => (counts.get(domain.id) ?? 0) > 0).map((domain) => (
+          <button type="button" class="chip" data-filter-domain={domain.id} aria-pressed="false">
+            {domain.label} <span>{counts.get(domain.id)}</span>
+          </button>
+        ))}
+      </div>
 
-  <ul class="project-grid">
-    {projects.map((project, index) => (
-      <li>
-        <ProjectCard project={project} index={index + 1} />
-      </li>
-    ))}
-  </ul>
+      <div class="tag-row" role="group" aria-label="按标签筛选">
+        <span class="mono-label">标签</span>
+        {topTags.map((tag) => (
+          <button type="button" class="tag-chip" data-filter-tag={tag.id} aria-pressed="false">
+            {tag.id} <span>{tag.count}</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="toolbar-end">
+        <button type="button" class="link-button" data-clear-filters>
+          清除筛选
+        </button>
+        <label class="sort">
+          <span class="mono-label">排序</span>
+          <select data-sort>
+            <option value="featured">精选优先</option>
+            <option value="latest">最新</option>
+            <option value="title">名称</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <p class="result" aria-live="polite">
+      显示 <span data-visible-count>{projects.length}</span> / {projects.length} 个项目
+    </p>
+
+    <ul class="project-grid" data-project-grid>
+      {projects.map((project, index) => (
+        <li
+          data-project-item
+          data-domain={project.data.domain}
+          data-tags={project.data.tags.join(" ")}
+          data-title={project.data.title}
+          data-start={project.data.timeframe.start}
+          data-featured={String(project.data.featured)}
+          data-order={String(project.data.order)}
+        >
+          <ProjectCard project={project} index={index + 1} />
+        </li>
+      ))}
+    </ul>
+
+    <div class="empty" data-empty-state hidden>
+      <p class="empty-title">没有匹配的项目</p>
+      <p class="empty-desc">试试清除标签，或换一个领域。</p>
+      <button type="button" class="chip" data-clear-filters>
+        清除筛选
+      </button>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="notice">筛选与排序需要 JavaScript；当前显示全部项目，所有内容都可以直接阅读。</p>
+  </noscript>
 </BaseLayout>
+
+<script>
+  import { initProjectFilters } from "@/scripts/projects-filter";
+  initProjectFilters();
+</script>
 
 <style>
   .page-head {
@@ -66,47 +140,115 @@ const domainCount = counts.size;
     color: var(--muted);
   }
 
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  .toolbar {
+    display: grid;
+    gap: 0.9rem;
     padding-block: 1rem;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    margin-bottom: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
   }
 
-  .chip {
+  .chip-row,
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .chip,
+  .tag-chip {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
     border: 1px solid var(--border);
     border-radius: 999px;
     padding: 0.35rem 0.8rem;
+    font: inherit;
     font-size: 0.8125rem;
-    text-decoration: none;
     color: var(--muted);
+    background: transparent;
+    cursor: pointer;
+    min-height: 36px;
   }
 
-  .chip span {
+  .tag-chip {
+    padding: 0.2rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    min-height: 30px;
+  }
+
+  .chip span,
+  .tag-chip span {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     color: var(--muted);
   }
 
-  .chip:hover {
+  .chip:hover,
+  .tag-chip:hover {
     border-color: var(--border-strong);
     color: var(--fg);
   }
 
-  .chip.is-active {
+  .chip[aria-pressed="true"],
+  .tag-chip[aria-pressed="true"] {
     background: var(--fg);
     border-color: var(--fg);
     color: var(--bg);
   }
 
-  .chip.is-active span {
+  .chip[aria-pressed="true"] span,
+  .tag-chip[aria-pressed="true"] span {
     color: var(--bg);
+  }
+
+  .toolbar-end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .link-button {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.8125rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+    padding: 0.25rem 0;
+  }
+
+  .link-button:hover {
+    color: var(--fg);
+  }
+
+  .sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  select {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--fg);
+    padding: 0.35rem 0.6rem;
+    font: inherit;
+    font-size: 0.8125rem;
+  }
+
+  .result {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
   }
 
   .project-grid {
@@ -124,5 +266,29 @@ const domainCount = counts.size;
 
   .project-grid > li > :global(*) {
     width: 100%;
+  }
+
+  .empty {
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+  }
+
+  .empty-title {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .empty-desc {
+    margin: 0.35rem 0 1.25rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .notice {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.875rem;
   }
 </style>

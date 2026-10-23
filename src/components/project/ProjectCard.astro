@@ -1,6 +1,7 @@
 ---
 import { DOMAIN_META } from "@/data/domains";
 import type { ProjectView } from "@/lib/content";
+import { formatYearRange } from "@/lib/seo";
 import Badge from "@/components/ui/Badge.astro";
 
 interface Props {
@@ -11,20 +12,11 @@ interface Props {
 const { project, index } = Astro.props;
 const { data, id } = project;
 const domain = DOMAIN_META[data.domain];
-const year = data.timeframe.ongoing
-  ? `${data.timeframe.start.slice(0, 4)} – 至今`
-  : data.timeframe.end
-    ? `${data.timeframe.start.slice(0, 4)} – ${data.timeframe.end.slice(0, 4)}`
-    : data.timeframe.start.slice(0, 4);
+const year = formatYearRange(data.timeframe);
 const number = String(index).padStart(2, "0");
 ---
 
-<article
-  class="project-card"
-  data-project-item
-  data-domain={data.domain}
-  data-tags={data.tags.join(" ")}
->
+<article class="project-card">
   <a class="card-link" href={`${import.meta.env.BASE_URL}projects/${id}/`}>
     <div class="card-top">
       <span class="mono-label">{number}</span>

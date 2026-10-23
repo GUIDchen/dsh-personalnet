@@ -5,11 +5,15 @@ import Button from "@/components/ui/Button.astro";
 import { profile } from "@/data/profile";
 import { SKILL_GROUPS } from "@/data/skills";
 import { TIMELINE } from "@/data/timeline";
+import JsonLd from "@/components/seo/JsonLd.astro";
+import { personJsonLd } from "@/lib/jsonld";
 
 const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="关于" description={profile.bio}>
+  <JsonLd data={personJsonLd()} />
+
   <header class="page-head">
     <p class="mono-label">关于 / 陈陇刚</p>
     <h1>

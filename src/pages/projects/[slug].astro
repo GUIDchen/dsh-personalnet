@@ -3,8 +3,11 @@ import { render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Badge from "@/components/ui/Badge.astro";
 import ProjectCard from "@/components/project/ProjectCard.astro";
+import Toc from "@/components/project/Toc.astro";
+import JsonLd from "@/components/seo/JsonLd.astro";
 import { getPublishedProjects, getRelatedProjects } from "@/lib/content";
 import { DOMAIN_META } from "@/data/domains";
+import { breadcrumbJsonLd, projectJsonLd } from "@/lib/jsonld";
 
 export async function getStaticPaths() {
   const projects = await getPublishedProjects();
@@ -12,7 +15,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
+const { Content, headings } = await render(project);
 const { data } = project;
 const domain = DOMAIN_META[data.domain];
 const statusLabels = {
@@ -31,6 +34,15 @@ const period = data.timeframe.ongoing
 ---
 
 <BaseLayout title={data.title} description={data.summary}>
+  <JsonLd data={projectJsonLd(project, `projects/${project.id}/`)} />
+  <JsonLd
+    data={breadcrumbJsonLd([
+      { name: "首页", path: "/" },
+      { name: "项目", path: "/projects/" },
+      { name: data.title, path: `projects/${project.id}/` },
+    ])}
+  />
+
   <nav class="crumbs" aria-label="面包屑">
     <ol>
       <li>
@@ -75,6 +87,8 @@ const period = data.timeframe.ongoing
         <Content />
       </div>
       <aside class="side" aria-label="项目信息">
+        <Toc headings={headings} />
+
         <section>
           <h2>技术栈</h2>
           <ul class="stack">
@@ -298,7 +312,7 @@ const period = data.timeframe.ongoing
     margin: 0;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 24rem));
   }
 
   .related-grid > li {

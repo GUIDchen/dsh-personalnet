@@ -9,6 +9,11 @@
 
 ### Added
 
+- 内容：12 个项目案例覆盖 7 个领域，标签词表 34 项；内容校验脚本检查字段、长度、标签、隐私。
+- 项目库支持领域/标签筛选、三种排序、URL 状态同步与无 JavaScript 降级。
+- 项目详情新增目录（TOC）与结构化数据（CreativeWork + BreadcrumbList）；首页/关于注入 Person 与 WebSite。
+- 新增 /rss.xml 与 /projects.json 机器可读输出。
+- 单元测试 17 项、E2E 9 项（WebKit）覆盖筛选、排序、TOC、供稿与主题/菜单。
 - 设计系统：OKLCH 令牌、双主题（跟随系统 + 手动切换）、自托管 Geist / JetBrains Mono 拉丁子集。
 - 站点骨架：Header / 导航 / 主题切换 / Footer / 按钮 / 徽标 / 章节标题 / 项目卡片。
 - 首页、项目库、项目详情、关于、404 的视觉实现与响应式布局（390–1920px）。

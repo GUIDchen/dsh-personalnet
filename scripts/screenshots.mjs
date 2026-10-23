@@ -23,7 +23,9 @@ const shots = [
   { path: "/", w: 1280, h: 900, name: "home-1280" },
   { path: "/", w: 1920, h: 1080, name: "home-1920" },
   { path: "/projects/", w: 1280, h: 900, name: "projects-1280" },
+  { path: "/projects/", w: 390, h: 844, name: "projects-390" },
   { path: "/projects/yolo-object-detection/", w: 1280, h: 900, name: "detail-1280" },
+  { path: "/projects/yolo-object-detection/", w: 390, h: 844, name: "detail-390" },
   { path: "/about/", w: 1280, h: 900, name: "about-1280" },
   { path: "/404.html", w: 1280, h: 900, name: "notfound-1280" },
 ];

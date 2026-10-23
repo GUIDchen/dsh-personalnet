@@ -1,0 +1,66 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const items = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+{items.length >= 3 && (
+  <nav class="toc" aria-label="目录">
+    <h2>目录</h2>
+    <ol>
+      {items.map((heading) => (
+        <li class:list={{ "toc-h3": heading.depth === 3 }}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<style>
+  .toc h2 {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .toc li {
+    padding-left: 0.75rem;
+  }
+
+  .toc li.toc-h3 {
+    padding-left: 1.5rem;
+  }
+
+  .toc a {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    color: var(--fg);
+  }
+</style>

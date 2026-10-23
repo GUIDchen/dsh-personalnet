@@ -31,7 +31,7 @@
 | 05 | [05-architecture.md](./05-architecture.md) | arc42 架构与 C4 视图 | Approved |
 | 06 | [06-design-system.md](./06-design-system.md) | 视觉语言与设计令牌 | Approved |
 | 07 | [07-information-architecture.md](./07-information-architecture.md) | 站点地图、页面规格 | Draft |
-| 08 | [08-content-model.md](./08-content-model.md) | 内容 schema 与写作规范 | Draft |
+| 08 | [08-content-model.md](./08-content-model.md) | 内容 schema 与写作规范 | Approved |
 | 09 | [09-seo-performance-a11y.md](./09-seo-performance-a11y.md) | SEO、性能预算、可访问性 | Draft |
 | 10 | [10-testing-strategy.md](./10-testing-strategy.md) | 测试策略与 CI 门禁 | Draft |
 | 11 | [11-deployment-operations.md](./11-deployment-operations.md) | 部署、运维、回滚 | Draft |

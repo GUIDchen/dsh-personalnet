@@ -18,7 +18,7 @@
 | M10 | 中英文界面、/en 路由、hreflang | 5851c19 | ci:verify、E2E 59、axe 17、LHCI 10 | 项目/笔记正文仍为中文 |
 | M11 | Sveltia 后台、内容模型、check-admin | 1ecadeb | ci:verify、E2E 61、Chrome 本地入口实测 | 线上认证需仓库与 PAT/OAuth |
 | M12 | 健康报告、maintenance workflow、长跑契约 | 6054c27 | ci:verify、pnpm health、E2E 61、axe 17 | 定时任务需远程仓库 |
-| M13 准备 | Pages 默认变量、deploy:check、BASE_PATH 校验 | 69da95e | ci:verify、E2E 61、子路径构建检查 | 等待远程仓库与 Pages 启用 |
+| M13 准备 | Pages 默认变量、deploy:check、BASE_PATH 校验 | 69da95e | ci:verify、E2E 61、子路径预览 6 路由 200 | 等待远程仓库与 Pages 启用 |
 
 ### 备注
 

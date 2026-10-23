@@ -38,6 +38,8 @@ node scripts/check-seo.mjs
 
 > `check-dist`、`check-budget` 与 `check:budget` 已支持 `BASE_PATH`；CI 默认根路径，Pages 子路径需带变量运行。
 
+已实测（2026-10-23）：用 `SITE_URL=https://guidchen.github.io`、`BASE_PATH=/dsh-personalnet/` 构建并预览，`/dsh-personalnet/`、`/projects/`、`/en/`、`/admin/`、`sitemap-index.xml` 与 `_astro` CSS 均返回 200。
+
 ## 3. 推送与部署
 
 1. 首次推送：`git push -u origin main`。

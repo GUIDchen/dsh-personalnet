@@ -7,8 +7,15 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- 项目库筛选栏由 hidden 改为首屏前由 .js 控制，消除 CLS 0.27 的布局偏移。
+- 项目库卡片标题按页面层级渲染为 h2，消除 h1→h3 的标题跳级。
+
 ### Added
 
+- 质量门禁：axe 扫描 6 个关键页面 0 serious/critical；体积预算（JS 6–8KB、CSS 5.5KB、字体 68KB）；构建产物集成校验（17 页、sitemap 15、RSS 12、JSON-LD、OG、内部链接）；Lighthouse CI 4 页全部达标（Performance 1.0、A11y 1.0、BP 1.0、SEO 1.0）。
+- 覆盖率达到 98.3% 语句 / 91.8% 分支，Vitest 阈值 80/70 生效。
 - 搜索：Pagefind 构建期索引（17 页）+ /search/ 自定义界面，⌘K / Ctrl+K 全局唤起，支持无结果态。
 - 视图过渡：ClientRouter，主题/菜单/筛选脚本在导航后重新初始化，Esc 与焦点行为有回归测试。
 - OG 图：13 张 1200×630 社交分享图；项目封面 1600×1000 经 astro:assets 输出 AVIF/WebP/JPG 响应式图片。
@@ -16,7 +23,7 @@
 - 项目库支持领域/标签筛选、三种排序、URL 状态同步与无 JavaScript 降级。
 - 项目详情新增目录（TOC）与结构化数据（CreativeWork + BreadcrumbList）；首页/关于注入 Person 与 WebSite。
 - 新增 /rss.xml 与 /projects.json 机器可读输出。
-- 单元测试 17 项、E2E 9 项（WebKit）覆盖筛选、排序、TOC、供稿与主题/菜单。
+- 单元测试 17 项、E2E 16 项（WebKit）覆盖筛选、排序、TOC、搜索、视图过渡、OG 与主题/菜单。
 - 设计系统：OKLCH 令牌、双主题（跟随系统 + 手动切换）、自托管 Geist / JetBrains Mono 拉丁子集。
 - 站点骨架：Header / 导航 / 主题切换 / Footer / 按钮 / 徽标 / 章节标题 / 项目卡片。
 - 首页、项目库、项目详情、关于、404 的视觉实现与响应式布局（390–1920px）。

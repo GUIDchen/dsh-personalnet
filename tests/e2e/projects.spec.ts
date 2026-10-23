@@ -34,10 +34,12 @@ test.describe("项目库筛选与排序", () => {
     await page.locator("[data-sort]").selectOption("title");
     await expect(page).toHaveURL(/sort=title/);
 
-    const domTitles = await page.locator("[data-project-item] .project-card h3").allTextContents();
+    const domTitles = await page
+      .locator("[data-project-item] .project-card .title")
+      .allTextContents();
     const expected = await page.evaluate(() => {
       const titles = [...document.querySelectorAll("[data-project-item]")].map(
-        (item) => item.querySelector("h3")?.textContent ?? "",
+        (item) => item.querySelector(".title")?.textContent ?? "",
       );
       return [...titles].sort((a, b) => a.localeCompare(b, "zh-Hans-CN"));
     });

@@ -48,7 +48,7 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
   </header>
 
   <div data-projects-root>
-    <div class="toolbar" data-filter-bar hidden>
+    <div class="toolbar" data-filter-bar>
       <div class="chip-row" role="group" aria-label="按领域筛选">
         <button type="button" class="chip" data-filter-domain="" aria-pressed="true">
           全部 <span>{projects.length}</span>
@@ -99,7 +99,7 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
           data-featured={String(project.data.featured)}
           data-order={String(project.data.order)}
         >
-          <ProjectCard project={project} index={index + 1} />
+          <ProjectCard project={project} index={index + 1} level={2} />
         </li>
       ))}
     </ul>

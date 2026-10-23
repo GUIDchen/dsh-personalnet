@@ -15,7 +15,6 @@ export function initProjectFilters(): void {
   root.dataset.bound = "true";
 
   const grid = root.querySelector<HTMLElement>("[data-project-grid]");
-  const bar = root.querySelector<HTMLElement>("[data-filter-bar]");
   if (!grid) return;
 
   const items = [...grid.querySelectorAll<HTMLElement>("li[data-project-item]")];
@@ -44,7 +43,6 @@ export function initProjectFilters(): void {
   const sortParam = params.get("sort");
   if (sortParam && SORTS.includes(sortParam as SortMode)) state.sort = sortParam as SortMode;
 
-  if (bar) bar.hidden = false;
   if (sortSelect) sortSelect.value = state.sort;
 
   const value = (item: HTMLElement, key: string): string => item.dataset[key] ?? "";

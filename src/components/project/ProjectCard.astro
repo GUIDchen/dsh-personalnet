@@ -7,9 +7,11 @@ import Badge from "@/components/ui/Badge.astro";
 interface Props {
   project: ProjectView;
   index: number;
+  level?: 2 | 3;
 }
 
-const { project, index } = Astro.props;
+const { project, index, level = 3 } = Astro.props;
+const Heading = level === 2 ? "h2" : "h3";
 const { data, id } = project;
 const domain = DOMAIN_META[data.domain];
 const year = formatYearRange(data.timeframe);
@@ -23,7 +25,7 @@ const number = String(index).padStart(2, "0");
       <span class="mono-label">{year}</span>
     </div>
     <p class="domain">{domain.label}</p>
-    <h3>{data.title}</h3>
+    <Heading class="title">{data.title}</Heading>
     <p class="summary">{data.summary}</p>
     <ul class="tags" aria-label="标签">
       {data.tags.slice(0, 3).map((tag) => (
@@ -77,13 +79,13 @@ const number = String(index).padStart(2, "0");
     color: var(--accent);
   }
 
-  h3 {
+  .title {
     margin: 0;
     font-size: clamp(1.15rem, 2vw, 1.4rem);
     letter-spacing: -0.01em;
   }
 
-  .card-link:hover h3 {
+  .card-link:hover .title {
     color: var(--accent);
   }
 

@@ -9,6 +9,14 @@ export default getViteConfig({
       provider: "v8",
       reportsDirectory: "coverage",
       include: ["src/lib/**/*.ts"],
+      // content.ts 依赖 astro:content，由构建产物集成测试覆盖。
+      exclude: ["src/lib/content.ts", "src/lib/types.ts"],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        branches: 70,
+        statements: 80,
+      },
     },
   },
 });

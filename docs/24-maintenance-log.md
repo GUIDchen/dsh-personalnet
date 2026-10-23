@@ -31,8 +31,8 @@
 | M20 | 后台 token-only 登录、登录指引、auth 校验 | 本提交 | Chrome token 登录成功、新建项目表单 | OAuth 仍需 Worker |
 | M21 | GitHub 项目索引、双语页、后台源、Actions 同步 | 744222f | 13 仓库、E2E 77、a11y 20、LHCI 11 | 首次 sync 成功 |
 | v2.4.0 | GitHub 项目与后台联动发布 | b1bb632 | 公网 200、sync/deploy success、tag/release | 真实截图/仓库 URL 仍待补 |
-| M23 | About/笔记/项目详情、安全页、CSS 背景 | 本提交 | E2E 81、a11y 22、LHCI 12 | — |
-| v2.5.0 | 阅读体验、安全模型与背景视觉 | 本提交 | 公网 200、CI/deploy success、tag/release | 真实截图/仓库 URL 仍待补 |
+| M23 | About/笔记/项目详情、安全页、CSS 背景 | 37779c5 | E2E 81、a11y 22、LHCI 12 | — |
+| v2.5.0 | 阅读体验、安全模型与背景视觉 | 37779c5 | 公网 200、deploy success、tag/release | 真实截图/仓库 URL 仍待补 |
 | 维护增强 | 内容证据审计、站点/媒体健康检查、链接容错 | 本提交 | health 12 项 0 失败 | — |
 
 ### 备注

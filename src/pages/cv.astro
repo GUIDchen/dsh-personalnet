@@ -1,0 +1,360 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { profile } from "@/data/profile";
+import { SKILL_GROUPS } from "@/data/skills";
+import { TIMELINE } from "@/data/timeline";
+import { getPublishedProjects } from "@/lib/content";
+import { formatPeriod } from "@/lib/seo";
+
+const projects = await getPublishedProjects();
+const work = TIMELINE.filter((item) => item.kind === "工作");
+const education = TIMELINE.filter((item) => item.kind === "教育");
+const research = TIMELINE.filter((item) => item.kind === "科研");
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="简历" description={`${profile.name} 的简历：技能、经历与项目。`}>
+  <article class="cv">
+    <header class="cv-head">
+      <div>
+        <p class="mono-label">简历 / CV</p>
+        <h1>{profile.name}</h1>
+        <p class="role">{profile.role}</p>
+      </div>
+      <address>
+        <p>{profile.location}</p>
+        <p>
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        </p>
+        <p>
+          <a href={`${base}`}>个人网站</a>
+        </p>
+      </address>
+    </header>
+
+    <div class="actions" data-cv-actions>
+      <button class="print-button" type="button" data-print>
+        打印 / 保存为 PDF
+      </button>
+      <a class="back" href={`${base}about/`}>
+        返回关于页
+      </a>
+    </div>
+
+    <section aria-labelledby="summary">
+      <h2 id="summary">概述</h2>
+      <p>{profile.bio}</p>
+    </section>
+
+    <section aria-labelledby="skills">
+      <h2 id="skills">技能</h2>
+      <dl class="skills">
+        {SKILL_GROUPS.map((group) => (
+          <div>
+            <dt>{group.label}</dt>
+            <dd>{group.items.join(" · ")}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section aria-labelledby="projects">
+      <h2 id="projects">项目经历</h2>
+      <ol class="items">
+        {projects.map((project) => (
+          <li>
+            <div class="item-head">
+              <h3>{project.data.title}</h3>
+              <span class="period">{formatPeriod(project.data.timeframe)}</span>
+            </div>
+            <p class="meta">
+              {project.data.role}
+              {project.data.team ? ` · ${project.data.team}` : ""}
+            </p>
+            <p class="summary">{project.data.summary}</p>
+            <p class="stack">{project.data.stack.join(" · ")}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section aria-labelledby="work">
+      <h2 id="work">工作经历</h2>
+      <ol class="items">
+        {work.map((item) => (
+          <li>
+            <div class="item-head">
+              <h3>{item.title}</h3>
+              <span class="period">{item.period}</span>
+            </div>
+            <p class="meta">{item.org}</p>
+            {item.detail && <p class="summary">{item.detail}</p>}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section aria-labelledby="research">
+      <h2 id="research">科研经历</h2>
+      <ol class="items">
+        {research.map((item) => (
+          <li>
+            <div class="item-head">
+              <h3>{item.title}</h3>
+              <span class="period">{item.period}</span>
+            </div>
+            <p class="meta">{item.org}</p>
+            {item.detail && <p class="summary">{item.detail}</p>}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section aria-labelledby="education">
+      <h2 id="education">教育背景</h2>
+      <ol class="items">
+        {education.map((item) => (
+          <li>
+            <div class="item-head">
+              <h3>{item.title}</h3>
+              <span class="period">{item.period}</span>
+            </div>
+            <p class="meta">{item.org}</p>
+            {item.detail && <p class="summary">{item.detail}</p>}
+          </li>
+        ))}
+      </ol>
+    </section>
+  </article>
+</BaseLayout>
+
+<script>
+  function initCv(): void {
+    const button = document.querySelector<HTMLButtonElement>("[data-print]");
+    if (!button || button.dataset.bound === "true") return;
+    button.dataset.bound = "true";
+    button.addEventListener("click", () => window.print());
+  }
+
+  document.addEventListener("astro:page-load", initCv);
+</script>
+
+<style>
+  .cv {
+    max-width: 52rem;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .cv-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  .cv-head h1 {
+    margin: 0.35rem 0 0.25rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.03em;
+  }
+
+  .role {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  address {
+    font-style: normal;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  address p {
+    margin: 0.15rem 0;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-block: 1.5rem 2rem;
+  }
+
+  .back {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .print-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-md);
+    background: var(--accent);
+    color: var(--accent-fg);
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .print-button:hover {
+    background: color-mix(in oklch, var(--accent) 88%, black);
+  }
+
+  section {
+    margin-top: 2rem;
+    break-inside: avoid-page;
+  }
+
+  h2 {
+    margin: 0 0 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  section > p {
+    margin: 0;
+    max-width: 46rem;
+  }
+
+  .skills {
+    display: grid;
+    gap: 0.6rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    margin: 0;
+  }
+
+  .skills div {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+  }
+
+  .skills dt {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .skills dd {
+    margin: 0;
+  }
+
+  .items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .items li {
+    padding-block: 0.9rem;
+    border-top: 1px solid var(--border);
+    break-inside: avoid;
+  }
+
+  .item-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .item-head h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .period {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .meta {
+    margin: 0.2rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--accent);
+  }
+
+  .summary {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+  }
+
+  .stack {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  @media print {
+    :global(.site-header),
+    :global(.site-footer),
+    :global(.skip-link),
+    [data-cv-actions] {
+      display: none !important;
+    }
+
+    :global(body) {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 10.5pt;
+    }
+
+    :global(main) {
+      padding: 0 !important;
+    }
+
+    .cv {
+      max-width: none;
+    }
+
+    .cv-head {
+      border-bottom-color: #999;
+    }
+
+    .role,
+    address,
+    .summary,
+    .stack,
+    .skills dt,
+    .period,
+    h2 {
+      color: #333 !important;
+    }
+
+    .meta {
+      color: #000 !important;
+    }
+
+    .items li {
+      border-top-color: #ccc;
+    }
+
+    a {
+      color: #000 !important;
+      text-decoration: none;
+    }
+
+    @page {
+      size: A4;
+      margin: 16mm;
+    }
+  }
+</style>

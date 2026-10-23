@@ -1,6 +1,6 @@
 {
   "name": "dsh-personalnet",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "个人网站：7 个领域、12 个项目案例的作品集（Astro 7 + Tailwind 4）",
@@ -33,7 +33,9 @@
     "test:coverage": "vitest run --coverage",
     "test:integration": "node scripts/check-dist.mjs",
     "check:budget": "node scripts/check-budget.mjs",
-    "perf": "lhci autorun"
+    "perf": "lhci autorun",
+    "new:project": "node scripts/new-project.mjs",
+    "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.4",

@@ -19,7 +19,7 @@
 | M4 | 进阶体验 | 搜索、过渡、滚动动效、OG、图片优化 | 预算达标、搜索可用 | ✅ 完成 |
 | M5 | 质量门禁 | 单测/集成/e2e/a11y/LHCI | `pnpm ci:verify` 全绿 | ✅ 完成 |
 | M6 | 开源发布 | LICENSE、社区文件、CHANGELOG、v1.0.0 | 部署成功、文档 Approved | ✅ 完成 |
-| M7 | 长期运营 | notes、英文、CMS、打印样式、升级 | 按 Backlog 推进 | 进行中 |
+| M7 | 长期运营 | 维护手册、简历打印页、robots、内容脚手架、链接检查 | 维护基线交付；其余按 Backlog 推进 | ✅ 基线完成 |
 
 ## 2. Backlog
 

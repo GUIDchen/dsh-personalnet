@@ -63,9 +63,22 @@ for (const file of htmlFiles) {
 // sitemap
 const sitemap = exists("sitemap-0.xml") ? read("sitemap-0.xml") : "";
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-if (sitemapUrls.length !== 15) errors.push(`sitemap URL 应为 15 个，实际 ${sitemapUrls.length}`);
+if (sitemapUrls.length !== 16) errors.push(`sitemap URL 应为 16 个，实际 ${sitemapUrls.length}`);
 if (sitemapUrls.some((url) => url.includes("/search/"))) errors.push("sitemap 不应包含搜索页");
 if (sitemapUrls.some((url) => url.endsWith("/404/"))) errors.push("sitemap 不应包含 404");
+
+// robots
+const robots = exists("robots.txt") ? read("robots.txt") : "";
+if (!robots) errors.push("缺少 robots.txt");
+else {
+  if (!robots.includes("Disallow: /search/")) errors.push("robots.txt 未禁止搜索页");
+  if (!/Sitemap: https?:\/\/.+sitemap-index\.xml/.test(robots)) {
+    errors.push("robots.txt 未声明 sitemap 绝对地址");
+  }
+}
+
+// 简历页
+if (!exists("cv/index.html")) errors.push("缺少简历页 cv/index.html");
 
 // RSS
 const rss = exists("rss.xml") ? read("rss.xml") : "";

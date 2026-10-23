@@ -8,7 +8,7 @@
 |---|---|
 | 项目 | dsh-personalnet（个人网站） |
 | 文档负责人 | 陈陇刚 |
-| 状态 | Approved（v1.0.0） |
+| 状态 | Approved（v1.1.0） |
 | 最后更新 | 2026-10-23 |
 | 文档语言 | 简体中文（术语首现保留英文） |
 
@@ -40,6 +40,7 @@
 | 14 | [14-content-migration.md](./14-content-migration.md) | 简历到站点的内容迁移 | Approved |
 | 15 | [15-writing-style.md](./15-writing-style.md) | 中文写作与图表规范 | Approved |
 | 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
+| 17 | [17-maintenance-runbook.md](./17-maintenance-runbook.md) | 维护手册（发布/升级/内容/故障） | Approved |
 | ADR | [adr/](./adr/) | 12 篇架构决策记录 | Approved |
 
 ## 文档规则
@@ -56,3 +57,4 @@
 |---|---|---|
 | 2026-10-23 | 0.1.0 | 建立 M0 文档基线：00–05、12 篇 ADR |
 | 2026-10-23 | 1.0.0 | 全部文档 Approved，补充搜索、OG/封面、质量门禁与开源发布说明 |
+| 2026-10-23 | 1.1.0 | 新增维护手册、简历打印页与 robots；补充内容脚手架说明 |

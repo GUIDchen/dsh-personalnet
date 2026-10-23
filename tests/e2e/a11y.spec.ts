@@ -6,6 +6,7 @@ const pages = [
   { path: "/projects/", name: "项目库" },
   { path: "/projects/yolo-object-detection/", name: "项目详情" },
   { path: "/about/", name: "关于" },
+  { path: "/cv/", name: "简历" },
   { path: "/search/", name: "搜索" },
   { path: "/404.html", name: "404" },
 ];

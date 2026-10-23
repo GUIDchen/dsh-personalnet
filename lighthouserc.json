@@ -6,7 +6,8 @@
         "http://127.0.0.1:4321/",
         "http://127.0.0.1:4321/projects/",
         "http://127.0.0.1:4321/projects/yolo-object-detection/",
-        "http://127.0.0.1:4321/about/"
+        "http://127.0.0.1:4321/about/",
+        "http://127.0.0.1:4321/cv/"
       ],
       "numberOfRuns": 1,
       "settings": {

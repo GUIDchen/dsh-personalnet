@@ -82,10 +82,13 @@ for (const file of files) {
     errors.push(`${file}: 摘要长度 ${summary.length}（20–200）`);
   }
 
+  const isDraft = /^draft:\s*true/m.test(fm);
   const body = text.slice(text.indexOf("\n---", 3) + 4);
-  for (const section of SECTIONS) {
-    if (!new RegExp("^## " + section, "m").test(body)) {
-      warnings.push(`${file}: 缺少小节「${section}」`);
+  if (!isDraft) {
+    for (const section of SECTIONS) {
+      if (!new RegExp("^## " + section, "m").test(body)) {
+        warnings.push(`${file}: 缺少小节「${section}」`);
+      }
     }
   }
 
@@ -98,10 +101,18 @@ for (const file of files) {
 }
 
 const domainsUsed = new Set();
+let published = 0;
+let drafts = 0;
 for (const file of files) {
   const fm = readFileSync(join(PROJECTS_DIR, file), "utf8");
   const domain = /^domain:\s*(\S+)/m.exec(fm)?.[1];
   if (domain) domainsUsed.add(domain);
+
+  if (/^draft:\s*true/m.test(fm)) {
+    drafts += 1;
+    continue;
+  }
+  published += 1;
 
   const slug = file.replace(/\.mdx$/, "");
   if (!existsSync(join(ROOT, "public/og", slug + ".jpg"))) {
@@ -114,7 +125,7 @@ if (!existsSync(join(ROOT, "public/og/default.jpg"))) {
 }
 
 console.log("内容校验");
-console.log("  项目: " + files.length);
+console.log("  项目: " + published + "（草稿 " + drafts + "）");
 console.log("  领域: " + domainsUsed.size + " / " + DOMAINS.size);
 console.log("  标签词表: " + TAGS.size);
 console.log("  错误: " + errors.length);

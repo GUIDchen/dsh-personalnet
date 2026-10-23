@@ -26,6 +26,7 @@
 | M4     | 搜索、动效、OG、图片优化              | ✅ 完成 |
 | M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成 |
 | M6     | MIT 开源发布 v1.0.0                   | ✅ 完成 |
+| M7     | 维护基线（手册/简历页/robots/脚手架） | ✅ 完成 |
 
 ## 技术栈
 
@@ -68,6 +69,8 @@ pnpm perf            # Lighthouse CI
 pnpm test:docs       # 文档索引与结构
 pnpm test:content    # 内容与隐私校验
 pnpm gen:og          # 重新生成 OG 图与封面（需先 build）
+pnpm new:project     # 新建项目骨架（草稿）
+pnpm check:links     # 外部链接检查
 ```
 
 ## 部署
@@ -77,6 +80,13 @@ pnpm gen:og          # 重新生成 OG 图与封面（需先 build）
 3. push 到 `main` 后由 [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) 构建并发布。
 
 Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.md)。
+
+## 维护
+
+- 发布、升级、内容运营、故障处理与回滚：[维护手册](./docs/17-maintenance-runbook.md)
+- 新增项目：`pnpm new:project <slug>` → 填写 → `pnpm test:content` → `pnpm build && pnpm gen:og`
+- 例行检查：每周 `pnpm check:links`、每月依赖升级、每季度 `pnpm perf` 与手工可访问性走查
+- 版本策略：SemVer + annotated tag；`CHANGELOG.md` 记录每个版本
 
 ## 目录结构
 

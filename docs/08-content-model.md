@@ -139,11 +139,12 @@ draft: false
 
 ## 9. 内容工作流
 
-1. `pnpm new:project <slug>` 生成骨架。
-2. 填写 frontmatter 与正文。
-3. `pnpm dev` 预览；`pnpm test:content` 校验。
-4. 提交 PR；CI 通过后合并，自动部署。
-5. `CHANGELOG.md` 记录新增项目。
+1. `pnpm new:project <slug>` 生成草稿骨架（`draft: true`，不会进入构建）。
+2. 填写 frontmatter 与正文，补封面（可选）。
+3. `pnpm dev` 预览；`pnpm test:content` 校验（草稿跳过 OG 与小节检查）。
+4. `pnpm build && pnpm gen:og` 重新生成 OG 图与封面；把 `draft` 改为 `false`。
+5. 提交 PR；CI 通过后合并，自动部署。
+6. `CHANGELOG.md` 记录新增项目。
 
 ## 10. 内容清单（与 14 号文档对应）
 

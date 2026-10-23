@@ -30,6 +30,7 @@
     "test:content": "node scripts/check-content.mjs",
     "check:site": "node scripts/check-site-data.mjs",
     "check:media": "node scripts/check-media.mjs",
+    "audit:content": "node scripts/content-audit.mjs",
     "check:admin": "node scripts/check-admin.mjs",
     "health": "node scripts/health-report.mjs",
     "deploy:check": "node scripts/deploy-preflight.mjs",

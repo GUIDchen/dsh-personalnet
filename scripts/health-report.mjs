@@ -12,6 +12,9 @@ mkdirSync(resolve(root, "reports"), { recursive: true });
 
 const checks = [
   { name: "内容模型", command: "node scripts/check-content.mjs" },
+  { name: "站点资料", command: "node scripts/check-site-data.mjs" },
+  { name: "媒体", command: "node scripts/check-media.mjs" },
+  { name: "内容证据", command: "node scripts/content-audit.mjs" },
   { name: "SEO", command: "node scripts/check-seo.mjs" },
   { name: "构建产物", command: "node scripts/check-dist.mjs" },
   { name: "管理后台", command: "node scripts/check-admin.mjs" },

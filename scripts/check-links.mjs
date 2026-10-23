@@ -2,7 +2,7 @@
 /**
  * 外部链接检查：扫描 dist HTML 中的 http(s) 链接并发起请求。
  * 构建后运行：node scripts/check-links.mjs
- * 说明：403/405 记为警告（部分站点拒绝自动请求），网络错误与 4xx/5xx 记为失败。
+ * 说明：403/405 与网络错误记为警告（部分站点/环境拒绝自动请求）；404/410/5xx 记为失败。
  */
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -66,12 +66,16 @@ async function worker() {
 
 await Promise.all(Array.from({ length: 5 }, worker));
 
-const failures = results.filter((result) => !result.ok);
+const tolerated = (result) =>
+  !result.ok && (result.status === 0 || result.status === 403 || result.status === 405);
+const warnings = results.filter(tolerated);
+const failures = results.filter((result) => !result.ok && !tolerated(result));
 console.log("外部链接检查");
 console.log("  链接: " + results.length);
 console.log("  失败: " + failures.length);
+console.log("  警告: " + warnings.length);
 for (const result of results) {
-  const mark = result.ok ? "ok  " : "FAIL";
+  const mark = result.ok ? "ok  " : tolerated(result) ? "WARN" : "FAIL";
   console.log("  " + mark + " " + result.status + " " + result.url);
 }
 

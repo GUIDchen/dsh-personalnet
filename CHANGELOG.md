@@ -5,6 +5,17 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [Unreleased]
+
+### Added
+
+- `pnpm audit:content` 内容证据报告：源码/封面/图库/指标/外部链接。
+- 健康报告增加站点资料、媒体与内容证据检查，共 10 项。
+
+### Changed
+
+- 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
+
 ## [2.3.0] - 2026-10-23
 
 双语内容与长期完善版本。

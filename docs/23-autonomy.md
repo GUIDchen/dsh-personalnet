@@ -25,7 +25,7 @@
 - 脚本：`scripts/health-report.mjs`（先 `pnpm build`，再运行 `pnpm health`）
 - 输出：`reports/health.md`（gitignored），并上传为 Actions artifact
 - 汇总：查找带 `maintenance` 标签且含标记的 open Issue，存在则更新，不存在则创建；检查失败时 job 最终为失败
-- 报告包含：生成时间、分支、commit、Node 版本、每项检查结果与耗时、失败项、每项最后 80 行输出
+- 报告包含：生成时间、分支、commit、Node 版本、每项检查结果与耗时、失败项、每项最后 80 行输出；检查含内容模型、站点资料、媒体、内容证据、SEO、产物、后台、对比度、预算与外部链接（10 项）。
 
 手动触发：Actions → maintenance → Run workflow；本地等价命令：
 
@@ -89,6 +89,6 @@ pnpm health
 
 1. 先看 `reports/health.md` 的失败项与最后 80 行输出。
 2. 能本地复现的，按"失败测试 → 最小修复 → 回归"处理。
-3. 外部链接/网络抖动：区分 403/405 与 404，前者降级为警告。
+3. 外部链接/网络抖动：403/405 与网络错误降级为警告；404/410/5xx 仍为失败。
 4. 定时任务本身失败：检查 workflow 权限、Node/pnpm 版本、Issue 标签是否存在。
 5. 连续失败：暂停自动修改，先修基础设施。

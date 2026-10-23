@@ -29,7 +29,7 @@
 | 03 | [03-research-landscape.md](./03-research-landscape.md) | 技术方案调研（前端、后端、周边） | Approved |
 | 04 | [04-technology-comparison.md](./04-technology-comparison.md) | 加权对比、敏感性分析、结论 | Approved |
 | 05 | [05-architecture.md](./05-architecture.md) | arc42 架构与 C4 视图 | Approved |
-| 06 | [06-design-system.md](./06-design-system.md) | 视觉语言与设计令牌 | Draft |
+| 06 | [06-design-system.md](./06-design-system.md) | 视觉语言与设计令牌 | Approved |
 | 07 | [07-information-architecture.md](./07-information-architecture.md) | 站点地图、页面规格 | Draft |
 | 08 | [08-content-model.md](./08-content-model.md) | 内容 schema 与写作规范 | Draft |
 | 09 | [09-seo-performance-a11y.md](./09-seo-performance-a11y.md) | SEO、性能预算、可访问性 | Draft |

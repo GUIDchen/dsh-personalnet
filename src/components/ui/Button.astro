@@ -1,0 +1,81 @@
+---
+interface Props {
+  href?: string;
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "md" | "lg";
+  type?: "button" | "submit";
+  class?: string;
+}
+
+const { href, variant = "primary", size = "md", type = "button", class: className } = Astro.props;
+const classes = ["btn", `btn--${variant}`, `btn--${size}`, className].filter(Boolean).join(" ");
+---
+
+{href ? (
+  <a href={href} class={classes}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes}>
+    <slot />
+  </button>
+)}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    min-height: 44px;
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      border-color var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out);
+  }
+
+  .btn--md {
+    padding: 0.7rem 1.1rem;
+  }
+
+  .btn--lg {
+    padding: 0.9rem 1.4rem;
+    font-size: 1rem;
+  }
+
+  .btn--primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+  }
+
+  .btn--primary:hover {
+    background: color-mix(in oklch, var(--accent) 88%, black);
+    color: var(--accent-fg);
+  }
+
+  .btn--secondary {
+    border-color: var(--border-strong);
+    color: var(--fg);
+  }
+
+  .btn--secondary:hover {
+    background: var(--surface);
+    color: var(--fg);
+  }
+
+  .btn--ghost {
+    color: var(--muted);
+    padding-inline: 0.35rem;
+  }
+
+  .btn--ghost:hover {
+    color: var(--fg);
+  }
+</style>

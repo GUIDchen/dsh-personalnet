@@ -1,0 +1,46 @@
+---
+interface Props {
+  tone?: "neutral" | "accent" | "outline";
+  mono?: boolean;
+}
+
+const { tone = "neutral", mono = false } = Astro.props;
+---
+
+<span class:list={["badge", `badge--${tone}`, { "badge--mono": mono }]}>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    color: var(--muted);
+  }
+
+  .badge--mono {
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+
+  .badge--neutral {
+    background: var(--surface);
+  }
+
+  .badge--outline {
+    border-color: var(--border);
+  }
+
+  .badge--accent {
+    color: var(--accent);
+    border-color: color-mix(in oklch, var(--accent) 40%, transparent);
+    background: color-mix(in oklch, var(--accent) 10%, transparent);
+  }
+</style>

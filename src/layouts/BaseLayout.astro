@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
+import Meta from "@/components/seo/Meta.astro";
 import { profile } from "@/data/profile";
 
 interface Props {
@@ -9,9 +12,6 @@ interface Props {
 }
 
 const { title, description = profile.tagline, noindex = false } = Astro.props;
-const siteName = profile.name;
-const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -19,15 +19,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{fullTitle}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <Meta title={title} description={description} noindex={noindex} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <script is:inline>
       (() => {
+        document.documentElement.classList.add("js");
         try {
           const stored = localStorage.getItem("theme");
           const theme =
@@ -47,30 +43,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <a class="skip-link" href="#main">
       跳到主要内容
     </a>
-    <header class="site-header page-shell">
-      <a class="brand" href={import.meta.env.BASE_URL}>
-        {profile.name}
-      </a>
-      <nav aria-label="主导航">
-        <ul class="nav-list">
-          <li>
-            <a href={`${import.meta.env.BASE_URL}projects/`}>项目</a>
-          </li>
-          <li>
-            <a href={`${import.meta.env.BASE_URL}about/`}>关于</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <main id="main" class="page-shell">
-      <slot />
+    <Header />
+    <main id="main">
+      <div class="page-shell">
+        <slot />
+      </div>
     </main>
-    <footer class="site-footer page-shell">
-      <p>
-        © {new Date().getFullYear()} {profile.name} ·{" "}
-        <a href={`${import.meta.env.BASE_URL}`}>首页</a>
-      </p>
-    </footer>
+    <Footer />
   </body>
 </html>
 
@@ -84,45 +63,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     color: var(--accent-fg);
     padding: 0.75rem 1rem;
   }
+
   .skip-link:focus {
     left: 1rem;
     top: 1rem;
   }
-  .site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding-block: 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .brand {
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: -0.01em;
-  }
-  .nav-list {
-    display: flex;
-    gap: 1.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .nav-list a {
-    text-decoration: none;
-    color: var(--muted);
-  }
-  .nav-list a:hover {
-    color: var(--fg);
-  }
+
   main {
-    padding-block: clamp(3rem, 8vw, 6rem);
+    padding-block: clamp(2.5rem, 6vw, 5rem) 0;
     min-height: 60svh;
-  }
-  .site-footer {
-    border-top: 1px solid var(--border);
-    padding-block: 2rem;
-    color: var(--muted);
-    font-size: 0.875rem;
   }
 </style>

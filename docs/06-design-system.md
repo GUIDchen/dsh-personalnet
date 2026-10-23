@@ -1,7 +1,7 @@
 ---
 文档编号: 06
 标题: 设计系统
-状态: Draft
+状态: Approved
 最后更新: 2026-10-23
 维护者: 陈陇刚
 ---
@@ -89,6 +89,8 @@
 --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 ```
 
+字体文件为 latin 子集自托管（SIL OFL 1.1，许可证随文件存于 `src/assets/fonts/`）。
+
 规则：标题使用 `text-wrap: balance`，正文段落使用 `text-wrap: pretty`；英文与中文之间不手动加空格（由排版规则处理）；不使用 `text-align: justify`。
 
 ## 5. 间距与栅格
@@ -127,10 +129,10 @@
 
 ## 8. 主题
 
-- 三态：`light` / `dark` / `system`；默认 `system`。
+- 三态：`light` / `dark` / `system`；默认 `system`。点击顺序：跟随系统 → 与系统相反的显式主题 → 另一显式主题 → 跟随系统。
 - 首屏内联脚本读取 `localStorage.theme` 并设置 `document.documentElement.dataset.theme`，避免闪烁。
 - 颜色使用 `light-dark()` 或 `[data-theme="dark"]` 变量覆盖，二者不混用。
-- 主题切换按钮为 `<button aria-pressed>`，带文字标签（不只图标）。
+- 主题切换按钮为 `<button aria-pressed>`：`aria-pressed` 表示当前是否为深色，`aria-label` 同时描述当前状态与下一步操作。
 
 ## 9. 图像与图标
 

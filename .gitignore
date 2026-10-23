@@ -37,3 +37,5 @@ pnpm-debug.log*
 # misc
 *.tsbuildinfo
 .turbo/
+# local artifacts
+.artifacts/

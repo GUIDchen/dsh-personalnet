@@ -1,0 +1,78 @@
+---
+import { profile } from "@/data/profile";
+
+const base = import.meta.env.BASE_URL;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="page-shell inner">
+    <div>
+      <p class="name">
+        {profile.name} <span class="mono-label">/ {profile.nameEn}</span>
+      </p>
+      <p class="meta">© {year} · 代码以 MIT 许可开源 · 内容保留版权</p>
+    </div>
+    <nav aria-label="页脚导航">
+      <ul>
+        <li>
+          <a href={`${base}projects/`}>项目</a>
+        </li>
+        <li>
+          <a href={`${base}about/`}>关于</a>
+        </li>
+        <li>
+          <a href={`mailto:${profile.email}`}>邮箱</a>
+        </li>
+        <li>
+          <a href="#main">回到顶部</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: clamp(4rem, 10vw, 8rem);
+    padding-block: 5rem 3rem;
+  }
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .name {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .meta {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  a:hover {
+    color: var(--fg);
+  }
+</style>

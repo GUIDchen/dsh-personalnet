@@ -14,8 +14,8 @@
 |---|---|---|---|---|
 | M0 | 决策与文档基线 | docs/00–05、12 篇 ADR、README、文档索引、Git 初始化 | `pnpm test:docs` 通过 | ✅ 完成 |
 | M1 | 工程脚手架与 CI | Astro 7 工程、Tailwind 4、ESLint/Prettier、Vitest/Playwright、CI | `pnpm build` 成功、CI 绿 | ✅ 完成 |
-| M2 | 设计系统与骨架 | 令牌、布局、Header/Footer/主题、基础组件、首页骨架 | LH ≥95、4 断点截图 | 进行中 |
-| M3 | 内容与页面 | schema、12 个案例、首页/项目库/详情/关于/404/RSS | 12 页构建、JSON-LD 校验 | 待开始 |
+| M2 | 设计系统与骨架 | 令牌、布局、Header/Footer/主题、基础组件、首页骨架 | LH ≥95、4 断点截图 | ✅ 完成 |
+| M3 | 内容与页面 | schema、12 个案例、首页/项目库/详情/关于/404/RSS | 12 页构建、JSON-LD 校验 | 进行中 |
 | M4 | 进阶体验 | 搜索、过渡、滚动动效、OG、图片优化 | 预算达标、搜索可用 | 待开始 |
 | M5 | 质量门禁 | 单测/集成/e2e/a11y/LHCI | `pnpm ci:verify` 全绿 | 待开始 |
 | M6 | 开源发布 | LICENSE、社区文件、CHANGELOG、v1.0.0 | 部署成功、文档 Approved | 待开始 |

@@ -1,0 +1,131 @@
+---
+import { DOMAIN_META } from "@/data/domains";
+import type { ProjectView } from "@/lib/content";
+import Badge from "@/components/ui/Badge.astro";
+
+interface Props {
+  project: ProjectView;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const { data, id } = project;
+const domain = DOMAIN_META[data.domain];
+const year = data.timeframe.ongoing
+  ? `${data.timeframe.start.slice(0, 4)} – 至今`
+  : data.timeframe.end
+    ? `${data.timeframe.start.slice(0, 4)} – ${data.timeframe.end.slice(0, 4)}`
+    : data.timeframe.start.slice(0, 4);
+const number = String(index).padStart(2, "0");
+---
+
+<article
+  class="project-card"
+  data-project-item
+  data-domain={data.domain}
+  data-tags={data.tags.join(" ")}
+>
+  <a class="card-link" href={`${import.meta.env.BASE_URL}projects/${id}/`}>
+    <div class="card-top">
+      <span class="mono-label">{number}</span>
+      <span class="mono-label">{year}</span>
+    </div>
+    <p class="domain">{domain.label}</p>
+    <h3>{data.title}</h3>
+    <p class="summary">{data.summary}</p>
+    <ul class="tags" aria-label="标签">
+      {data.tags.slice(0, 3).map((tag) => (
+        <li>
+          <Badge tone="outline" mono>
+            {tag}
+          </Badge>
+        </li>
+      ))}
+    </ul>
+    <span class="arrow" aria-hidden="true">
+      →
+    </span>
+  </a>
+</article>
+
+<style>
+  .project-card {
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklch, var(--surface) 55%, transparent);
+    transition:
+      border-color var(--dur-2) var(--ease-out),
+      background-color var(--dur-2) var(--ease-out);
+  }
+
+  .project-card:hover {
+    border-color: var(--border-strong);
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.1rem, 2.5vw, 1.6rem);
+    height: 100%;
+    text-decoration: none;
+    position: relative;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .domain {
+    margin: 0.35rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--accent);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    letter-spacing: -0.01em;
+  }
+
+  .card-link:hover h3 {
+    color: var(--accent);
+  }
+
+  .summary {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+  }
+
+  .arrow {
+    margin-top: auto;
+    padding-top: 1rem;
+    color: var(--muted);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .card-link:hover .arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-link:hover .arrow {
+      transform: none;
+    }
+  }
+</style>

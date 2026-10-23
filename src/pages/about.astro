@@ -1,44 +1,233 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Button from "@/components/ui/Button.astro";
 import { profile } from "@/data/profile";
+import { SKILL_GROUPS } from "@/data/skills";
+import { TIMELINE } from "@/data/timeline";
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="关于" description={profile.bio}>
-  <h1>关于</h1>
-  <p class="lead">{profile.bio}</p>
-  <dl class="facts">
-    <div>
-      <dt>地点</dt>
-      <dd>{profile.location}</dd>
+  <header class="page-head">
+    <p class="mono-label">关于 / 陈陇刚</p>
+    <h1>
+      把问题拆开，
+      <br />
+      再把它做完。
+    </h1>
+    <p class="lead">{profile.bio}</p>
+    <div class="actions">
+      <Button href={`mailto:${profile.email}`}>邮件联系</Button>
+      <Button href={`${base}projects/`} variant="secondary">
+        查看项目
+      </Button>
     </div>
-    <div>
-      <dt>邮箱</dt>
-      <dd>
-        <a href={`mailto:${profile.email}`}>{profile.email}</a>
-      </dd>
+  </header>
+
+  <section class="section" aria-labelledby="story-title">
+    <h2 id="story-title">自述</h2>
+    <div class="prose story">
+      <p>
+        我是一名软件工程硕士，研究方向是智能算法、计算机视觉与数据挖掘。过去几年里，我在科研项目里做数据采集、清洗、建模与实验，
+        也在工程项目里做目标检测、知识图谱、数据分析与 Web 系统。
+      </p>
+      <p>
+        我的工作方式偏"工程化"：先确认问题和约束，再选一个能验证的最小方案，跑通之后才谈优化。
+        写代码之外，我也在意文档、可复现性与交付质量——这些决定了项目能不能被别人接住。
+      </p>
+      <p>
+        目前我在做 AI 数据处理相关的独立开发，同时补嵌入式与 Verilog
+        的工程能力。我希望把算法、数据与系统三件事连起来， 做出真正能用、能维护的东西。
+      </p>
     </div>
-  </dl>
+  </section>
+
+  <section class="section" aria-labelledby="skills-title">
+    <h2 id="skills-title">技能</h2>
+    <div class="skills">
+      {SKILL_GROUPS.map((group) => (
+        <div>
+          <h3>{group.label}</h3>
+          <ul>
+            {group.items.map((item) => (
+              <li>
+                <Badge tone="outline">{item}</Badge>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="timeline-title">
+    <h2 id="timeline-title">教育与经历</h2>
+    <ol class="timeline">
+      {TIMELINE.map((item) => (
+        <li>
+          <span class="period">{item.period}</span>
+          <div>
+            <h3>{item.title}</h3>
+            <p class="org">{item.org}</p>
+            {item.detail && <p class="detail">{item.detail}</p>}
+          </div>
+          <span class="kind">{item.kind}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="section" aria-labelledby="contact-title">
+    <h2 id="contact-title">联系</h2>
+    <p class="contact-line">
+      <span class="mono-label">邮箱</span>
+      <a href={`mailto:${profile.email}`}>{profile.email}</a>
+    </p>
+    <p class="contact-line">
+      <span class="mono-label">地点</span>
+      <span>{profile.location}</span>
+    </p>
+  </section>
 </BaseLayout>
 
 <style>
+  .page-head {
+    max-width: 48rem;
+  }
+
+  h1 {
+    margin: 0.75rem 0 1.5rem;
+    font-size: clamp(2.25rem, 6vw, 4.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+  }
+
   .lead {
-    max-width: 46rem;
-    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-    color: var(--muted);
-  }
-  .facts {
-    display: flex;
-    gap: 2.5rem;
-    flex-wrap: wrap;
-    margin-top: 2.5rem;
-  }
-  dt {
-    color: var(--muted);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  dd {
     margin: 0;
+    font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+    color: var(--muted);
+    max-width: 40rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .section {
+    margin-top: clamp(3.5rem, 8vw, 6rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section h2 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+    letter-spacing: -0.02em;
+  }
+
+  .story {
+    max-width: 44rem;
+  }
+
+  .skills {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+
+  .skills h3 {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .skills ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .timeline li {
+    display: grid;
+    grid-template-columns: 10rem 1fr auto;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+
+  .period {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .timeline h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .org {
+    margin: 0.2rem 0 0;
+    font-size: 0.875rem;
+    color: var(--accent);
+  }
+
+  .detail {
+    margin: 0.45rem 0 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+    max-width: 44rem;
+  }
+
+  .kind {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.55rem;
+  }
+
+  .contact-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 0 0 0.75rem;
+  }
+
+  .contact-line a {
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 767px) {
+    .timeline li {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+
+    .kind {
+      justify-self: start;
+    }
   }
 </style>

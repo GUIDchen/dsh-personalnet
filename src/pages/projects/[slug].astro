@@ -1,7 +1,9 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
 import { render } from "astro:content";
-import { getPublishedProjects } from "@/lib/content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Badge from "@/components/ui/Badge.astro";
+import ProjectCard from "@/components/project/ProjectCard.astro";
+import { getPublishedProjects, getRelatedProjects } from "@/lib/content";
 import { DOMAIN_META } from "@/data/domains";
 
 export async function getStaticPaths() {
@@ -13,84 +15,312 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 const { data } = project;
 const domain = DOMAIN_META[data.domain];
+const statusLabels = {
+  active: "进行中",
+  completed: "已完成",
+  archived: "已归档",
+  experimental: "实验性",
+} as const;
+const statusLabel = statusLabels[data.status];
+const related = await getRelatedProjects(project, 3);
+const period = data.timeframe.ongoing
+  ? `${data.timeframe.start} – 至今`
+  : data.timeframe.end
+    ? `${data.timeframe.start} – ${data.timeframe.end}`
+    : data.timeframe.start;
 ---
 
 <BaseLayout title={data.title} description={data.summary}>
+  <nav class="crumbs" aria-label="面包屑">
+    <ol>
+      <li>
+        <a href={import.meta.env.BASE_URL}>首页</a>
+      </li>
+      <li>
+        <a href={`${import.meta.env.BASE_URL}projects/`}>项目</a>
+      </li>
+      <li aria-current="page">{data.title}</li>
+    </ol>
+  </nav>
+
   <article>
-    <p class="mono-label">
-      {domain.label} · {data.status}
-    </p>
-    <h1>{data.title}</h1>
-    <p class="summary">{data.summary}</p>
-    <dl class="meta">
-      <div>
-        <dt>角色</dt>
-        <dd>{data.role}</dd>
+    <header class="head">
+      <p class="mono-label">{domain.label}</p>
+      <h1>{data.title}</h1>
+      <p class="summary">{data.summary}</p>
+      <dl class="meta">
+        <div>
+          <dt>角色</dt>
+          <dd>{data.role}</dd>
+        </div>
+        <div>
+          <dt>周期</dt>
+          <dd>{period}</dd>
+        </div>
+        <div>
+          <dt>状态</dt>
+          <dd>{statusLabel}</dd>
+        </div>
+        {data.team && (
+          <div>
+            <dt>团队</dt>
+            <dd>{data.team}</dd>
+          </div>
+        )}
+      </dl>
+    </header>
+
+    <div class="layout">
+      <div class="prose">
+        <Content />
       </div>
-      <div>
-        <dt>周期</dt>
-        <dd>
-          {data.timeframe.start} – {data.timeframe.ongoing ? "至今" : (data.timeframe.end ?? "—")}
-        </dd>
-      </div>
-      <div>
-        <dt>状态</dt>
-        <dd>{data.status}</dd>
-      </div>
-    </dl>
-    <ul class="stack">
-      {data.stack.map((item) => (
-        <li>{item}</li>
-      ))}
-    </ul>
-    <div class="prose">
-      <Content />
+      <aside class="side" aria-label="项目信息">
+        <section>
+          <h2>技术栈</h2>
+          <ul class="stack">
+            {data.stack.map((item) => (
+              <li>
+                <Badge tone="outline">{item}</Badge>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {data.metrics.length > 0 && (
+          <section>
+            <h2>指标</h2>
+            <dl class="metrics">
+              {data.metrics.map((metric) => (
+                <div>
+                  <dt>{metric.label}</dt>
+                  <dd>
+                    {metric.value}
+                    {metric.unit ? <span>{metric.unit}</span> : null}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {(data.links.repo || data.links.demo || data.links.paper || data.links.doc) && (
+          <section>
+            <h2>链接</h2>
+            <ul class="links">
+              {data.links.repo && (
+                <li>
+                  <a href={data.links.repo}>源码</a>
+                </li>
+              )}
+              {data.links.demo && (
+                <li>
+                  <a href={data.links.demo}>演示</a>
+                </li>
+              )}
+              {data.links.paper && (
+                <li>
+                  <a href={data.links.paper}>论文 / 报告</a>
+                </li>
+              )}
+              {data.links.doc && (
+                <li>
+                  <a href={data.links.doc}>文档</a>
+                </li>
+              )}
+            </ul>
+          </section>
+        )}
+      </aside>
     </div>
   </article>
+
+  {related.length > 0 && (
+    <section class="related" aria-labelledby="related-title">
+      <h2 id="related-title">同领域项目</h2>
+      <ul class="related-grid">
+        {related.map((item, index) => (
+          <li>
+            <ProjectCard project={item} index={index + 1} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: clamp(2rem, 5vw, 3.25rem);
-    letter-spacing: -0.02em;
-    margin-block: 0.5rem 1rem;
-  }
-  .summary {
-    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-    color: var(--muted);
-    max-width: 48rem;
-  }
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-block: 2rem;
-  }
-  .meta dt {
-    color: var(--muted);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .meta dd {
-    margin: 0;
-  }
-  .stack {
-    list-style: none;
-    padding: 0;
+  .crumbs ol {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 2.5rem;
-  }
-  .stack li {
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.2rem 0.7rem;
-    font-size: 0.8rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    font-size: 0.8125rem;
     color: var(--muted);
   }
-  .prose {
+
+  .crumbs li:not(:last-child)::after {
+    content: "/";
+    margin-left: 0.5rem;
+    color: var(--border-strong);
+  }
+
+  .crumbs a {
+    text-decoration: none;
+  }
+
+  .head {
+    max-width: 58rem;
+  }
+
+  h1 {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(2rem, 5.5vw, 3.75rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .summary {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+    color: var(--muted);
     max-width: 46rem;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    margin: 2.25rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .meta dt {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .meta dd {
+    margin: 0.35rem 0 0;
+    font-size: 0.9375rem;
+  }
+
+  .layout {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    align-items: start;
+  }
+
+  .side {
+    position: sticky;
+    top: 5.5rem;
+    display: grid;
+    gap: 1.75rem;
+    border-left: 1px solid var(--border);
+    padding-left: 1.5rem;
+  }
+
+  .side h2 {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .metrics {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  .metrics dt {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .metrics dd {
+    margin: 0.15rem 0 0;
+    font-size: 1.35rem;
+    font-family: var(--font-mono);
+  }
+
+  .metrics dd span {
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+    color: var(--muted);
+  }
+
+  .links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .links a {
+    font-size: 0.875rem;
+  }
+
+  .related {
+    margin-top: clamp(4rem, 10vw, 7rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related h2 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  }
+
+  .related-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  }
+
+  .related-grid > li {
+    display: flex;
+  }
+
+  .related-grid > li > :global(*) {
+    width: 100%;
+  }
+
+  @media (max-width: 959px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    .side {
+      position: static;
+      border-left: 0;
+      border-top: 1px solid var(--border);
+      padding-left: 0;
+      padding-top: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    }
   }
 </style>

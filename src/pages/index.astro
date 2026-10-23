@@ -1,154 +1,461 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import ProjectCard from "@/components/project/ProjectCard.astro";
 import { profile } from "@/data/profile";
 import { getPublishedProjects } from "@/lib/content";
 import { DOMAIN_LIST } from "@/data/domains";
+import { SKILL_GROUPS } from "@/data/skills";
+import { TIMELINE } from "@/data/timeline";
 
 const projects = await getPublishedProjects();
-const featured = projects.filter((project) => project.data.featured).slice(0, 3);
+const featured = projects.slice(0, 3);
 const counts = new Map<string, number>();
 for (const project of projects) {
   counts.set(project.data.domain, (counts.get(project.data.domain) ?? 0) + 1);
 }
+const domainCount = counts.size;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={profile.name} description={profile.tagline}>
   <section class="hero" aria-labelledby="hero-title">
-    <p class="mono-label">{profile.availability}</p>
-    <h1 id="hero-title">{profile.name}</h1>
-    <p class="lead">{profile.role}</p>
+    <p class="kicker">
+      <span class="dot" aria-hidden="true"></span>
+      {profile.availability}
+    </p>
+    <h1 id="hero-title">
+      <span class="name">{profile.name}</span>
+      <span class="en" lang="en">
+        {profile.nameEn}
+      </span>
+    </h1>
+    <p class="role">{profile.role}</p>
     <p class="tagline">{profile.tagline}</p>
-    <div class="actions">
-      <a class="button" href={`${import.meta.env.BASE_URL}projects/`}>
+    <div class="cta">
+      <Button href={`${base}projects/`} size="lg">
         查看项目
-      </a>
-      <a class="button ghost" href={`${import.meta.env.BASE_URL}about/`}>
+      </Button>
+      <Button href={`${base}about/`} variant="secondary" size="lg">
         关于我
-      </a>
+      </Button>
+    </div>
+    <dl class="facts">
+      <div>
+        <dt>项目</dt>
+        <dd>
+          {projects.length}
+          <span>个案例</span>
+        </dd>
+      </div>
+      <div>
+        <dt>领域</dt>
+        <dd>
+          {domainCount}
+          <span>个方向</span>
+        </dd>
+      </div>
+      <div>
+        <dt>地点</dt>
+        <dd>{profile.location}</dd>
+      </div>
+      <div>
+        <dt>联系</dt>
+        <dd>
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="section" aria-labelledby="work-title">
+    <SectionHeading
+      id="work-title"
+      index="01"
+      title="精选项目"
+      description="从数据、模型到系统落地，挑几个有代表性的案例。"
+    />
+    <ul class="grid">
+      {featured.map((project, index) => (
+        <li>
+          <ProjectCard project={project} index={index + 1} />
+        </li>
+      ))}
+    </ul>
+    <p class="more">
+      <a href={`${base}projects/`}>查看全部 {projects.length} 个项目 →</a>
+    </p>
+  </section>
+
+  <section class="section" aria-labelledby="domains-title">
+    <SectionHeading
+      id="domains-title"
+      index="02"
+      title="领域"
+      description="不把自己限定在单一方向：算法、工程与数据是同一件事的不同侧面。"
+    />
+    <ul class="domains">
+      {DOMAIN_LIST.map((domain, index) => (
+        <li>
+          <a href={`${base}projects/?domain=${domain.id}`}>
+            <span class="idx">{String(index + 1).padStart(2, "0")}</span>
+            <span class="domain-body">
+              <span class="domain-label">{domain.label}</span>
+              <span class="domain-desc">{domain.description}</span>
+            </span>
+            <span class="count">{counts.get(domain.id) ?? "—"}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="skills-title">
+    <SectionHeading
+      id="skills-title"
+      index="03"
+      title="能力"
+      description="工具只是手段，重要的是把问题拆开、验证并交付。"
+    />
+    <div class="skills">
+      {SKILL_GROUPS.map((group) => (
+        <div class="skill-group">
+          <h3>{group.label}</h3>
+          <p>{group.items.join(" · ")}</p>
+        </div>
+      ))}
     </div>
   </section>
 
-  <section aria-labelledby="featured-title">
-    <h2 id="featured-title">精选项目</h2>
-    <ul class="cards">
-      {featured.map((project) => (
-        <li class="card">
-          <a href={`${import.meta.env.BASE_URL}projects/${project.id}/`}>
-            <h3>{project.data.title}</h3>
-            <p>{project.data.summary}</p>
-            <p class="mono-label">{project.data.domain}</p>
-          </a>
+  <section class="section" aria-labelledby="timeline-title">
+    <SectionHeading
+      id="timeline-title"
+      index="04"
+      title="经历"
+      description="教育、工作与科研的几条主线。"
+    />
+    <ol class="timeline">
+      {TIMELINE.map((item) => (
+        <li>
+          <span class="period">{item.period}</span>
+          <div>
+            <h3>{item.title}</h3>
+            <p class="org">{item.org}</p>
+            {item.detail && <p class="detail">{item.detail}</p>}
+          </div>
+          <span class="kind">{item.kind}</span>
         </li>
       ))}
-    </ul>
+    </ol>
   </section>
 
-  <section aria-labelledby="domains-title">
-    <h2 id="domains-title">领域</h2>
-    <ul class="domains">
-      {DOMAIN_LIST.map((domain) => (
-        <li>
-          <a href={`${import.meta.env.BASE_URL}projects/?domain=${domain.id}`}>
-            {domain.label} <span class="count">{counts.get(domain.id) ?? 0}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+  <section class="contact" aria-labelledby="contact-title">
+    <p class="mono-label">05 / 联系</p>
+    <h2 id="contact-title">有合适的机会，或者想聊聊某个项目？</h2>
+    <p>欢迎邮件联系，我通常会在 1–2 个工作日内回复。</p>
+    <div class="contact-actions">
+      <Button href={`mailto:${profile.email}`} size="lg">
+        发送邮件
+      </Button>
+      <Button href={`${base}about/`} variant="ghost" size="lg">
+        更多关于我 →
+      </Button>
+    </div>
   </section>
 </BaseLayout>
 
 <style>
   .hero {
-    max-width: 52rem;
+    padding-block: clamp(1rem, 4vw, 3rem) clamp(2rem, 5vw, 4rem);
+    max-width: 60rem;
   }
-  h1 {
-    font-size: clamp(2.5rem, 7vw, 5rem);
-    margin-block: 0.5rem 0.75rem;
-    letter-spacing: -0.03em;
-  }
-  .lead {
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
     color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  h1 {
     margin: 0;
-  }
-  .tagline {
-    margin-block: 1rem 2rem;
-    max-width: 34rem;
-  }
-  .actions {
     display: flex;
-    gap: 0.75rem;
     flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1.25rem;
+    letter-spacing: -0.045em;
   }
-  .button {
-    display: inline-block;
-    padding: 0.7rem 1.1rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 8px;
-    text-decoration: none;
+
+  .name {
+    font-size: clamp(2.75rem, 9vw, 6.5rem);
     font-weight: 600;
+    line-height: 0.98;
   }
-  .button:hover {
-    background: var(--surface);
+
+  .en {
+    font-family: var(--font-mono);
+    font-size: clamp(0.8rem, 1.4vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .role {
+    margin: 1.25rem 0 0;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
     color: var(--fg);
   }
-  .button.ghost {
-    border-color: transparent;
+
+  .tagline {
+    margin: 0.4rem 0 0;
+    max-width: 34rem;
     color: var(--muted);
   }
-  section {
-    margin-top: clamp(3rem, 7vw, 5rem);
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
   }
-  h2 {
-    font-size: clamp(1.3rem, 2.5vw, 1.75rem);
-    margin-bottom: 1.5rem;
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 1.5rem;
+    margin: clamp(3rem, 7vw, 5rem) 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
   }
-  .cards {
+
+  .facts dt {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .facts dd {
+    margin: 0.4rem 0 0;
+    font-size: 1.05rem;
+    overflow-wrap: anywhere;
+  }
+
+  .facts dd span {
+    margin-left: 0.3rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .facts a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  .section {
+    margin-top: clamp(4rem, 10vw, 7.5rem);
+  }
+
+  .grid {
     list-style: none;
     padding: 0;
+    margin: 0;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
   }
-  .card {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.25rem;
-    transition: border-color var(--dur-1) var(--ease-out);
+
+  .grid > li {
+    display: flex;
   }
-  .card:hover {
-    border-color: var(--border-strong);
+
+  .grid > li > :global(*) {
+    width: 100%;
   }
-  .card a {
+
+  .more {
+    margin-top: 1.5rem;
+  }
+
+  .more a {
+    font-size: 0.9375rem;
     text-decoration: none;
+    border-bottom: 1px solid var(--border-strong);
   }
-  .card h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-  }
-  .card p {
-    margin: 0 0 0.75rem;
-    color: var(--muted);
-  }
+
   .domains {
     list-style: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    margin: 0;
+    border-top: 1px solid var(--border);
   }
+
+  .domains li {
+    border-bottom: 1px solid var(--border);
+  }
+
   .domains a {
-    display: inline-flex;
-    gap: 0.5rem;
-    align-items: baseline;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.4rem 0.85rem;
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1rem;
     text-decoration: none;
   }
+
+  .domains a:hover .domain-label {
+    color: var(--accent);
+  }
+
+  .idx,
   .count {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--muted);
+  }
+
+  .domain-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.9rem;
+  }
+
+  .domain-label {
+    font-size: 1.05rem;
+  }
+
+  .domain-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .skills {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+
+  .skill-group h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .skill-group p {
+    margin: 0;
+    color: var(--fg);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .timeline li {
+    display: grid;
+    grid-template-columns: 10rem 1fr auto;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+
+  .period {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .timeline h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .org {
+    margin: 0.2rem 0 0;
+    font-size: 0.875rem;
+    color: var(--accent);
+  }
+
+  .detail {
+    margin: 0.45rem 0 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+    max-width: 44rem;
+  }
+
+  .kind {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.55rem;
+  }
+
+  .contact {
+    margin-top: clamp(5rem, 12vw, 9rem);
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact h2 {
+    margin: 0.5rem 0 0.75rem;
+    font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+    letter-spacing: -0.03em;
+    max-width: 40rem;
+  }
+
+  .contact p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  @media (max-width: 639px) {
+    .facts > div:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .timeline li {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+
+    .kind {
+      justify-self: start;
+    }
   }
 </style>

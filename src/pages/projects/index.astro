@@ -1,76 +1,128 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/project/ProjectCard.astro";
 import { getPublishedProjects } from "@/lib/content";
-import { DOMAIN_META } from "@/data/domains";
-import { sortProjects } from "@/lib/filter";
+import { DOMAIN_LIST } from "@/data/domains";
 
 const projects = await getPublishedProjects();
-const sorted = sortProjects(projects, "featured");
+const counts = new Map<string, number>();
+for (const project of projects) {
+  counts.set(project.data.domain, (counts.get(project.data.domain) ?? 0) + 1);
+}
+const domainCount = counts.size;
 ---
 
-<BaseLayout title="项目" description="按领域浏览全部项目案例。">
-  <h1>项目</h1>
-  <p class="intro">
-    共 {sorted.length} 个案例，覆盖 {new Set(sorted.map((p) => p.data.domain)).size} 个领域。
-  </p>
-  <ul class="project-list">
-    {sorted.map((project) => (
+<BaseLayout
+  title="项目"
+  description={`共 ${projects.length} 个项目案例，覆盖 ${domainCount} 个领域。`}
+>
+  <header class="page-head">
+    <p class="mono-label">索引 / 项目</p>
+    <h1>项目</h1>
+    <p class="lead">
+      {projects.length} 个案例，覆盖 {domainCount}{" "}
+      个领域。按精选与时间排序，每个案例都写清了问题、约束、方案与结果。
+    </p>
+  </header>
+
+  <nav class="chips" aria-label="按领域筛选">
+    <a class="chip is-active" href={`${import.meta.env.BASE_URL}projects/`}>
+      全部 <span>{projects.length}</span>
+    </a>
+    {DOMAIN_LIST.filter((domain) => (counts.get(domain.id) ?? 0) > 0).map((domain) => (
+      <a
+        class="chip"
+        href={`${import.meta.env.BASE_URL}projects/?domain=${domain.id}`}
+        data-filter-domain={domain.id}
+      >
+        {domain.label} <span>{counts.get(domain.id)}</span>
+      </a>
+    ))}
+  </nav>
+
+  <ul class="project-grid">
+    {projects.map((project, index) => (
       <li>
-        <a href={`${import.meta.env.BASE_URL}projects/${project.id}/`}>
-          <span class="mono-label">{DOMAIN_META[project.data.domain].label}</span>
-          <h2>{project.data.title}</h2>
-          <p>{project.data.summary}</p>
-          <ul class="tags">
-            {project.data.tags.map((tag) => (
-              <li>{tag}</li>
-            ))}
-          </ul>
-        </a>
+        <ProjectCard project={project} index={index + 1} />
       </li>
     ))}
   </ul>
 </BaseLayout>
 
 <style>
-  .intro {
-    color: var(--muted);
+  .page-head {
+    max-width: 44rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
   }
-  .project-list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 1.25rem;
-    margin-top: 2.5rem;
+
+  h1 {
+    margin: 0.5rem 0 0.75rem;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    letter-spacing: -0.04em;
   }
-  .project-list li {
-    border-top: 1px solid var(--border);
-    padding-top: 1.25rem;
-  }
-  .project-list a {
-    text-decoration: none;
-    display: block;
-  }
-  .project-list h2 {
-    margin-block: 0.35rem 0.5rem;
-    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
-  }
-  .project-list p {
-    color: var(--muted);
-    margin: 0 0 0.75rem;
-  }
-  .tags {
-    list-style: none;
-    display: flex;
-    gap: 0.5rem;
-    padding: 0;
+
+  .lead {
     margin: 0;
+    color: var(--muted);
   }
-  .tags li {
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 0.15rem 0.6rem;
-    font-size: 0.75rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8125rem;
+    text-decoration: none;
     color: var(--muted);
-    border-top: 1px solid var(--border);
+  }
+
+  .chip span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .chip:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
+  }
+
+  .chip.is-active {
+    background: var(--fg);
+    border-color: var(--fg);
+    color: var(--bg);
+  }
+
+  .chip.is-active span {
+    color: var(--bg);
+  }
+
+  .project-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  }
+
+  .project-grid > li {
+    display: flex;
+  }
+
+  .project-grid > li > :global(*) {
+    width: 100%;
   }
 </style>

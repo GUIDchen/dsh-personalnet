@@ -61,7 +61,7 @@ function runItem(item: HTMLElement): void {
       const hint = item.querySelector<HTMLElement>(".hint");
       if (hint) {
         const original = hint.textContent;
-        hint.textContent = "已复制";
+        hint.textContent = item.dataset.copied ?? "Copied";
         window.setTimeout(() => {
           hint.textContent = original;
         }, 1500);

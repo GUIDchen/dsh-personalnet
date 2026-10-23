@@ -3,64 +3,78 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { getPublishedNotes, estimateReadingTime } from "@/lib/notes";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
+import { copy, format, ui, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const t = ui[lang];
+const c = copy[lang].notes;
 const notes = await getPublishedNotes();
 const base = import.meta.env.BASE_URL;
+const projectsHref = localizePath("projects/", lang);
 ---
 
-<BaseLayout
-  title="笔记"
-  description={`${notes.length} 篇技术笔记：关于工程、内容建模与质量门禁的记录。`}
->
+<BaseLayout title={c.title} description={format(c.lead, { count: notes.length })} lang={lang}>
   <JsonLd
     data={breadcrumbJsonLd([
-      { name: "首页", path: "/" },
-      { name: "笔记", path: "/notes/" },
+      { name: t.nav.home, path: localizePath("", lang) },
+      { name: t.nav.notes, path: localizePath("notes/", lang) },
     ])}
   />
 
   <header class="page-head">
-    <p class="mono-label">索引 / 笔记</p>
-    <h1>笔记</h1>
-    <p class="lead">
-      {notes.length} 篇记录：关于工程取舍、内容建模与质量门禁。比项目案例更短，也比文档更随意。
-    </p>
+    <p class="mono-label">{c.kicker}</p>
+    <h1>{c.title}</h1>
+    <p class="lead">{format(c.lead, { count: notes.length })}</p>
     <p class="feed">
-      <a href={`${base}rss.xml`}>RSS 订阅</a>
+      <a href={`${base}rss.xml`}>{c.rss}</a>
     </p>
   </header>
 
   {notes.length === 0 ? (
     <div class="empty">
-      <p class="empty-title">笔记正在整理中</p>
-      <p class="empty-desc">先看看项目案例，或者稍后再来。</p>
-      <a class="button" href={`${base}projects/`}>
-        浏览项目
+      <p class="empty-title">{c.emptyTitle}</p>
+      <p class="empty-desc">{c.emptyDesc}</p>
+      <a class="button" href={projectsHref}>
+        {c.browse}
       </a>
     </div>
   ) : (
-    <ol class="notes">
-      {notes.map((note) => (
-        <li>
-          <a href={`${base}notes/${note.id}/`}>
-            <span class="date">{note.data.date}</span>
-            <span class="body">
-              <span class="title">{note.data.title}</span>
-              <span class="summary">{note.data.summary}</span>
-              <span class="meta">
-                {note.data.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-                <span class="reading">{estimateReadingTime(note.body ?? "")} 分钟</span>
+    <>
+      <ol class="notes">
+        {notes.map((note) => (
+          <li>
+            <a href={`${base}notes/${note.id}/`}>
+              <span class="date">{note.data.date}</span>
+              <span class="body">
+                <span class="title" lang={lang === "en" ? "zh-CN" : undefined}>
+                  {note.data.title}
+                </span>
+                <span class="summary" lang={lang === "en" ? "zh-CN" : undefined}>
+                  {note.data.summary}
+                </span>
+                <span class="meta">
+                  {note.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                  <span class="reading">
+                    {estimateReadingTime(note.body ?? "")} {c.read}
+                  </span>
+                </span>
               </span>
-            </span>
-            <span class="arrow" aria-hidden="true">
-              →
-            </span>
-          </a>
-        </li>
-      ))}
-    </ol>
+              <span class="arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      {lang === "en" && <p class="notice">{t.common.notesNote}</p>}
+    </>
   )}
 </BaseLayout>
 
@@ -84,6 +98,12 @@ const base = import.meta.env.BASE_URL;
   .feed {
     margin: 1rem 0 0;
     font-size: 0.875rem;
+  }
+
+  .notice {
+    margin: 1rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--muted);
   }
 
   .notes {

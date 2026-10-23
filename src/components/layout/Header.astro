@@ -1,39 +1,58 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import { profile } from "@/data/profile";
+import { profileEn } from "@/data/profile.en";
+import { ui, type Lang } from "@/i18n";
+import { localizePath, stripBase, switchLanguagePath } from "@/i18n/routing";
 
-const base = import.meta.env.BASE_URL;
-const path = Astro.url.pathname.replace(/\/$/, "") || "/";
-const basePath = base.replace(/\/$/, "");
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const t = ui[lang];
+const local = stripBase(Astro.url.pathname)
+  .replace(/^\/+/, "")
+  .replace(/^en\/?/, "")
+  .replace(/\/$/, "");
 
 const links = [
-  { href: base, label: "首页", match: basePath || "/", kbd: "" },
-  { href: `${base}projects/`, label: "项目", match: `${basePath}/projects`, kbd: "" },
-  { href: `${base}notes/`, label: "笔记", match: `${basePath}/notes`, kbd: "" },
-  { href: `${base}search/`, label: "搜索", match: `${basePath}/search`, kbd: "⌘K" },
-  { href: `${base}about/`, label: "关于", match: `${basePath}/about`, kbd: "" },
-];
+  { path: "", segment: "", label: t.nav.home, kbd: "" },
+  { path: "projects/", segment: "projects", label: t.nav.projects, kbd: "" },
+  { path: "notes/", segment: "notes", label: t.nav.notes, kbd: "" },
+  { path: "search/", segment: "search", label: t.nav.search, kbd: "⌘K" },
+  { path: "about/", segment: "about", label: t.nav.about, kbd: "" },
+].map((link) => ({ ...link, href: localizePath(link.path, lang) }));
 
-const isActive = (match: string) => (match === "/" ? path === "/" : path.startsWith(match));
+const isActive = (segment: string) =>
+  segment === "" ? local === "" : local === segment || local.startsWith(segment + "/");
+
+const otherLang: Lang = lang === "zh" ? "en" : "zh";
+const switchHref = switchLanguagePath(Astro.url.pathname, otherLang);
 ---
 
-<header class="site-header" data-site-header>
+<header
+  class="site-header"
+  data-site-header
+  data-label-open={t.menu.open}
+  data-label-close={t.menu.close}
+>
   <div class="bar page-shell">
-    <a class="brand" href={base}>
+    <a class="brand" href={localizePath("", lang)}>
       <span class="brand-mark" aria-hidden="true">
         陈
       </span>
-      <span class="brand-name">{profile.name}</span>
+      <span class="brand-name">{lang === "en" ? profileEn.name : profile.name}</span>
     </a>
 
     <div class="actions">
-      <nav id="site-nav" class="nav-panel" aria-label="主导航">
+      <nav id="site-nav" class="nav-panel" aria-label={t.navLabel}>
         <ul>
           {links.map((link) => (
             <li>
               <a
                 href={link.href}
-                aria-current={isActive(link.match) ? "page" : undefined}
+                aria-current={isActive(link.segment) ? "page" : undefined}
                 aria-keyshortcuts={link.kbd ? "Meta+K Control+K" : undefined}
               >
                 {link.label}
@@ -47,7 +66,16 @@ const isActive = (match: string) => (match === "/" ? path === "/" : path.startsW
           ))}
         </ul>
       </nav>
-      <ThemeToggle />
+      <a
+        class="lang-switch"
+        href={switchHref}
+        hreflang={otherLang === "zh" ? "zh-CN" : "en"}
+        lang={otherLang === "zh" ? "zh-CN" : "en"}
+      >
+        {t.language.short}
+        <span class="sr-only">{t.language.switch}</span>
+      </a>
+      <ThemeToggle lang={lang} />
       <button
         type="button"
         class="menu-toggle"
@@ -55,7 +83,7 @@ const isActive = (match: string) => (match === "/" ? path === "/" : path.startsW
         aria-controls="site-nav"
         data-menu-toggle
       >
-        <span class="sr-only">打开导航菜单</span>
+        <span class="sr-only">{t.menu.open}</span>
         <span class="menu-icon" aria-hidden="true"></span>
       </button>
     </div>
@@ -70,7 +98,9 @@ const isActive = (match: string) => (match === "/" ? path === "/" : path.startsW
     header.dataset.menuOpen = String(open);
     toggle.setAttribute("aria-expanded", String(open));
     const label = toggle.querySelector(".sr-only");
-    if (label) label.textContent = open ? "关闭导航菜单" : "打开导航菜单";
+    if (label) {
+      label.textContent = (open ? header.dataset.labelClose : header.dataset.labelOpen) ?? "";
+    }
   }
 
   function initHeader(): void {
@@ -135,6 +165,25 @@ const isActive = (match: string) => (match === "/" ? path === "/" : path.startsW
     display: flex;
     align-items: center;
     gap: 0.75rem;
+  }
+
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .lang-switch:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
   }
 
   .nav-panel ul {

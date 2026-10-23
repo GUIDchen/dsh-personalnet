@@ -1,58 +1,77 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { profile } from "@/data/profile";
+import { profileEn } from "@/data/profile.en";
 import { SKILL_GROUPS } from "@/data/skills";
+import { SKILL_GROUPS_EN } from "@/data/skills.en";
 import { TIMELINE } from "@/data/timeline";
+import { TIMELINE_EN } from "@/data/timeline.en";
 import { getPublishedProjects } from "@/lib/content";
 import { formatPeriod } from "@/lib/seo";
+import { copy, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const c = copy[lang].cv;
+const person = lang === "en" ? profileEn : profile;
+const skills = lang === "en" ? SKILL_GROUPS_EN : SKILL_GROUPS;
+const timeline = lang === "en" ? TIMELINE_EN : TIMELINE;
 const projects = await getPublishedProjects();
-const work = TIMELINE.filter((item) => item.kind === "工作");
-const education = TIMELINE.filter((item) => item.kind === "教育");
-const research = TIMELINE.filter((item) => item.kind === "科研");
-const base = import.meta.env.BASE_URL;
+const work = timeline.filter((item) => item.kind === "工作");
+const education = timeline.filter((item) => item.kind === "教育");
+const research = timeline.filter((item) => item.kind === "科研");
+const homeHref = localizePath("", lang);
 ---
 
 <BaseLayout
-  title="简历"
-  description={`${profile.name}的简历：人工智能、数据分析与软件工程方向，包含技能、项目经历与教育背景。`}
+  title={lang === "en" ? "CV" : "简历"}
+  description={
+    lang === "en"
+      ? `${person.name} — CV: AI, data and software engineering, with skills, project experience and education.`
+      : `${person.name}的简历：人工智能、数据分析与软件工程方向，包含技能、项目经历与教育背景。`
+  }
+  lang={lang}
 >
   <article class="cv">
     <header class="cv-head">
       <div>
-        <p class="mono-label">简历 / CV</p>
-        <h1>{profile.name}</h1>
-        <p class="role">{profile.role}</p>
+        <p class="mono-label">{c.kicker}</p>
+        <h1>{person.name}</h1>
+        <p class="role">{person.role}</p>
       </div>
       <address>
-        <p>{profile.location}</p>
+        <p>{person.location}</p>
         <p>
-          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+          <a href={`mailto:${person.email}`}>{person.email}</a>
         </p>
         <p>
-          <a href={`${base}`}>个人网站</a>
+          <a href={homeHref}>{c.website}</a>
         </p>
       </address>
     </header>
 
     <div class="actions" data-cv-actions>
       <button class="print-button" type="button" data-print>
-        打印 / 保存为 PDF
+        {c.print}
       </button>
-      <a class="back" href={`${base}about/`}>
-        返回关于页
+      <a class="back" href={localizePath("about/", lang)}>
+        {c.back}
       </a>
     </div>
 
     <section aria-labelledby="summary">
-      <h2 id="summary">概述</h2>
-      <p>{profile.bio}</p>
+      <h2 id="summary">{c.summary}</h2>
+      <p>{person.bio}</p>
     </section>
 
     <section aria-labelledby="skills">
-      <h2 id="skills">技能</h2>
+      <h2 id="skills">{c.skills}</h2>
       <dl class="skills">
-        {SKILL_GROUPS.map((group) => (
+        {skills.map((group) => (
           <div>
             <dt>{group.label}</dt>
             <dd>{group.items.join(" · ")}</dd>
@@ -62,8 +81,9 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <section aria-labelledby="projects">
-      <h2 id="projects">项目经历</h2>
-      <ol class="items">
+      <h2 id="projects">{c.projects}</h2>
+      {lang === "en" && <p class="notice">{c.notice}</p>}
+      <ol class="items" lang={lang === "en" ? "zh-CN" : undefined}>
         {projects.map((project) => (
           <li>
             <div class="item-head">
@@ -82,7 +102,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <section aria-labelledby="work">
-      <h2 id="work">工作经历</h2>
+      <h2 id="work">{c.work}</h2>
       <ol class="items">
         {work.map((item) => (
           <li>
@@ -98,7 +118,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <section aria-labelledby="research">
-      <h2 id="research">科研经历</h2>
+      <h2 id="research">{c.research}</h2>
       <ol class="items">
         {research.map((item) => (
           <li>
@@ -114,7 +134,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <section aria-labelledby="education">
-      <h2 id="education">教育背景</h2>
+      <h2 id="education">{c.education}</h2>
       <ol class="items">
         {education.map((item) => (
           <li>
@@ -190,6 +210,12 @@ const base = import.meta.env.BASE_URL;
 
   .back {
     font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .notice {
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
   }
 

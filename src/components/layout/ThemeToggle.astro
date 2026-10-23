@@ -1,4 +1,11 @@
 ---
+import { ui, type Lang } from "@/i18n";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
 ---
 
 <button
@@ -6,7 +13,7 @@
   class="theme-toggle"
   data-theme-toggle
   data-state="system"
-  aria-label="切换主题"
+  aria-label={ui[lang].theme.label}
 >
   <span class="icon" data-icon="light" aria-hidden="true">
     <svg
@@ -64,10 +71,22 @@
     return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
   }
 
+  const LABELS = {
+    zh: {
+      light: "当前：浅色主题，点击切换为深色主题",
+      dark: "当前：深色主题，点击切换为浅色主题",
+      system: "当前：跟随系统主题，点击切换为深色主题",
+    },
+    en: {
+      light: "Light theme; switch to dark",
+      dark: "Dark theme; switch to light",
+      system: "System theme; switch to dark",
+    },
+  } as const;
+
   function label(theme: Theme): string {
-    const current = theme === "system" ? "跟随系统" : theme === "dark" ? "深色" : "浅色";
-    const target = resolved(theme) === "dark" ? "浅色" : "深色";
-    return `当前：${current}主题，点击切换为${target}主题`;
+    const lang = document.documentElement.dataset.lang === "en" ? "en" : "zh";
+    return LABELS[lang][theme];
   }
 
   function paint(theme: Theme) {

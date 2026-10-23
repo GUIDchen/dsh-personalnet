@@ -45,8 +45,10 @@ for (const file of walk(DIST)) {
   const route = "/" + relative(DIST, file).replace(/\\/g, "/");
   const noindex = (metaContent(html, "robots") ?? "").includes("noindex");
 
-  const lang = /<html[^>]*lang="([^"]+)"/i.exec(html)?.[1];
-  if (lang !== "zh-CN") errors.push(`${route}: html lang 应为 zh-CN，实际 ${lang ?? "缺失"}`);
+  const lang = /<html\b[^>]*\slang="([^"]+)"/i.exec(html)?.[1];
+  if (lang !== "zh-CN" && lang !== "en") {
+    errors.push(`${route}: html lang 应为 zh-CN 或 en，实际 ${lang ?? "缺失"}`);
+  }
 
   const h1Count = (html.match(/<h1\b/gi) ?? []).length;
   if (h1Count !== 1) errors.push(`${route}: H1 应为 1 个，实际 ${h1Count}`);

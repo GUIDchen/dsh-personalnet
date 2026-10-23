@@ -1,27 +1,34 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { NOW } from "@/data/now";
-import { profile } from "@/data/profile";
+import { NOW_EN } from "@/data/now.en";
+import { copy, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
 
-const base = import.meta.env.BASE_URL;
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const c = copy[lang].now;
+const now = lang === "en" ? NOW_EN : NOW;
 ---
 
-<BaseLayout
-  title="现在"
-  description={`${profile.name} 现在在做什么：正在做的项目、学习方向与关注点。`}
->
+<BaseLayout title={c.title} description={c.lead} lang={lang}>
   <header class="page-head">
-    <p class="mono-label">现在 / Now · {NOW.updated}</p>
-    <h1>现在在做什么</h1>
-    <p class="lead">{NOW.intro}</p>
+    <p class="mono-label">
+      {c.kicker} · {now.updated}
+    </p>
+    <h1>{c.title}</h1>
+    <p class="lead">{now.intro}</p>
     <p class="links">
-      <a href={`${base}uses/`}>常用工具 →</a>
-      <a href={`${base}about/`}>关于我 →</a>
+      <a href={localizePath("uses/", lang)}>{c.uses}</a>
+      <a href={localizePath("about/", lang)}>{c.about}</a>
     </p>
   </header>
 
   <div class="sections">
-    {NOW.sections.map((section, index) => (
+    {now.sections.map((section, index) => (
       <section aria-labelledby={`now-${index}`}>
         <p class="mono-label">{String(index + 1).padStart(2, "0")}</p>
         <h2 id={`now-${index}`}>{section.title}</h2>

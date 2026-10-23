@@ -3,58 +3,68 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
 import { profile } from "@/data/profile";
+import { profileEn } from "@/data/profile.en";
 import { SKILL_GROUPS } from "@/data/skills";
+import { SKILL_GROUPS_EN } from "@/data/skills.en";
 import { TIMELINE } from "@/data/timeline";
+import { TIMELINE_EN } from "@/data/timeline.en";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { personJsonLd } from "@/lib/jsonld";
+import { copy, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
 
-const base = import.meta.env.BASE_URL;
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const c = copy[lang].about;
+const person = lang === "en" ? profileEn : profile;
+const skills = lang === "en" ? SKILL_GROUPS_EN : SKILL_GROUPS;
+const timeline = lang === "en" ? TIMELINE_EN : TIMELINE;
+const kindLabel = (kind: string) =>
+  lang === "en" ? ({ 工作: "Work", 教育: "Education", 科研: "Research" }[kind] ?? kind) : kind;
 ---
 
-<BaseLayout title="关于" description={profile.bio}>
+<BaseLayout
+  title={lang === "en" ? "About" : "关于"}
+  description={lang === "en" ? person.bioShort : person.bio}
+  lang={lang}
+>
   <JsonLd data={personJsonLd()} />
 
   <header class="page-head">
-    <p class="mono-label">关于 / 陈陇刚</p>
+    <p class="mono-label">{c.kicker}</p>
     <h1>
-      把问题拆开，
+      {c.title[0]}
       <br />
-      再把它做完。
+      {c.title[1]}
     </h1>
-    <p class="lead">{profile.bio}</p>
+    <p class="lead">{person.bio}</p>
     <div class="actions">
-      <Button href={`mailto:${profile.email}`}>邮件联系</Button>
-      <Button href={`${base}projects/`} variant="secondary">
-        查看项目
+      <Button href={`mailto:${person.email}`}>{c.actions.email}</Button>
+      <Button href={localizePath("projects/", lang)} variant="secondary">
+        {c.actions.projects}
       </Button>
-      <Button href={`${base}cv/`} variant="secondary">
-        简历 / CV
+      <Button href={localizePath("cv/", lang)} variant="secondary">
+        {c.actions.cv}
       </Button>
     </div>
   </header>
 
   <section class="section" aria-labelledby="story-title">
-    <h2 id="story-title">自述</h2>
+    <h2 id="story-title">{c.storyTitle}</h2>
     <div class="prose story">
-      <p>
-        我是一名软件工程硕士，研究方向是智能算法、计算机视觉与数据挖掘。过去几年里，我在科研项目里做数据采集、清洗、建模与实验，
-        也在工程项目里做目标检测、知识图谱、数据分析与 Web 系统。
-      </p>
-      <p>
-        我的工作方式偏"工程化"：先确认问题和约束，再选一个能验证的最小方案，跑通之后才谈优化。
-        写代码之外，我也在意文档、可复现性与交付质量——这些决定了项目能不能被别人接住。
-      </p>
-      <p>
-        目前我在做 AI 数据处理相关的独立开发，同时补嵌入式与 Verilog
-        的工程能力。我希望把算法、数据与系统三件事连起来， 做出真正能用、能维护的东西。
-      </p>
+      {c.story.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
     </div>
   </section>
 
   <section class="section" aria-labelledby="skills-title">
-    <h2 id="skills-title">技能</h2>
+    <h2 id="skills-title">{c.skillsTitle}</h2>
     <div class="skills">
-      {SKILL_GROUPS.map((group) => (
+      {skills.map((group) => (
         <div>
           <h3>{group.label}</h3>
           <ul>
@@ -70,9 +80,9 @@ const base = import.meta.env.BASE_URL;
   </section>
 
   <section class="section" aria-labelledby="timeline-title">
-    <h2 id="timeline-title">教育与经历</h2>
+    <h2 id="timeline-title">{c.timelineTitle}</h2>
     <ol class="timeline">
-      {TIMELINE.map((item) => (
+      {timeline.map((item) => (
         <li>
           <span class="period">{item.period}</span>
           <div>
@@ -80,21 +90,21 @@ const base = import.meta.env.BASE_URL;
             <p class="org">{item.org}</p>
             {item.detail && <p class="detail">{item.detail}</p>}
           </div>
-          <span class="kind">{item.kind}</span>
+          <span class="kind">{kindLabel(item.kind)}</span>
         </li>
       ))}
     </ol>
   </section>
 
   <section class="section" aria-labelledby="contact-title">
-    <h2 id="contact-title">联系</h2>
+    <h2 id="contact-title">{c.contactTitle}</h2>
     <p class="contact-line">
-      <span class="mono-label">邮箱</span>
-      <a href={`mailto:${profile.email}`}>{profile.email}</a>
+      <span class="mono-label">{c.labels.email}</span>
+      <a href={`mailto:${person.email}`}>{person.email}</a>
     </p>
     <p class="contact-line">
-      <span class="mono-label">地点</span>
-      <span>{profile.location}</span>
+      <span class="mono-label">{c.labels.location}</span>
+      <span>{person.location}</span>
     </p>
   </section>
 </BaseLayout>

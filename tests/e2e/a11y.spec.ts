@@ -12,6 +12,12 @@ const pages = [
   { path: "/uses/", name: "工具" },
   { path: "/cv/", name: "简历" },
   { path: "/search/", name: "搜索" },
+  { path: "/en/", name: "English home" },
+  { path: "/en/projects/", name: "English projects" },
+  { path: "/en/about/", name: "English about" },
+  { path: "/en/cv/", name: "English CV" },
+  { path: "/en/now/", name: "English Now" },
+  { path: "/en/uses/", name: "English Uses" },
   { path: "/404.html", name: "404" },
 ];
 

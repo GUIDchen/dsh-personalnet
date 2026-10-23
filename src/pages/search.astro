@@ -1,28 +1,43 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { copy, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const c = copy[lang].search;
+const projectsHref = localizePath("projects/", lang);
 ---
 
-<BaseLayout title="搜索" description="在项目案例中搜索关键词。" noindex>
+<BaseLayout title={c.title} description={c.lead} noindex lang={lang}>
   <header class="page-head">
-    <p class="mono-label">搜索 / 全站</p>
-    <h1>搜索</h1>
-    <p class="lead">
-      在项目案例中搜索技术、领域或关键词。任何时候按 <kbd>⌘K</kbd>（Windows 为 <kbd>Ctrl K</kbd>
-      ）即可唤起。
-    </p>
+    <p class="mono-label">{c.kicker}</p>
+    <h1>{c.title}</h1>
+    <p class="lead">{c.lead}</p>
   </header>
 
-  <div data-search-root>
+  <div
+    data-search-root
+    data-msg-initial={c.initial}
+    data-msg-short={c.short}
+    data-msg-searching={c.searching}
+    data-msg-found={c.found}
+    data-msg-none={c.none}
+    data-msg-missing={c.indexMissing}
+  >
     <form class="search-form" role="search" data-search-form>
       <label for="q" class="sr-only">
-        搜索关键词
+        {c.title}
       </label>
       <input
         id="q"
         name="q"
         type="search"
         data-search-input
-        placeholder="例如：YOLO、知识图谱、数据分析"
+        placeholder={c.placeholder}
         autocomplete="off"
         spellcheck="false"
       />
@@ -30,23 +45,22 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
     </form>
 
     <p class="status" role="status" aria-live="polite" data-search-status>
-      输入关键词开始搜索
+      {c.initial}
     </p>
 
-    <ol class="results" aria-label="搜索结果" data-search-results></ol>
+    <ol class="results" aria-label={c.title} data-search-results></ol>
 
     <div class="empty" data-search-empty hidden>
-      <p class="empty-title">没有找到匹配的内容</p>
-      <p class="empty-desc">换个关键词试试，或者直接浏览项目库。</p>
-      <a class="button" href={`${import.meta.env.BASE_URL}projects/`}>
-        浏览全部项目
+      <p class="empty-title">{c.emptyTitle}</p>
+      <p class="empty-desc">{c.emptyDesc}</p>
+      <a class="button" href={projectsHref}>
+        {c.browse}
       </a>
     </div>
 
     <noscript>
       <p class="notice">
-        搜索需要 JavaScript。你可以直接访问
-        <a href={`${import.meta.env.BASE_URL}projects/`}>项目库</a> 浏览全部案例。
+        {c.noJs} <a href={projectsHref}>{c.noJsLink}</a>
       </p>
     </noscript>
   </div>

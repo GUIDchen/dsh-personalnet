@@ -1,33 +1,43 @@
 ---
-import { DOMAIN_META } from "@/data/domains";
+import { getDomainMeta } from "@/data/domains";
 import type { ProjectView } from "@/lib/content";
 import { formatYearRange } from "@/lib/seo";
+import type { Lang } from "@/i18n";
 import Badge from "@/components/ui/Badge.astro";
 
 interface Props {
   project: ProjectView;
   index: number;
   level?: 2 | 3;
+  lang?: Lang;
 }
 
-const { project, index, level = 3 } = Astro.props;
+const { project, index, level = 3, lang = "zh" } = Astro.props;
 const Heading = level === 2 ? "h2" : "h3";
 const { data, id } = project;
-const domain = DOMAIN_META[data.domain];
+const domain = getDomainMeta(data.domain, lang);
 const year = formatYearRange(data.timeframe);
 const number = String(index).padStart(2, "0");
 ---
 
 <article class="project-card">
-  <a class="card-link" href={`${import.meta.env.BASE_URL}projects/${id}/`}>
+  <a
+    class="card-link"
+    href={`${import.meta.env.BASE_URL}projects/${id}/`}
+    hreflang={lang === "en" ? "zh-CN" : undefined}
+  >
     <div class="card-top">
       <span class="mono-label">{number}</span>
       <span class="mono-label">{year}</span>
     </div>
     <p class="domain">{domain.label}</p>
-    <Heading class="title">{data.title}</Heading>
-    <p class="summary">{data.summary}</p>
-    <ul class="tags" aria-label="标签">
+    <Heading class="title" lang={lang === "en" ? "zh-CN" : undefined}>
+      {data.title}
+    </Heading>
+    <p class="summary" lang={lang === "en" ? "zh-CN" : undefined}>
+      {data.summary}
+    </p>
+    <ul class="tags" aria-label={lang === "en" ? "Tags" : "标签"}>
       {data.tags.slice(0, 3).map((tag) => (
         <li>
           <Badge tone="outline" mono>

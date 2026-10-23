@@ -6,24 +6,46 @@ import Footer from "@/components/layout/Footer.astro";
 import CommandPalette from "@/components/ui/CommandPalette.astro";
 import Meta from "@/components/seo/Meta.astro";
 import { profile } from "@/data/profile";
+import { htmlLang, ui, type Lang } from "@/i18n";
+import { getAlternates, getLangFromUrl, type Alternates } from "@/i18n/routing";
 
 interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
   image?: string;
+  lang?: Lang;
+  alternates?: Alternates;
 }
 
-const { title, description = profile.tagline, noindex = false, image } = Astro.props;
+const {
+  title,
+  description,
+  noindex = false,
+  image,
+  lang = getLangFromUrl(Astro.url.pathname),
+} = Astro.props;
+const t = ui[lang];
+const alternates = Astro.props.alternates ?? getAlternates(Astro.url.pathname, lang);
+const descriptionText =
+  description ??
+  (lang === "en" ? "Chen Longgang — AI, data and software engineering." : profile.tagline);
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={htmlLang[lang]} data-lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ClientRouter />
-    <Meta title={title} description={description} noindex={noindex} image={image} />
+    <Meta
+      title={title}
+      description={descriptionText}
+      noindex={noindex}
+      image={image}
+      lang={lang}
+      alternates={alternates}
+    />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <script is:inline>
       (() => {
@@ -52,16 +74,16 @@ const { title, description = profile.tagline, noindex = false, image } = Astro.p
   </head>
   <body>
     <a class="skip-link" href="#main">
-      跳到主要内容
+      {t.skip}
     </a>
-    <Header />
+    <Header lang={lang} />
     <main id="main" data-pagefind-body {...(noindex ? { "data-pagefind-ignore": "" } : {})}>
       <div class="page-shell">
         <slot />
       </div>
     </main>
-    <Footer />
-    <CommandPalette email={profile.email} />
+    <Footer lang={lang} />
+    <CommandPalette email={profile.email} lang={lang} />
     <script>
       import "@/scripts/command-palette";
     </script>

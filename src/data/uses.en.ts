@@ -1,0 +1,48 @@
+import type { UseGroup } from "./uses";
+
+export const USES_EN: UseGroup[] = [
+  {
+    title: "Languages",
+    items: [
+      { name: "Python", note: "Data, models and automation" },
+      { name: "C / C++", note: "Algorithms, CUDA and low-level debugging" },
+      { name: "Java", note: "JavaWeb and coursework" },
+      { name: "Shell / SQL", note: "Operations and queries" },
+    ],
+  },
+  {
+    title: "AI & data",
+    items: [
+      { name: "PyTorch / TensorFlow / PaddlePaddle", note: "Training and experiments" },
+      { name: "OpenCV", note: "Image preprocessing and detection" },
+      { name: "NumPy / Pandas", note: "Cleaning and analysis" },
+      { name: "SPSS / Stata", note: "Statistics and modelling" },
+    ],
+  },
+  {
+    title: "Systems & engineering",
+    items: [
+      { name: "Linux / Docker", note: "Environments and deployment" },
+      { name: "Git / GitHub Actions", note: "Versioning and CI" },
+      { name: "MySQL", note: "Data storage" },
+      { name: "CUDA / Verilog", note: "Parallel and hardware experiments" },
+    ],
+  },
+  {
+    title: "This site",
+    items: [
+      { name: "Astro 7 + TypeScript", note: "Static output and content model" },
+      { name: "Tailwind CSS 4", note: "Design tokens and layout" },
+      { name: "Pagefind", note: "Build-time search" },
+      { name: "Playwright + Lighthouse CI", note: "Quality gates" },
+    ],
+  },
+  {
+    title: "Writing & notes",
+    items: [
+      { name: "Markdown / MDX", note: "Projects and notes" },
+      { name: "Mermaid", note: "Architecture and flows" },
+      { name: "Docs-first", note: "ADRs, runbooks and checklists" },
+    ],
+  },
+];

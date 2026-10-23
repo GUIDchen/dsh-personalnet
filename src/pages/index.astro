@@ -4,85 +4,98 @@ import Button from "@/components/ui/Button.astro";
 import SectionHeading from "@/components/ui/SectionHeading.astro";
 import ProjectCard from "@/components/project/ProjectCard.astro";
 import { profile } from "@/data/profile";
+import { profileEn } from "@/data/profile.en";
 import { getPublishedProjects } from "@/lib/content";
 import { getPublishedNotes } from "@/lib/notes";
-import { DOMAIN_LIST } from "@/data/domains";
+import { DOMAIN_LIST, getDomainMeta } from "@/data/domains";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
+import { copy, format, ui, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const t = ui[lang];
+const c = copy[lang].home;
+const person = lang === "en" ? profileEn : profile;
 const projects = await getPublishedProjects();
 const notes = (await getPublishedNotes()).slice(0, 3);
-const contactIndex = notes.length > 0 ? "04" : "03";
 const featured = projects.slice(0, 3);
 const counts = new Map<string, number>();
 for (const project of projects) {
   counts.set(project.data.domain, (counts.get(project.data.domain) ?? 0) + 1);
 }
 const domainCount = counts.size;
-const base = import.meta.env.BASE_URL;
+const projectsHref = localizePath("projects/", lang);
+const notesHref = localizePath("notes/", lang);
+const nowHref = localizePath("now/", lang);
+const aboutHref = localizePath("about/", lang);
 ---
 
-<BaseLayout title={`${profile.name} — ${profile.role}`} description={profile.tagline}>
+<BaseLayout title={`${person.name} — ${person.role}`} description={person.tagline} lang={lang}>
   <JsonLd data={personJsonLd()} />
   <JsonLd data={websiteJsonLd()} />
 
   <section class="hero" aria-labelledby="hero-title">
     <p class="kicker">
       <span class="dot" aria-hidden="true"></span>
-      {profile.availability}
+      {person.availability}
       <span class="sep" aria-hidden="true">
         ·
       </span>
-      <span data-local-time data-timezone={profile.timezone}>
+      <span data-local-time data-timezone={person.timezone}>
         UTC+8
       </span>
     </p>
     <h1 id="hero-title">
-      <span class="name">{profile.name}</span>
-      <span class="en" lang="en">
-        {profile.nameEn}
+      <span class="name">{person.name}</span>
+      <span class="en" lang={lang === "en" ? "zh-CN" : "en"}>
+        {person.nameEn}
       </span>
     </h1>
-    <p class="statement">{profile.statement}</p>
-    <p class="bio-short">{profile.bioShort}</p>
+    <p class="statement">{person.statement}</p>
+    <p class="bio-short">{person.bioShort}</p>
     <details class="bio-more">
-      <summary>完整介绍</summary>
-      <p>{profile.bio}</p>
+      <summary>{c.fullBio}</summary>
+      <p>{person.bio}</p>
     </details>
     <div class="cta">
-      <Button href={`${base}projects/`} size="lg">
-        查看项目
+      <Button href={projectsHref} size="lg">
+        {c.viewProjects}
       </Button>
-      <Button href={`${base}now/`} variant="secondary" size="lg">
-        现在在做什么
+      <Button href={nowHref} variant="secondary" size="lg">
+        {c.now}
       </Button>
-      <Button href={`${base}about/`} variant="ghost" size="lg">
-        关于我 →
+      <Button href={aboutHref} variant="ghost" size="lg">
+        {c.about}
       </Button>
     </div>
     <dl class="facts">
       <div>
-        <dt>项目</dt>
+        <dt>{c.facts.projects}</dt>
         <dd>
           {projects.length}
-          <span>个案例</span>
+          <span>{c.facts.cases}</span>
         </dd>
       </div>
       <div>
-        <dt>领域</dt>
+        <dt>{c.facts.domains}</dt>
         <dd>
           {domainCount}
-          <span>个方向</span>
+          <span>{c.facts.directions}</span>
         </dd>
       </div>
       <div>
-        <dt>地点</dt>
-        <dd>{profile.location}</dd>
+        <dt>{c.facts.location}</dt>
+        <dd>{person.location}</dd>
       </div>
       <div>
-        <dt>联系</dt>
+        <dt>{c.facts.contact}</dt>
         <dd>
-          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+          <a href={`mailto:${person.email}`}>{person.email}</a>
         </dd>
       </div>
     </dl>
@@ -91,42 +104,46 @@ const base = import.meta.env.BASE_URL;
   <section class="section" aria-labelledby="work-title">
     <SectionHeading
       id="work-title"
-      index="01"
-      title="精选项目"
-      description="从数据、模型到系统落地，挑几个有代表性的案例。"
+      index={c.work.index}
+      title={c.work.title}
+      description={c.work.description}
     />
     <ul class="grid">
       {featured.map((project, index) => (
         <li>
-          <ProjectCard project={project} index={index + 1} />
+          <ProjectCard project={project} index={index + 1} lang={lang} />
         </li>
       ))}
     </ul>
     <p class="more">
-      <a href={`${base}projects/`}>查看全部 {projects.length} 个项目 →</a>
+      <a href={projectsHref}>{format(c.work.more, { count: projects.length })}</a>
     </p>
+    {lang === "en" && <p class="notice">{t.common.caseNote}</p>}
   </section>
 
   <section class="section" aria-labelledby="domains-title">
     <SectionHeading
       id="domains-title"
-      index="02"
-      title="领域"
-      description="不把自己限定在单一方向：算法、工程与数据是同一件事的不同侧面。"
+      index={c.domains.index}
+      title={c.domains.title}
+      description={c.domains.description}
     />
     <ul class="domains">
-      {DOMAIN_LIST.map((domain, index) => (
-        <li>
-          <a href={`${base}projects/?domain=${domain.id}`}>
-            <span class="idx">{String(index + 1).padStart(2, "0")}</span>
-            <span class="domain-body">
-              <span class="domain-label">{domain.label}</span>
-              <span class="domain-desc">{domain.description}</span>
-            </span>
-            <span class="count">{counts.get(domain.id) ?? "—"}</span>
-          </a>
-        </li>
-      ))}
+      {DOMAIN_LIST.map((domain, index) => {
+        const meta = getDomainMeta(domain.id, lang);
+        return (
+          <li>
+            <a href={`${projectsHref}?domain=${domain.id}`}>
+              <span class="idx">{String(index + 1).padStart(2, "0")}</span>
+              <span class="domain-body">
+                <span class="domain-label">{meta.label}</span>
+                <span class="domain-desc">{meta.description}</span>
+              </span>
+              <span class="count">{counts.get(domain.id) ?? "—"}</span>
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </section>
 
@@ -134,18 +151,22 @@ const base = import.meta.env.BASE_URL;
     <section class="section" aria-labelledby="notes-title">
       <SectionHeading
         id="notes-title"
-        index="03"
-        title="最近笔记"
-        description="关于工程取舍、内容建模与质量门禁的记录。"
+        index={c.notes.index}
+        title={c.notes.title}
+        description={c.notes.description}
       />
       <ul class="notes">
         {notes.map((note) => (
           <li>
-            <a href={`${base}notes/${note.id}/`}>
+            <a href={`${import.meta.env.BASE_URL}notes/${note.id}/`}>
               <span class="note-date">{note.data.date}</span>
               <span class="note-body">
-                <span class="note-title">{note.data.title}</span>
-                <span class="note-summary">{note.data.summary}</span>
+                <span class="note-title" lang={lang === "en" ? "zh-CN" : undefined}>
+                  {note.data.title}
+                </span>
+                <span class="note-summary" lang={lang === "en" ? "zh-CN" : undefined}>
+                  {note.data.summary}
+                </span>
               </span>
               <span class="note-arrow" aria-hidden="true">
                 →
@@ -155,21 +176,23 @@ const base = import.meta.env.BASE_URL;
         ))}
       </ul>
       <p class="more">
-        <a href={`${base}notes/`}>查看全部笔记 →</a>
+        <a href={notesHref}>{c.notes.more}</a>
       </p>
     </section>
   )}
 
   <section class="contact" aria-labelledby="contact-title">
-    <p class="mono-label">{contactIndex} / 联系</p>
-    <h2 id="contact-title">有合适的机会，或者想聊聊某个项目？</h2>
-    <p>欢迎邮件联系，我通常会在 1–2 个工作日内回复。</p>
+    <p class="mono-label">
+      {c.contact.index} / {c.contact.kicker}
+    </p>
+    <h2 id="contact-title">{c.contact.title}</h2>
+    <p>{c.contact.description}</p>
     <div class="contact-actions">
-      <Button href={`mailto:${profile.email}`} size="lg">
-        发送邮件
+      <Button href={`mailto:${person.email}`} size="lg">
+        {c.contact.send}
       </Button>
-      <Button href={`${base}about/`} variant="ghost" size="lg">
-        更多关于我 →
+      <Button href={aboutHref} variant="ghost" size="lg">
+        {c.contact.more}
       </Button>
     </div>
   </section>
@@ -179,13 +202,14 @@ const base = import.meta.env.BASE_URL;
   function updateLocalTime(): void {
     document.querySelectorAll<HTMLElement>("[data-local-time]").forEach((element) => {
       const timezone = element.dataset.timezone || "Asia/Shanghai";
-      const time = new Intl.DateTimeFormat("zh-CN", {
+      const isEnglish = document.documentElement.dataset.lang === "en";
+      const time = new Intl.DateTimeFormat(isEnglish ? "en-US" : "zh-CN", {
         timeZone: timezone,
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
       }).format(new Date());
-      element.textContent = `${time} · 本地时间`;
+      element.textContent = `${time} · ${isEnglish ? "local time" : "本地时间"}`;
     });
   }
 
@@ -350,6 +374,12 @@ const base = import.meta.env.BASE_URL;
     font-size: 0.9375rem;
     text-decoration: none;
     border-bottom: 1px solid var(--border-strong);
+  }
+
+  .notice {
+    margin: 0.75rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--muted);
   }
 
   .domains {

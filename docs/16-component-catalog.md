@@ -26,27 +26,27 @@
 
 | 组件 | Props | 说明 |
 |---|---|---|
-| BaseLayout | `title`、`description`、`image?`、`noindex?` | `<html lang>`、head、主题脚本、跳过链接 |
+| BaseLayout | `title`、`description`、`image?`、`noindex?`、`lang?`、`alternates?` | `<html lang>`、hreflang、head、主题脚本、跳过链接 |
 | PageLayout | `title`、`eyebrow?`、`lead?` | 内容页统一间距与标题区 |
 | ProjectLayout | `project`、`headings` | 详情页两栏 + TOC + 相关项目 |
-| Header | `currentPath` | logo、导航、搜索入口、主题切换 |
+| Header | `lang?` | logo、导航、搜索入口、语言切换、主题切换 |
 | Nav | `items` | `aria-current="page"` |
 | MobileMenu | — | 原生 popover；Esc 关闭；焦点返回 |
-| ThemeToggle | — | `aria-pressed`；三态循环 |
-| Footer | — | 链接、许可、RSS、返回顶部 |
+| ThemeToggle | `lang?` | `aria-pressed`；三态循环；中英文标签 |
+| Footer | `lang?` | 本地化链接、许可、RSS、返回顶部 |
 | SkipLink | — | 首个可聚焦，指向 `#main` |
-| CommandPalette | `email` | ⌘K 命令面板：导航/主题/复制邮箱/RSS；role=dialog + listbox |
+| CommandPalette | `email`、`lang?` | ⌘K 命令面板：导航/主题/复制邮箱/RSS；role=dialog + listbox |
 
 ## 3. project/
 
 | 组件 | Props | 说明 |
 |---|---|---|
-| ProjectCard | `project`、`variant: default\|compact` | 封面（可占位）、标题、摘要、领域、标签、年份 |
+| ProjectCard | `project`、`index`、`level?`、`lang?` | 封面（可占位）、标题、摘要、领域、标签、年份 |
 | ProjectGrid | `projects` | 响应式 3/2/1 列；`<ul>` 语义 |
 | FilterBar | `facets`、`active` | 领域 chips + 标签多选；`aria-pressed`；无 JS 退化为锚点 |
 | SortSelect | `value` | 原生 `<select>` + label |
 | ResultCount | `count` | `aria-live="polite"` |
-| Toc | `headings` | 嵌套列表；当前项高亮（IntersectionObserver） |
+| Toc | `headings`、`lang?` | 嵌套列表；当前项高亮（IntersectionObserver） |
 | Metric | `label`、`value`、`unit?` | 数值强调，单位弱化 |
 | Timeline | `items` | 教育/经历；`<ol>` |
 | Gallery | `images: { src: ImageMetadata; alt; caption? }[]` | 网格 + 原生 dialog 灯箱；无图片时不渲染 |
@@ -60,7 +60,7 @@
 
 | 组件 | Props | 说明 |
 |---|---|---|
-| Meta | `seo` | title/description/canonical/OG/Twitter |
+| Meta | `title`、`description`、`lang?`、`alternates?` | title/description/canonical/hreflang/OG/Twitter |
 | JsonLd | `data` | `<script type="application/ld+json">`，序列化防注入 |
 
 ## 5. mdx/

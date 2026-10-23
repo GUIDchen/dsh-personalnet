@@ -7,7 +7,17 @@ import { getFacets } from "@/lib/filter";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { TAG_VOCABULARY } from "@/data/tags";
 import JsonLd from "@/components/seo/JsonLd.astro";
+import { copy, format, ui, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
+import { getDomainMeta } from "@/data/domains";
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const t = ui[lang];
+const c = copy[lang].projects;
 const projects = await getPublishedProjects();
 const counts = new Map<string, number>();
 for (const project of projects) {
@@ -28,40 +38,46 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
 ---
 
 <BaseLayout
-  title="项目"
-  description={`共 ${projects.length} 个项目案例，覆盖 ${domainCount} 个领域。`}
+  title={c.title}
+  description={
+    lang === "en"
+      ? `${projects.length} case studies across ${domainCount} domains.`
+      : `共 ${projects.length} 个项目案例，覆盖 ${domainCount} 个领域。`
+  }
+  lang={lang}
 >
   <JsonLd
     data={breadcrumbJsonLd([
-      { name: "首页", path: "/" },
-      { name: "项目", path: "/projects/" },
+      { name: t.nav.home, path: localizePath("", lang) },
+      { name: t.nav.projects, path: localizePath("projects/", lang) },
     ])}
   />
 
   <header class="page-head">
-    <p class="mono-label">索引 / 项目</p>
-    <h1>项目</h1>
-    <p class="lead">
-      {projects.length} 个案例，覆盖 {domainCount}{" "}
-      个领域。可按领域与标签筛选。每个案例都写清了问题、约束、方案与结果。
-    </p>
+    <p class="mono-label">{c.kicker}</p>
+    <h1>{c.title}</h1>
+    <p class="lead">{format(c.lead, { count: projects.length, domains: domainCount })}</p>
   </header>
 
   <div data-projects-root>
     <div class="toolbar" data-filter-bar>
-      <div class="chip-row" role="group" aria-label="按领域筛选">
+      <div
+        class="chip-row"
+        role="group"
+        aria-label={lang === "en" ? "Filter by domain" : "按领域筛选"}
+      >
         <button type="button" class="chip" data-filter-domain="" aria-pressed="true">
-          全部 <span>{projects.length}</span>
+          {c.all} <span>{projects.length}</span>
         </button>
         {DOMAIN_LIST.filter((domain) => (counts.get(domain.id) ?? 0) > 0).map((domain) => (
           <button type="button" class="chip" data-filter-domain={domain.id} aria-pressed="false">
-            {domain.label} <span>{counts.get(domain.id)}</span>
+            {getDomainMeta(domain.id, lang).label} <span>{counts.get(domain.id)}</span>
           </button>
         ))}
       </div>
 
-      <div class="tag-row" role="group" aria-label="按标签筛选">
-        <span class="mono-label">标签</span>
+      <div class="tag-row" role="group" aria-label={lang === "en" ? "Filter by tag" : "按标签筛选"}>
+        <span class="mono-label">{c.tags}</span>
         {topTags.map((tag) => (
           <button type="button" class="tag-chip" data-filter-tag={tag.id} aria-pressed="false">
             {tag.id} <span>{tag.count}</span>
@@ -71,21 +87,23 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
 
       <div class="toolbar-end">
         <button type="button" class="link-button" data-clear-filters>
-          清除筛选
+          {c.clear}
         </button>
         <label class="sort">
-          <span class="mono-label">排序</span>
+          <span class="mono-label">{c.sort}</span>
           <select data-sort>
-            <option value="featured">精选优先</option>
-            <option value="latest">最新</option>
-            <option value="title">名称</option>
+            <option value="featured">{c.sortFeatured}</option>
+            <option value="latest">{c.sortLatest}</option>
+            <option value="title">{c.sortTitle}</option>
           </select>
         </label>
       </div>
     </div>
 
     <p class="result" aria-live="polite">
-      显示 <span data-visible-count>{projects.length}</span> / {projects.length} 个项目
+      {lang === "en" ? "Showing " : "显示 "}
+      <span data-visible-count>{projects.length}</span>
+      {lang === "en" ? ` / ${projects.length} projects` : ` / ${projects.length} 个项目`}
     </p>
 
     <ul class="project-grid" data-project-grid>
@@ -99,23 +117,25 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
           data-featured={String(project.data.featured)}
           data-order={String(project.data.order)}
         >
-          <ProjectCard project={project} index={index + 1} level={2} />
+          <ProjectCard project={project} index={index + 1} level={2} lang={lang} />
         </li>
       ))}
     </ul>
 
     <div class="empty" data-empty-state hidden>
-      <p class="empty-title">没有匹配的项目</p>
-      <p class="empty-desc">试试清除标签，或换一个领域。</p>
+      <p class="empty-title">{c.emptyTitle}</p>
+      <p class="empty-desc">{c.emptyDesc}</p>
       <button type="button" class="chip" data-clear-filters>
-        清除筛选
+        {c.clear}
       </button>
     </div>
   </div>
 
   <noscript>
-    <p class="notice">筛选与排序需要 JavaScript；当前显示全部项目，所有内容都可以直接阅读。</p>
+    <p class="notice">{c.noJs}</p>
   </noscript>
+
+  {lang === "en" && <p class="notice">{c.notice}</p>}
 </BaseLayout>
 
 <script>

@@ -1,0 +1,44 @@
+import type { TimelineItem } from "./timeline";
+
+export const TIMELINE_EN: TimelineItem[] = [
+  {
+    period: "2025.07 – Present",
+    title: "Independent development",
+    org: "AI data applications",
+    kind: "工作",
+    detail:
+      "Building AI data applications: collection, cleaning, model training and deployment; continuing to study network engineering and embedded Verilog.",
+  },
+  {
+    period: "2023.09 – 2024.05",
+    title: "Software, hardware and data analysis",
+    org: "Lanzhou Tianda Zhuoyue Information Technology",
+    kind: "工作",
+    detail:
+      "Maintained devices and systems, handled day-to-day hardware and software issues, and supported data analysis.",
+  },
+  {
+    period: "2022.09 – 2025.07",
+    title: "M.Eng. in Software Engineering",
+    org: "Northwest Normal University",
+    kind: "教育",
+    detail:
+      "Research: intelligent algorithms, computer vision and data mining. Coursework in machine learning, AI and algorithm design.",
+  },
+  {
+    period: "2016.09 – 2020.06",
+    title: "B.Eng. in Software Engineering",
+    org: "Zhengzhou University",
+    kind: "教育",
+    detail:
+      "Databases, algorithm design, computer networks, software architecture and software engineering practice.",
+  },
+  {
+    period: "2024 – 2027",
+    title: "Poverty relapse monitoring and governance model",
+    org: "National Natural Science Foundation of China (72364033) · participant",
+    kind: "科研",
+    detail:
+      "Collected and cleaned social differentiation data; built classification, clustering and individual identification experiments.",
+  },
+];

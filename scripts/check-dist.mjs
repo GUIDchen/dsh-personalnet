@@ -66,8 +66,11 @@ for (const file of htmlFiles) {
 // sitemap
 const sitemap = exists("sitemap-0.xml") ? read("sitemap-0.xml") : "";
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-// 所有构建页面都应进入 sitemap，仅 search 与 404 例外。
-const expectedSitemap = htmlFiles.length - 2;
+// 所有构建页面都应进入 sitemap，仅 search 与 404（含英文版）例外。
+const excludedFromSitemap = routes.filter(
+  (route) => route.includes("/search/") || route.endsWith("/404.html") || route.includes("/404/"),
+).length;
+const expectedSitemap = htmlFiles.length - excludedFromSitemap;
 if (sitemapUrls.length !== expectedSitemap) {
   errors.push(`sitemap URL 应为 ${expectedSitemap} 个，实际 ${sitemapUrls.length}`);
 }

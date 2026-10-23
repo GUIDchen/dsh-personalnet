@@ -1,5 +1,7 @@
 ---
 import { absoluteUrl } from "@/lib/seo";
+import { ogLocale, type Lang } from "@/i18n";
+import type { Alternates } from "@/i18n/routing";
 
 interface Props {
   title: string;
@@ -7,6 +9,8 @@ interface Props {
   noindex?: boolean;
   type?: "website" | "article";
   image?: string;
+  lang?: Lang;
+  alternates?: Alternates;
 }
 
 const {
@@ -15,22 +19,31 @@ const {
   noindex = false,
   type = "website",
   image = "/og/default.jpg",
+  lang = "zh",
+  alternates,
 } = Astro.props;
-const siteName = "陈陇刚";
+const siteName = lang === "en" ? "Chen Longgang" : "陈陇刚";
 const fullTitle = title.includes(siteName) ? title : `${title} · ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = absoluteUrl(image);
+const alternateUrl = (path: string) => new URL(path, Astro.site).href;
 ---
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 {noindex && <meta name="robots" content="noindex" />}
+{alternates && <link rel="alternate" hreflang="zh-CN" href={alternateUrl(alternates.zh)} />}
+{alternates?.en && <link rel="alternate" hreflang="en" href={alternateUrl(alternates.en)} />}
+{alternates && <link rel="alternate" hreflang="x-default" href={alternateUrl(alternates.zh)} />}
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonical} />
 <meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={ogLocale[lang]} />
+{lang === "zh" && <meta property="og:locale:alternate" content={ogLocale.en} />}
+{lang === "en" && <meta property="og:locale:alternate" content={ogLocale.zh} />}
 {ogImage && <meta property="og:image" content={ogImage} />}
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />

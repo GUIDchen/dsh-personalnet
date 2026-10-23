@@ -74,16 +74,24 @@ export function initSearch(): void {
     status.textContent = text;
   };
 
+  const message = (key: string, fallback: string): string => root.dataset[key] ?? fallback;
+  const fill = (template: string, values: Record<string, string | number>): string =>
+    template.replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? ""));
+
   const render = async (query: string): Promise<void> => {
     const trimmed = query.trim();
     if (trimmed.length < 2) {
       list.replaceChildren();
       if (empty) empty.hidden = true;
-      setStatus(trimmed ? "再输入一个字符开始搜索" : "输入关键词开始搜索");
+      setStatus(
+        trimmed
+          ? message("msgShort", "再输入一个字符开始搜索")
+          : message("msgInitial", "输入关键词开始搜索"),
+      );
       return;
     }
 
-    setStatus("搜索中…");
+    setStatus(message("msgSearching", "搜索中…"));
     try {
       const engine = await loadPagefind();
       await engine.options({ excerptLength: 28 });
@@ -114,13 +122,16 @@ export function initSearch(): void {
       if (empty) empty.hidden = results.length !== 0;
       setStatus(
         results.length === 0
-          ? `没有找到与「${trimmed}」相关的内容`
-          : `找到 ${results.length} 个与「${trimmed}」相关的结果`,
+          ? fill(message("msgNone", "没有找到与「{query}」相关的内容"), { query: trimmed })
+          : fill(message("msgFound", "找到 {count} 个与「{query}」相关的结果"), {
+              count: results.length,
+              query: trimmed,
+            }),
       );
     } catch {
       list.replaceChildren();
       if (empty) empty.hidden = false;
-      setStatus("搜索索引尚未生成，请先运行构建，或浏览项目库。");
+      setStatus(message("msgMissing", "搜索索引尚未生成，请先运行构建，或浏览项目库。"));
     }
   };
 

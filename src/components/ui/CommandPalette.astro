@@ -1,21 +1,49 @@
 ---
+import { ui, type Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
+
 interface Props {
   email: string;
+  lang?: Lang;
 }
 
-const { email } = Astro.props;
+const { email, lang = "zh" } = Astro.props;
+const t = ui[lang];
 const base = import.meta.env.BASE_URL;
+
+const entries = [
+  { key: "home", href: localizePath("", lang) },
+  { key: "projects", href: localizePath("projects/", lang) },
+  { key: "notes", href: localizePath("notes/", lang) },
+  { key: "now", href: localizePath("now/", lang) },
+  { key: "uses", href: localizePath("uses/", lang) },
+  { key: "about", href: localizePath("about/", lang) },
+  { key: "cv", href: localizePath("cv/", lang) },
+  { key: "search", href: `${localizePath("search/", lang)}?focus=1` },
+  { key: "theme", action: "theme" },
+  { key: "email", action: "copy-email", hint: email },
+  { key: "rss", href: `${base}rss.xml` },
+] as const;
+
+const items = entries.map((entry) => {
+  const [label, hint] = t.palette.items[entry.key];
+  return {
+    ...entry,
+    label,
+    hint: "hint" in entry ? entry.hint : hint,
+  };
+});
 ---
 
 <dialog class="palette" data-palette-dialog aria-labelledby="palette-title">
   <div class="palette-head">
     <h2 id="palette-title" class="sr-only">
-      命令面板
+      {t.palette.title}
     </h2>
     <input
       type="text"
       data-palette-input
-      placeholder="输入命令或页面名称…"
+      placeholder={t.palette.placeholder}
       autocomplete="off"
       spellcheck="false"
       aria-controls="palette-list"
@@ -24,79 +52,38 @@ const base = import.meta.env.BASE_URL;
     <kbd>Esc</kbd>
   </div>
 
-  <ul id="palette-list" class="palette-list" data-palette-list role="listbox" aria-label="命令">
-    <li role="option" data-palette-item data-href={`${base}`} data-label="首页">
-      <span>首页</span>
-      <span class="hint">Home</span>
-    </li>
-    <li
-      role="option"
-      data-palette-item
-      data-href={`${base}projects/`}
-      data-label="项目 项目库 作品"
-    >
-      <span>项目</span>
-      <span class="hint">Projects</span>
-    </li>
-    <li role="option" data-palette-item data-href={`${base}notes/`} data-label="笔记 文章 notes">
-      <span>笔记</span>
-      <span class="hint">Notes</span>
-    </li>
-    <li role="option" data-palette-item data-href={`${base}now/`} data-label="现在 now 状态">
-      <span>现在在做什么</span>
-      <span class="hint">Now</span>
-    </li>
-    <li role="option" data-palette-item data-href={`${base}uses/`} data-label="工具 uses">
-      <span>常用工具</span>
-      <span class="hint">Uses</span>
-    </li>
-    <li role="option" data-palette-item data-href={`${base}about/`} data-label="关于 about">
-      <span>关于</span>
-      <span class="hint">About</span>
-    </li>
-    <li role="option" data-palette-item data-href={`${base}cv/`} data-label="简历 cv">
-      <span>简历</span>
-      <span class="hint">CV</span>
-    </li>
-    <li
-      role="option"
-      data-palette-item
-      data-href={`${base}search/?focus=1`}
-      data-label="搜索 search"
-    >
-      <span>搜索</span>
-      <span class="hint">Search</span>
-    </li>
-    <li role="option" data-palette-item data-action="theme" data-label="主题 深色 浅色 theme">
-      <span>切换主题</span>
-      <span class="hint">Theme</span>
-    </li>
-    <li
-      role="option"
-      data-palette-item
-      data-action="copy-email"
-      data-label="复制邮箱 email"
-      data-email={email}
-    >
-      <span>复制邮箱</span>
-      <span class="hint">{email}</span>
-    </li>
-    <li role="option" data-palette-item data-href={`${base}rss.xml`} data-label="rss 订阅">
-      <span>RSS 订阅</span>
-      <span class="hint">RSS</span>
-    </li>
+  <ul
+    id="palette-list"
+    class="palette-list"
+    data-palette-list
+    role="listbox"
+    aria-label={t.palette.title}
+  >
+    {items.map((item) => (
+      <li
+        role="option"
+        data-palette-item
+        data-href={"href" in item ? item.href : undefined}
+        data-action={"action" in item ? item.action : undefined}
+        data-email={item.key === "email" ? email : undefined}
+        data-copied={item.key === "email" ? t.common.copyEmail : undefined}
+        data-label={`${item.label} ${item.hint}`}
+      >
+        <span>{item.label}</span>
+        <span class="hint">{item.hint}</span>
+      </li>
+    ))}
   </ul>
 
   <p class="palette-empty" data-palette-empty hidden>
-    没有匹配的命令
+    {t.palette.empty}
   </p>
   <p class="palette-foot">
-    <span>↑↓ 选择</span>
-    <span>Enter 执行</span>
-    <span>Esc 关闭</span>
+    {t.palette.footer.map((label) => (
+      <span>{label}</span>
+    ))}
   </p>
 </dialog>
-
 <style>
   .palette {
     width: min(92vw, 34rem);

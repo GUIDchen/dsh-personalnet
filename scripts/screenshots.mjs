@@ -24,6 +24,8 @@ const shots = [
   { path: "/", w: 1920, h: 1080, name: "home-1920" },
   { path: "/projects/", w: 1280, h: 900, name: "projects-1280" },
   { path: "/projects/", w: 390, h: 844, name: "projects-390" },
+  { path: "/github/", w: 1280, h: 900, name: "github-1280" },
+  { path: "/github/", w: 390, h: 844, name: "github-390" },
   { path: "/search/", w: 1280, h: 900, name: "search-1280" },
   { path: "/now/", w: 1280, h: 900, name: "now-1280" },
   { path: "/uses/", w: 1280, h: 900, name: "uses-1280" },

@@ -27,6 +27,8 @@ test.describe("内容管理后台", () => {
     await expect(page.locator("body")).toContainText("项目");
     await expect(page.locator("body")).toContainText("笔记");
     await expect(page.locator("body")).toContainText("证据完整度");
+    await expect(page.locator("body")).toContainText("内容编辑器登录");
+    await expect(page.locator("body")).toContainText("生成访问令牌");
     await expect(page.locator("body")).toContainText("内容证据");
     await expect(page.locator("body")).toContainText("发布流程");
     await expect(page.locator("[data-deploy-status]")).toContainText("成功");
@@ -50,6 +52,7 @@ test.describe("内容管理后台", () => {
     expect(body).toContain("src/content/notes");
     expect(body).toContain("src/data/profile.zh.json");
     expect(body).toContain("publish_mode: simple");
+    expect(body).toContain("auth_methods: [token]");
 
     const sitemap = await page.request.get("/sitemap-0.xml");
     expect(await sitemap.text()).not.toContain("/admin/");

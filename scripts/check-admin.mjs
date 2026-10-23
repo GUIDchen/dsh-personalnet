@@ -77,6 +77,13 @@ if (exists("public/admin/cms/config.yml")) {
     } else if (config.backend.repo.startsWith("OWNER/")) {
       warnings.push("backend.repo 仍是 OWNER 占位；线上模式前需替换");
     }
+    const methods = config.backend?.auth_methods;
+    if (!Array.isArray(methods) || !methods.includes("token")) {
+      errors.push("backend.auth_methods 必须包含 token（当前使用访问令牌登录）");
+    }
+    if (Array.isArray(methods) && methods.includes("oauth") && !config.backend?.base_url) {
+      errors.push("启用了 oauth 但未配置 base_url；Sveltia 会回退到不可用的 Netlify OAuth");
+    }
     if (!config.media_folder || !config.public_folder)
       errors.push("缺少 media_folder/public_folder");
 

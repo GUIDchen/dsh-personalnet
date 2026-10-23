@@ -105,10 +105,19 @@
 ### 4.2 线上编辑
 
 1. `public/admin/cms/config.yml` 的 `backend.repo` 已指向 `GUIDchen/dsh-personalnet`；换仓库时修改此处。
-2. 选择认证方式：
-   - **PAT（最快）**：创建 fine-grained token，只授予目标仓库 `Contents: Read and write`；按 Sveltia 登录提示填入。token 只保存在浏览器本地，不写入仓库。
-   - **OAuth（推荐长期）**：部署 [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) Worker，在 backend 增加 `base_url` 指向 Worker。
-3. 部署后访问 `/admin/cms/`，登录并编辑；Sveltia 会以 commit 形式写入仓库，触发 CI/部署。仪表盘 `/admin/` 可查看统计与发布入口。
+2. 当前配置为 **token-only**：`backend.auth_methods: [token]`。
+   - 打开 `/admin/cms/`，点击「使用访问令牌登录」。
+   - 创建 fine-grained token：Repository access 只选本仓库；权限 `Contents: Read and write`（Metadata 自动只读；simple workflow 不需要 Pull requests）。
+   - token 只保存在浏览器 localStorage，不写入仓库。
+3. **为什么没有 GitHub OAuth 按钮**：Sveltia 在未配置 `base_url` 时默认使用 `https://api.netlify.com/auth`；本站不在 Netlify，也没有 Netlify OAuth 应用，会出现 `error No data`。因此暂时关闭 OAuth，避免按钮进入不可用流程。
+4. 未来启用 OAuth：
+   - 部署 [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) Cloudflare Worker；
+   - 创建 GitHub OAuth App，callback 指向 Worker；
+   - backend 增加 `base_url: https://<worker>`，并将 `auth_methods` 改为 `[oauth, token]`；
+   - 不要只加 `oauth` 而不配置 `base_url`。
+5. 部署后访问 `/admin/cms/`，登录并编辑；Sveltia 会以 commit 形式写入仓库，触发 CI/部署。仪表盘 `/admin/` 可查看统计与发布入口。
+
+> 故障排查：`401/403` 检查 token 是否过期、是否选对仓库、是否有 Contents 写权限；`404` 检查 repo 名；`error No data` 通常是 OAuth 回调不可用，改用 token 登录。
 
 ## 5. 安全
 

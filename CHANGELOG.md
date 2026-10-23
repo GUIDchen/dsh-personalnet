@@ -16,6 +16,21 @@
 
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [2.3.1] - 2026-10-24
+
+后台内容编辑器登录修复。
+
+### Fixed
+
+- Sveltia 默认 GitHub OAuth 回退到未配置的 Netlify 端点，点击「使用 GitHub 登录」出现 `error No data`。
+- 后台配置改为 `auth_methods: [token]`，登录页只保留可用的访问令牌入口。
+- 仪表盘新增内容编辑器登录指引与 fine-grained token 权限说明。
+- `check:admin` 增加 auth_methods 校验，禁止"启用 oauth 但无 base_url"。
+
+### Changed
+
+- 文档补充 token-only 原因、PAT 权限、未来 OAuth Worker 启用步骤与故障排查。
+
 ## [2.3.0] - 2026-10-23
 
 双语内容与长期完善版本。

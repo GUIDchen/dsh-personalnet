@@ -28,6 +28,7 @@
 | v2.2.0 | 媒体/证据发布 | 6f8c07b / 9b7dbcc | 公网 200、deploy/CI success、tag/release | 真实截图与 10 个仓库 URL 待补 |
 | M19 | 12 项目 + 6 笔记英文标题/摘要 | 45e8ec8 | 英文页面/E2E/构建 | 英文正文仍为中文 |
 | v2.3.0 | 双语内容发布 | 45e8ec8 | 公网 200、deploy success、tag/release | 真实截图与 10 个仓库 URL 待补 |
+| M20 | 后台 token-only 登录、登录指引、auth 校验 | 本提交 | Chrome token 登录成功、新建项目表单 | OAuth 仍需 Worker |
 | 维护增强 | 内容证据审计、站点/媒体健康检查、链接容错 | 本提交 | health 10 项 0 失败 | — |
 
 ### 备注

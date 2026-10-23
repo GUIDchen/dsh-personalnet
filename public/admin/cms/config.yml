@@ -4,6 +4,9 @@ backend:
   name: github
   repo: GUIDchen/dsh-personalnet
   branch: main
+  # 当前使用 fine-grained access token；未部署 OAuth Worker 前不启用 oauth，
+  # 否则 Sveltia 会回退到 Netlify OAuth 并报 "error No data"。
+  auth_methods: [token]
 
 publish_mode: simple
 

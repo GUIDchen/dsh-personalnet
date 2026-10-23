@@ -113,6 +113,44 @@ const stats = [
     ))}
   </section>
 
+  <section class="panel login-guide" aria-labelledby="login-title">
+    <div>
+      <h2 id="login-title">内容编辑器登录</h2>
+      <p class="muted">
+        点击「新建项目 / 新建笔记 / 编辑」会先进入 Sveltia 登录页，这是正常的写权限保护。 当前使用
+        GitHub 访问令牌（token），不再使用未配置的默认 OAuth。
+      </p>
+      <ol class="steps">
+        <li>
+          <span>01</span>打开 GitHub fine-grained token 创建页
+        </li>
+        <li>
+          <span>02</span>Repository access 只选 <code>GUIDchen/dsh-personalnet</code>
+        </li>
+        <li>
+          <span>03</span>权限给 <code>Contents: Read and write</code>，生成并复制
+        </li>
+        <li>
+          <span>04</span>打开编辑器，选「使用访问令牌登录」并粘贴
+        </li>
+      </ol>
+    </div>
+    <div class="login-actions">
+      <a
+        class="button button--primary"
+        href="https://github.com/settings/personal-access-tokens/new"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        生成访问令牌 ↗
+      </a>
+      <a class="button" href={cms} data-astro-reload>
+        打开内容编辑器
+      </a>
+      <small class="muted">token 只保存在当前浏览器，不会写入仓库。</small>
+    </div>
+  </section>
+
   <div class="columns">
     <section class="panel" aria-labelledby="recent-title">
       <div class="panel-head">
@@ -348,6 +386,39 @@ const stats = [
     border-radius: var(--radius-lg);
     padding: clamp(1rem, 2.5vw, 1.4rem);
     background: var(--surface-raised);
+  }
+  .login-guide {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(14rem, 0.7fr);
+    gap: 1.5rem;
+    align-items: start;
+    margin-bottom: 1.25rem;
+  }
+  .login-guide h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+  }
+  .login-guide .steps {
+    margin-top: 0.9rem;
+  }
+  .login-guide code {
+    font-size: 0.8em;
+  }
+  .login-actions {
+    display: grid;
+    gap: 0.6rem;
+  }
+  .login-actions .button {
+    width: 100%;
+  }
+  .login-actions small {
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+  @media (max-width: 800px) {
+    .login-guide {
+      grid-template-columns: 1fr;
+    }
   }
   .panel + .panel,
   .repo-panel,

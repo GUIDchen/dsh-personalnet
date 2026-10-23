@@ -2,7 +2,7 @@
 
 > 个人网站：7 个领域、12 个项目案例与 6 篇技术笔记。静态优先、零运行时后端、MIT 开源，支持中英文界面。
 
-**在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Release**：[v2.2.0](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.2.0)
+**在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Release**：[v2.3.0](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.3.0)
 
 [![文档](https://img.shields.io/badge/docs-28%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
@@ -63,6 +63,7 @@
 | M16    | 媒体上传、图库、内容健康度            | ✅ 完成 |
 | M17    | 3 篇笔记、JSON Feed、后台部署状态     | ✅ 完成 |
 | M18    | v2.2.0 发布                           | ✅ 完成 |
+| M19    | 12 项目/6 笔记英文标题与摘要          | ✅ 完成 |
 
 ## 技术栈
 

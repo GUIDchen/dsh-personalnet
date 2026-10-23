@@ -161,11 +161,17 @@ const aboutHref = localizePath("about/", lang);
             <a href={`${import.meta.env.BASE_URL}notes/${note.id}/`}>
               <span class="note-date">{note.data.date}</span>
               <span class="note-body">
-                <span class="note-title" lang={lang === "en" ? "zh-CN" : undefined}>
-                  {note.data.title}
+                <span
+                  class="note-title"
+                  lang={lang === "en" && !note.data.titleEn ? "zh-CN" : undefined}
+                >
+                  {lang === "en" ? (note.data.titleEn ?? note.data.title) : note.data.title}
                 </span>
-                <span class="note-summary" lang={lang === "en" ? "zh-CN" : undefined}>
-                  {note.data.summary}
+                <span
+                  class="note-summary"
+                  lang={lang === "en" && !note.data.titleEn ? "zh-CN" : undefined}
+                >
+                  {lang === "en" ? (note.data.summaryEn ?? note.data.summary) : note.data.summary}
                 </span>
               </span>
               <span class="note-arrow" aria-hidden="true">

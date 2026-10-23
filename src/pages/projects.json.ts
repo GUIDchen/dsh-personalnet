@@ -10,7 +10,9 @@ export async function GET(_context: APIContext) {
     projects: projects.map((project) => ({
       slug: project.id,
       title: project.data.title,
+      titleEn: project.data.titleEn ?? null,
       summary: project.data.summary,
+      summaryEn: project.data.summaryEn ?? null,
       domain: project.data.domain,
       tags: project.data.tags,
       year: project.data.timeframe.start.slice(0, 4),

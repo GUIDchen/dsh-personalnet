@@ -26,7 +26,9 @@ collections:
     public_folder: /media/projects
     fields:
       - { label: 标题, name: title, widget: string, hint: "2–40 字" }
+      - { label: 英文标题, name: titleEn, widget: string, required: false, hint: "English title" }
       - { label: 摘要, name: summary, widget: text, hint: "20–200 字" }
+      - { label: 英文摘要, name: summaryEn, widget: text, required: false, hint: "English summary" }
       - label: 领域
         name: domain
         widget: select
@@ -146,7 +148,9 @@ collections:
     preview_path: notes/{{slug}}/
     fields:
       - { label: 标题, name: title, widget: string, hint: "2–60 字" }
+      - { label: 英文标题, name: titleEn, widget: string, required: false }
       - { label: 摘要, name: summary, widget: text, hint: "20–200 字" }
+      - { label: 英文摘要, name: summaryEn, widget: text, required: false }
       - {
           label: 日期,
           name: date,

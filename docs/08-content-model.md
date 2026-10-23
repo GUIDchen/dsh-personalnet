@@ -20,7 +20,9 @@
 
 | 字段 | 类型 | 必填 | 约束 | 说明 |
 |---|---|---|---|---|
-| `title` | string | 是 | 2–40 字 | 页面 H1 |
+| `title` | string | 是 | 2–40 字 |
+| `titleEn` | string | 否 | 英文标题，2–80 字符 |
+| `summaryEn` | string | 否 | 英文摘要，20–240 字符 | 页面 H1 |
 | `summary` | string | 是 | 40–160 字 | 卡片摘要与 meta description |
 | `domain` | enum | 是 | 7 个领域之一 | 一级分类 |
 | `tags` | string[] | 是 | 1–6 个，来自词表 | 二级标签 |
@@ -148,7 +150,9 @@ draft: false
 | 字段 | 类型 | 必填 | 约束 |
 |---|---|---|---|
 | `title` | string | 是 | 2–60 字 |
+| `titleEn` | string | 否 | 英文标题，2–80 字符 |
 | `summary` | string | 是 | 20–200 字 |
+| `summaryEn` | string | 否 | 英文摘要，20–240 字符 |
 | `date` | string | 是 | `YYYY-MM-DD`，必须为真实日期 |
 | `tags` | string[] | 否 | 0–6 个，必须在词表内 |
 | `draft` | boolean | 否 | 默认 false，草稿不构建 |

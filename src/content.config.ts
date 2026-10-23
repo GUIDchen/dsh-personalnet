@@ -27,7 +27,9 @@ const projects = defineCollection({
   loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/projects" }),
   schema: z.object({
     title: z.string().min(2).max(40),
+    titleEn: z.string().min(2).max(80).optional(),
     summary: z.string().min(20).max(200),
+    summaryEn: z.string().min(20).max(240).optional(),
     domain: z.enum(DOMAINS),
     tags: z
       .array(z.string().regex(/^[a-z0-9-]+$/))
@@ -86,7 +88,9 @@ const notes = defineCollection({
   loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/notes" }),
   schema: z.object({
     title: z.string().min(2).max(60),
+    titleEn: z.string().min(2).max(80).optional(),
     summary: z.string().min(20).max(200),
+    summaryEn: z.string().min(20).max(240).optional(),
     date: noteDate,
     tags: z
       .array(z.string().regex(/^[a-z0-9-]+$/))

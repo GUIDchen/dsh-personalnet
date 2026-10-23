@@ -88,7 +88,7 @@ const homeHref = localizePath("", lang);
           <li>
             <div class="item-head">
               <h3>
-                {project.data.title}
+                {lang === "en" ? (project.data.titleEn ?? project.data.title) : project.data.title}
                 {project.data.links.repo && (
                   <a
                     class="repo-inline"
@@ -97,7 +97,7 @@ const homeHref = localizePath("", lang);
                     rel="noopener noreferrer"
                     aria-label={
                       lang === "en"
-                        ? `Source: ${project.data.title} on GitHub`
+                        ? `Source: ${project.data.titleEn ?? project.data.title} on GitHub`
                         : `源码：${project.data.title} GitHub`
                     }
                   >

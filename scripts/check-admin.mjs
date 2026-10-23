@@ -18,6 +18,8 @@ const expected = {
   projects: [
     "title",
     "summary",
+    "titleEn",
+    "summaryEn",
     "domain",
     "tags",
     "role",
@@ -35,7 +37,7 @@ const expected = {
     "draft",
     "seo",
   ],
-  notes: ["title", "summary", "date", "tags", "draft"],
+  notes: ["title", "titleEn", "summary", "summaryEn", "date", "tags", "draft"],
 };
 
 if (!exists("public/admin/cms/index.html")) errors.push("缺少 public/admin/cms/index.html");

@@ -41,7 +41,9 @@
 | 字段 | 控件 | 说明 |
 |---|---|---|
 | title | string | 2–40 字 |
+| titleEn | string | 英文标题（选填） |
 | summary | text | 20–200 字 |
+| summaryEn | text | 英文摘要（选填） |
 | domain | select | 7 个领域枚举 |
 | tags | list | 1–6 个，小写/数字/连字符 |
 | role / team | string | 角色、团队（选填） |
@@ -65,7 +67,9 @@
 | 字段 | 控件 | 说明 |
 |---|---|---|
 | title | string | 2–60 字 |
+| titleEn | string | 英文标题（选填） |
 | summary | text | 20–200 字 |
+| summaryEn | text | 英文摘要（选填） |
 | date | datetime | 输出 `YYYY-MM-DD` |
 | tags | list | 0–6 个 |
 | draft | boolean | 草稿不进入构建 |

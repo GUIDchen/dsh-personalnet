@@ -33,6 +33,9 @@ test.describe("中英文界面", () => {
     await expect(page.locator("body")).toContainText("Case studies are currently in Chinese.");
     const firstCard = page.locator(".project-card .title-link").first();
     await expect(firstCard).toHaveAttribute("href", /^\/projects\//);
+    await expect(firstCard).toContainText("YOLO Object Detection in Practice");
+    await page.goto("/en/notes/");
+    await expect(page.locator(".notes")).toContainText("A Media Workflow for a Static Site");
   });
 
   test("中文详情页的语言切换回退到英文列表", async ({ page }) => {

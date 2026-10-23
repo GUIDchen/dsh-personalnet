@@ -102,5 +102,6 @@ test.describe("机器可读输出", () => {
       (project: { slug: string }) => project.slug === "javaweb-blog",
     );
     expect(javaProject.repo).toBe("https://github.com/GUIDchen/javaee-blog");
+    expect(javaProject.titleEn).toBe("JavaWeb Personal Blog System");
   });
 });

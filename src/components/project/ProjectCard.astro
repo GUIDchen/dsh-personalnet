@@ -20,6 +20,9 @@ const { project, index, level = 3, lang = "zh" } = Astro.props;
 const Heading = level === 2 ? "h2" : "h3";
 const { data, id } = project;
 const domain = getDomainMeta(data.domain, lang);
+const title = lang === "en" ? (data.titleEn ?? data.title) : data.title;
+const summaryText = lang === "en" ? (data.summaryEn ?? data.summary) : data.summary;
+const contentLang = lang === "en" && !data.titleEn ? "zh-CN" : undefined;
 
 const covers = import.meta.glob<{ default: ImageMetadata }>("../../assets/covers/*.jpg", {
   eager: true,
@@ -63,15 +66,15 @@ const href = `${import.meta.env.BASE_URL}projects/${id}/`;
   <div class="body">
     <p class="domain">{domain.label}</p>
     <div class="title-row">
-      <Heading class="title" lang={lang === "en" ? "zh-CN" : undefined}>
+      <Heading class="title" lang={contentLang}>
         <a class="title-link" href={href} hreflang={lang === "en" ? "zh-CN" : undefined}>
-          {data.title}
+          {title}
         </a>
       </Heading>
-      {repo && <RepoLink repo={repo} title={data.title} lang={lang} compact />}
+      {repo && <RepoLink repo={repo} title={title} lang={lang} compact />}
     </div>
-    <p class="summary" lang={lang === "en" ? "zh-CN" : undefined}>
-      {data.summary}
+    <p class="summary" lang={contentLang}>
+      {summaryText}
     </p>
     <ul class="tags" aria-label={lang === "en" ? "Tags" : "标签"}>
       {data.tags.slice(0, 3).map((tag) => (

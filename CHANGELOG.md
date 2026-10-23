@@ -16,6 +16,27 @@
 
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [2.4.0] - 2026-10-24
+
+GitHub 项目索引与后台同步。
+
+### Added
+
+- 新增 `/github/` 与 `/en/github/`：展示 13 个 curated 公开仓库，含中英摘要、语言与更新时间。
+- 新增 `github-project-sources.json`（人工维护）与 `github-projects.json`（元数据生成）。
+- 后台新增 `github` file collection，可编辑仓库清单；保存后触发同步 workflow。
+- 新增 `sync-github-projects.yml`：每周、手动或源文件变更时同步 GitHub 元数据并提交。
+- 新增 `check:github`、GitHub E2E、页脚/命令面板/项目页入口。
+
+### Changed
+
+- 仪表盘增加 GitHub 项目、仓库源与同步入口。
+- 健康检查增加 GitHub 项目数据校验。
+
+### Fixed
+
+- 仓库卡片移除与可见文本不匹配的 `aria-label`，通过 axe 检查。
+
 ## [2.3.1] - 2026-10-24
 
 后台内容编辑器登录修复。

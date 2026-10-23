@@ -90,6 +90,21 @@
 
 字段由 `check-site-data` 校验；中英结构需保持一致。
 
+### github（GitHub 项目源）
+
+`github` 是 file collection，编辑 `src/data/github-project-sources.json`：
+
+| 字段 | 说明 |
+|---|---|
+| repo | GitHub 仓库名（不含 owner） |
+| name | 页面显示名 |
+| summaryZh / summaryEn | 中英文摘要 |
+| category | 分类标签 |
+| order | 排序 |
+| featured | 精选优先 |
+
+保存后提交源文件，`.github/workflows/sync-github-projects.yml` 会拉取 GitHub 元数据并提交 `github-projects.json`，再触发部署。不要直接编辑生成文件。详见 [28-github-projects.md](./28-github-projects.md)。
+
 ## 4. 使用流程
 
 ### 4.1 本地编辑（推荐日常使用）

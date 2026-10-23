@@ -130,6 +130,19 @@ if (exists("public/admin/cms/config.yml")) {
           errors.push("site 文件不存在: " + (file.file ?? file.name));
       }
     }
+
+    const github = config.collections?.find((item) => item.name === "github");
+    if (!github) {
+      errors.push("缺少 collection: github（GitHub 项目源）");
+    } else {
+      if (github.format !== "json") errors.push("github format 应为 json");
+      const file = github.files?.[0];
+      if (!file || file.file !== "src/data/github-project-sources.json") {
+        errors.push("github 文件应指向 src/data/github-project-sources.json");
+      } else if (!exists(file.file)) {
+        errors.push("github 源文件不存在");
+      }
+    }
   }
 }
 

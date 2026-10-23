@@ -313,3 +313,24 @@ collections:
               - { label: Organisation, name: org, widget: string }
               - { label: Kind, name: kind, widget: select, options: [工作, 教育, 科研] }
               - { label: Detail, name: detail, widget: text, required: false }
+
+  - name: github
+    label: GitHub 项目
+    description: 公开仓库索引；保存后 sync workflow 更新元数据并部署。
+    format: json
+    files:
+      - name: sources
+        label: 仓库源
+        file: src/data/github-project-sources.json
+        fields:
+          - label: 仓库
+            name: repos
+            widget: list
+            fields:
+              - { label: 仓库名, name: repo, widget: string, hint: "GitHub repo name" }
+              - { label: 显示名, name: name, widget: string }
+              - { label: 中文说明, name: summaryZh, widget: text }
+              - { label: English summary, name: summaryEn, widget: text }
+              - { label: 分类, name: category, widget: string }
+              - { label: 排序, name: order, widget: number, value_type: int }
+              - { label: 精选, name: featured, widget: boolean, default: false }

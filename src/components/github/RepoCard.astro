@@ -1,0 +1,106 @@
+---
+import type { Lang } from "@/i18n";
+
+interface Repo {
+  repo: string;
+  name: string;
+  summaryZh: string;
+  summaryEn: string;
+  category: string;
+  language: string;
+  stars: number;
+  updatedAt: string;
+  url: string;
+  homepage: string;
+  topics: string[];
+}
+
+interface Props {
+  repo: Repo;
+  lang?: Lang;
+}
+
+const { repo, lang = "zh" } = Astro.props;
+const summary = lang === "en" ? repo.summaryEn : repo.summaryZh;
+const updated = repo.updatedAt
+  ? new Intl.DateTimeFormat(lang === "en" ? "en-US" : "zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date(repo.updatedAt))
+  : "—";
+---
+
+<a class="repo-card" href={repo.url} target="_blank" rel="noopener noreferrer">
+  <div class="repo-top">
+    <span class="mono-label">{repo.category}</span>
+    <span class="mono-label">{repo.language || "—"}</span>
+  </div>
+  <h3>{repo.name}</h3>
+  <p>{summary}</p>
+  <footer>
+    <span>
+      {lang === "en" ? "Updated" : "更新"} {updated}
+    </span>
+    <span class="repo-link">GitHub ↗</span>
+  </footer>
+</a>
+
+<style>
+  .repo-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    height: 100%;
+    padding: clamp(1rem, 2.4vw, 1.35rem);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklch, var(--surface) 55%, transparent);
+    color: var(--fg);
+    text-decoration: none;
+    transition:
+      border-color var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out);
+  }
+
+  .repo-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .repo-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  h3 {
+    margin: 0.25rem 0 0;
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    letter-spacing: -0.015em;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 0.9rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+  }
+
+  .repo-link {
+    color: var(--accent);
+  }
+</style>

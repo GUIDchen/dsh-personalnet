@@ -43,6 +43,7 @@
 | 组件 | Props | 说明 |
 |---|---|---|
 | ProjectCard | `project`、`index`、`level?`、`lang?` | 封面、标题 + GitHub 链接、摘要、领域、标签；英文优先 titleEn/summaryEn |
+| RepoCard | `repo`、`lang?` | GitHub 仓库整卡外链；分类、语言、摘要、更新时间 |
 | RepoLink | `repo`、`title`、`lang?`、`compact?` | GitHub 源码链接；target/rel/aria-label |
 | ProjectGrid | `projects` | 响应式 3/2/1 列；`<ul>` 语义 |
 | FilterBar | `facets`、`active` | 领域 chips + 标签多选；`aria-pressed`；无 JS 退化为锚点 |

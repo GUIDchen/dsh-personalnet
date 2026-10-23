@@ -14,6 +14,7 @@ const person = lang === "en" ? profileEn : profile;
 const year = new Date().getFullYear();
 const links = [
   { href: localizePath("projects/", lang), label: t.footer.projects },
+  { href: localizePath("github/", lang), label: "GitHub" },
   { href: localizePath("notes/", lang), label: t.footer.notes },
   { href: localizePath("now/", lang), label: t.footer.now },
   { href: localizePath("uses/", lang), label: t.footer.uses },

@@ -1,0 +1,188 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import RepoCard from "@/components/github/RepoCard.astro";
+import githubData from "@/data/github-projects.json";
+import { profile } from "@/data/profile";
+import { profileEn } from "@/data/profile.en";
+import type { Lang } from "@/i18n";
+import { localizePath } from "@/i18n/routing";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const person = lang === "en" ? profileEn : profile;
+const copy =
+  lang === "en"
+    ? {
+        kicker: "Index / GitHub",
+        title: "GitHub projects",
+        lead: "Public repositories across AI, graphics, CAD, tooling and hardware. The cards are synced from GitHub metadata; the case studies live in Projects.",
+        projects: "Case studies",
+        profile: "GitHub profile",
+        stats: ["public repositories", "languages", "latest update"],
+        list: "All repositories",
+        empty: "No repositories yet.",
+      }
+    : {
+        kicker: "索引 / GitHub",
+        title: "GitHub 项目",
+        lead: "公开仓库索引，覆盖 AI、图形、CAD、工具与硬件。卡片元数据从 GitHub 同步；完整案例在项目库。",
+        projects: "项目案例",
+        profile: "GitHub 主页",
+        stats: ["个公开仓库", "种语言", "最近更新"],
+        list: "全部仓库",
+        empty: "暂无仓库。",
+      };
+
+const repos = [...githubData.repos].sort((a, b) => {
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  return a.order - b.order;
+});
+const languages = new Set(repos.map((repo) => repo.language).filter(Boolean));
+const latest = repos
+  .map((repo) => repo.updatedAt)
+  .filter(Boolean)
+  .sort()
+  .at(-1);
+---
+
+<BaseLayout title={copy.title} description={copy.lead} lang={lang}>
+  <header class="page-head">
+    <p class="mono-label">{copy.kicker}</p>
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+    <div class="head-actions">
+      <a href={localizePath("projects/", lang)}>{copy.projects} →</a>
+      {person.github && (
+        <a href={person.github} target="_blank" rel="noopener noreferrer">
+          {copy.profile} ↗
+        </a>
+      )}
+    </div>
+  </header>
+
+  <dl class="stats">
+    <div>
+      <dt>{copy.stats[0]}</dt>
+      <dd>{repos.length}</dd>
+    </div>
+    <div>
+      <dt>{copy.stats[1]}</dt>
+      <dd>{languages.size}</dd>
+    </div>
+    <div>
+      <dt>{copy.stats[2]}</dt>
+      <dd>{latest ?? "—"}</dd>
+    </div>
+  </dl>
+
+  <div class="list-head">
+    <h2>{copy.list}</h2>
+    <span class="mono-label">{repos.length}</span>
+  </div>
+
+  {repos.length === 0 ? (
+    <p class="empty">{copy.empty}</p>
+  ) : (
+    <ul class="repo-grid">
+      {repos.map((repo) => (
+        <li>
+          <RepoCard repo={repo} lang={lang} />
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>
+
+<style>
+  .page-head {
+    max-width: 48rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  h1 {
+    margin: 0.5rem 0 0.9rem;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    letter-spacing: -0.045em;
+  }
+
+  .lead {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .head-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0 0 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .stats div {
+    background: var(--bg);
+    padding: 1rem 1.15rem;
+  }
+
+  .stats dt {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .stats dd {
+    margin: 0.35rem 0 0;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .list-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 0.85rem;
+    padding-top: 0.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .list-head h2 {
+    margin: 0.9rem 0 0;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .repo-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 1rem;
+  }
+
+  .empty {
+    color: var(--muted);
+  }
+
+  @media (max-width: 639px) {
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

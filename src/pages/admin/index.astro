@@ -6,6 +6,7 @@ import { NOW } from "@/data/now";
 import { USES } from "@/data/uses";
 import { SKILL_GROUPS } from "@/data/skills";
 import { TIMELINE } from "@/data/timeline";
+import githubData from "@/data/github-projects.json";
 
 const base = import.meta.env.BASE_URL;
 const cms = `${base}admin/cms/`;
@@ -238,6 +239,25 @@ const stats = [
           <li>
             <a href={`${cms}#/collections/notes`} data-astro-reload>
               笔记管理 <span>{publishedNotes.length} 篇已发布</span>
+            </a>
+          </li>
+          <li>
+            <a href={`${base}github/`}>
+              GitHub 项目 <span>{githubData.repos.length} 个公开仓库</span>
+            </a>
+          </li>
+          <li>
+            <a href={`${cms}#/collections/github`} data-astro-reload>
+              GitHub 项目源 <span>编辑仓库清单</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={`${repo}/actions/workflows/sync-github-projects.yml`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              同步 GitHub <span>Actions</span>
             </a>
           </li>
           <li>

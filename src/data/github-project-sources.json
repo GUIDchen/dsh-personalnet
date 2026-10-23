@@ -1,0 +1,121 @@
+{
+  "repos": [
+    {
+      "repo": "yolo-video-detect",
+      "name": "YOLO Video Detection",
+      "summaryZh": "YOLO 视频/摄像头目标检测：跟踪、ROI/越线计数、告警抓取、Web 面板、Docker 部署与自训练。",
+      "summaryEn": "YOLO video/webcam detection with tracking, ROI/line counting, alert capture, web panel, Docker deployment and custom training.",
+      "category": "计算机视觉",
+      "order": 1,
+      "featured": true
+    },
+    {
+      "repo": "contentretouch",
+      "name": "ContentRetouch",
+      "summaryZh": "Swift / SwiftUI 的 macOS 人像精修 App：可替换模型、可验证效果、RAW 快路径与完整测试基线。",
+      "summaryEn": "A macOS portrait-retouching app in Swift/SwiftUI: replaceable models, verifiable effects, RAW fast path and a full test baseline.",
+      "category": "桌面 / AI",
+      "order": 2,
+      "featured": true
+    },
+    {
+      "repo": "cad-agent-platform",
+      "name": "CAD Agent Platform",
+      "summaryZh": "CAD 与参数化绘图协作平台（Vue 3 + FastAPI）。",
+      "summaryEn": "Collaborative CAD and parametric drawing platform (Vue 3 + FastAPI).",
+      "category": "Web / CAD",
+      "order": 3,
+      "featured": true
+    },
+    {
+      "repo": "photography-ai-playbook",
+      "name": "Photography AI Playbook",
+      "summaryZh": "摄影 AI 实战手册：一万张照片的资产化路径，模型选型、量化部署、11 个方向的实施手册与许可证核验。",
+      "summaryEn": "A practical photography-AI playbook: model selection, quantised deployment, 11 implementation tracks and licence checks for a 10k-photo archive.",
+      "category": "AI / 文档",
+      "order": 4,
+      "featured": true
+    },
+    {
+      "repo": "dsh-iphone-mobile",
+      "name": "DSH iPhone Mobile",
+      "summaryZh": "从 iPhone 远程控制本地 DeepSeek Harness：零依赖网关、PWA、推送通知与 token 鉴权。",
+      "summaryEn": "Remote-control a local DeepSeek Harness from iPhone: zero-dependency gateway with PWA, push notifications and token auth.",
+      "category": "工具 / 移动",
+      "order": 5,
+      "featured": true
+    },
+    {
+      "repo": "ai-cad-agent-playbook",
+      "name": "AI CAD Agent Playbook",
+      "summaryZh": "AI 智能体驱动的 CAD 画图方案：AutoCAD / SolidWorks / Altium / AI 绘画的技术方案、MCP 示例与难度评估。",
+      "summaryEn": "AI-agent-driven CAD drawing: options for AutoCAD, SolidWorks, Altium and AI art, with MCP examples and difficulty assessment.",
+      "category": "AI / CAD",
+      "order": 6,
+      "featured": false
+    },
+    {
+      "repo": "gk2027",
+      "name": "GK2027",
+      "summaryZh": "2027 国考岗位筛选、官方资料下载、报名人数抓取与统计（macOS + Chrome）。",
+      "summaryEn": "2027 civil-service role filtering, official document download and applicant-count scraping (macOS + Chrome).",
+      "category": "工具 / 数据",
+      "order": 7,
+      "featured": false
+    },
+    {
+      "repo": "utp3315tfl-ii-mod",
+      "name": "UTP3315TFL-II Mod",
+      "summaryZh": "UNI-T UTP3315TFL-II 线性电源改造：NTC 温控风扇与 10 圈精密电压旋钮，含原理图、BOM、固件与验收文档。",
+      "summaryEn": "UNI-T UTP3315TFL-II linear power supply mod: NTC fan control and a 10-turn precision voltage knob, with schematics, BOM, firmware and acceptance docs.",
+      "category": "硬件 / 嵌入式",
+      "order": 8,
+      "featured": false
+    },
+    {
+      "repo": "shaanxi-exam-prep",
+      "name": "Shaanxi Exam Prep",
+      "summaryZh": "陕西公务员/事业单位行测备考手册：6 本 PDF、489 道例题、523 组 SVG 图解，Markdown + KaTeX 构建。",
+      "summaryEn": "Shaanxi civil-service exam prep: six PDFs, 489 examples and 523 SVG diagrams built with Markdown and KaTeX.",
+      "category": "教育 / 文档",
+      "order": 9,
+      "featured": false
+    },
+    {
+      "repo": "ruankao-network-engineer",
+      "name": "Ruankao Network Engineer",
+      "summaryZh": "软考中级网络工程师真题研究与考点精讲：42 页资料、27 道真题精析、十大知识域与可复现构建链。",
+      "summaryEn": "Study of China's network-engineer exam: 42 pages, 27 worked questions, ten knowledge domains and a reproducible build.",
+      "category": "教育 / 网络",
+      "order": 10,
+      "featured": false
+    },
+    {
+      "repo": "dsh-photo",
+      "name": "DSH Photo",
+      "summaryZh": "按文件名把 RAW 照片与同名 JPEG 配对并归档的零依赖 CLI。",
+      "summaryEn": "A zero-dependency CLI that pairs and archives RAW photos with same-named JPEGs.",
+      "category": "工具 / 摄影",
+      "order": 11,
+      "featured": false
+    },
+    {
+      "repo": "verilog-learning",
+      "name": "Verilog Learning",
+      "summaryZh": "Verilog / SystemVerilog 与 FPGA 学习实践。",
+      "summaryEn": "Verilog/SystemVerilog and FPGA learning practice.",
+      "category": "硬件 / 嵌入式",
+      "order": 12,
+      "featured": false
+    },
+    {
+      "repo": "dsh-personalnet",
+      "name": "dsh-personalnet",
+      "summaryZh": "个人网站：项目、笔记与 CV，Astro 7 静态输出、中英文界面与质量门禁。",
+      "summaryEn": "Personal website with projects, notes and CV: Astro 7 static output, bilingual UI and quality gates.",
+      "category": "Web / 内容",
+      "order": 13,
+      "featured": false
+    }
+  ]
+}

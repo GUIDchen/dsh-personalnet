@@ -12,7 +12,8 @@
         "http://127.0.0.1:4321/now/",
         "http://127.0.0.1:4321/uses/",
         "http://127.0.0.1:4321/en/",
-        "http://127.0.0.1:4321/en/projects/"
+        "http://127.0.0.1:4321/en/projects/",
+        "http://127.0.0.1:4321/github/"
       ],
       "numberOfRuns": 1,
       "settings": {

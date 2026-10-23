@@ -8,7 +8,7 @@
 |---|---|
 | 项目 | dsh-personalnet（个人网站） |
 | 文档负责人 | 陈陇刚 |
-| 状态 | Approved（v2.3.1） |
+| 状态 | Approved（v2.4.0） |
 | 最后更新 | 2026-10-23 |
 | 文档语言 | 简体中文（术语首现保留英文） |
 
@@ -51,7 +51,8 @@
 | 25 | [25-release-checklist.md](./25-release-checklist.md) | 上线发布检查清单 | Approved |
 | 26 | [26-admin-and-design-research.md](./26-admin-and-design-research.md) | 后台与视觉升级调研 | Approved |
 | 27 | [27-media-and-evidence.md](./27-media-and-evidence.md) | 媒体与内容证据 | Approved |
-| ADR | [adr/](./adr/) | 17 篇架构决策记录 | Approved |
+| 28 | [28-github-projects.md](./28-github-projects.md) | GitHub 项目索引与同步 | Approved |
+| ADR | [adr/](./adr/) | 18 篇架构决策记录 | Approved |
 
 ## 文档规则
 

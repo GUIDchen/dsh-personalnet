@@ -46,6 +46,7 @@ export const ui = {
       items: {
         home: ["首页", "Home"],
         projects: ["项目", "Projects"],
+        github: ["GitHub 项目", "GitHub"],
         notes: ["笔记", "Notes"],
         now: ["现在在做什么", "Now"],
         uses: ["常用工具", "Uses"],
@@ -97,6 +98,7 @@ export const ui = {
       items: {
         home: ["Home", "Home"],
         projects: ["Projects", "Projects"],
+        github: ["GitHub projects", "GitHub"],
         notes: ["Notes", "Notes"],
         now: ["Now", "Now"],
         uses: ["Uses", "Uses"],

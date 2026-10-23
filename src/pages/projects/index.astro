@@ -57,6 +57,11 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
     <p class="mono-label">{c.kicker}</p>
     <h1>{c.title}</h1>
     <p class="lead">{format(c.lead, { count: projects.length, domains: domainCount })}</p>
+    <p class="github-link">
+      <a href={localizePath("github/", lang)}>
+        {lang === "en" ? "GitHub projects" : "GitHub 项目"} →
+      </a>
+    </p>
   </header>
 
   <div data-projects-root>
@@ -147,6 +152,11 @@ const topTags = TAG_VOCABULARY.filter((tag) => tagCountMap.has(tag))
   .page-head {
     max-width: 44rem;
     margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .github-link {
+    margin: 1rem 0 0;
+    font-size: 0.875rem;
   }
 
   h1 {

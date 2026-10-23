@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPublishedProjects } from "@/lib/content";
+import { DOMAIN_META } from "@/data/domains";
+import { sortProjects } from "@/lib/filter";
+
+const projects = await getPublishedProjects();
+const sorted = sortProjects(projects, "featured");
+---
+
+<BaseLayout title="项目" description="按领域浏览全部项目案例。">
+  <h1>项目</h1>
+  <p class="intro">
+    共 {sorted.length} 个案例，覆盖 {new Set(sorted.map((p) => p.data.domain)).size} 个领域。
+  </p>
+  <ul class="project-list">
+    {sorted.map((project) => (
+      <li>
+        <a href={`${import.meta.env.BASE_URL}projects/${project.id}/`}>
+          <span class="mono-label">{DOMAIN_META[project.data.domain].label}</span>
+          <h2>{project.data.title}</h2>
+          <p>{project.data.summary}</p>
+          <ul class="tags">
+            {project.data.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .intro {
+    color: var(--muted);
+  }
+  .project-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+  .project-list li {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+  .project-list a {
+    text-decoration: none;
+    display: block;
+  }
+  .project-list h2 {
+    margin-block: 0.35rem 0.5rem;
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  }
+  .project-list p {
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+  }
+  .tags {
+    list-style: none;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+  }
+  .tags li {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+</style>

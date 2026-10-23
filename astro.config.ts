@@ -1,0 +1,28 @@
+import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+
+const site = process.env.SITE_URL ?? "https://example.com";
+const base = process.env.BASE_PATH ?? "/";
+
+// https://docs.astro.build/en/reference/configuration-reference/
+export default defineConfig({
+  site,
+  base,
+  trailingSlash: "always",
+  build: {
+    format: "directory",
+  },
+  integrations: [mdx(), sitemap()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "viewport",
+  },
+  devToolbar: {
+    enabled: false,
+  },
+});

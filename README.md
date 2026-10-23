@@ -7,28 +7,28 @@
 
 ## 状态
 
-| 里程碑 | 内容 | 状态 |
-|---|---|---|
-| M0 | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成 |
-| M1 | Astro 7 工程脚手架 + CI | 🚧 进行中 |
-| M2 | 设计系统与页面骨架 | ⏳ |
-| M3 | 内容模型与全部页面 | ⏳ |
-| M4 | 搜索、动效、OG、图片优化 | ⏳ |
-| M5 | 质量门禁（单测/E2E/a11y/性能） | ⏳ |
-| M6 | MIT 开源发布 v1.0.0 | ⏳ |
+| 里程碑 | 内容                                  | 状态      |
+| ------ | ------------------------------------- | --------- |
+| M0     | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成   |
+| M1     | Astro 7 工程脚手架 + CI               | 🚧 进行中 |
+| M2     | 设计系统与页面骨架                    | ⏳        |
+| M3     | 内容模型与全部页面                    | ⏳        |
+| M4     | 搜索、动效、OG、图片优化              | ⏳        |
+| M5     | 质量门禁（单测/E2E/a11y/性能）        | ⏳        |
+| M6     | MIT 开源发布 v1.0.0                   | ⏳        |
 
 ## 技术栈
 
-| 层 | 选择 |
-|---|---|
-| 框架 | Astro 7（静态输出、islands） |
-| 语言 | TypeScript 6（`@astrojs/check` 当前不支持 TS 7） |
-| 样式 | Tailwind CSS 4 + OKLCH 设计令牌 |
-| 内容 | Content Collections + Zod + MDX |
-| 搜索 | Pagefind（构建期索引，零服务） |
+| 层   | 选择                                               |
+| ---- | -------------------------------------------------- |
+| 框架 | Astro 7（静态输出、islands）                       |
+| 语言 | TypeScript 6（`@astrojs/check` 当前不支持 TS 7）   |
+| 样式 | Tailwind CSS 4 + OKLCH 设计令牌                    |
+| 内容 | Content Collections + Zod + MDX                    |
+| 搜索 | Pagefind（构建期索引，零服务）                     |
 | 测试 | Vitest 5、Playwright 1.64、axe-core、Lighthouse CI |
-| 部署 | GitHub Pages（主）/ Cloudflare Pages（备） |
-| 许可 | MIT |
+| 部署 | GitHub Pages（主）/ Cloudflare Pages（备）         |
+| 许可 | MIT                                                |
 
 选型依据见 [技术调研](./docs/03-research-landscape.md) 与 [方案对比](./docs/04-technology-comparison.md)。
 

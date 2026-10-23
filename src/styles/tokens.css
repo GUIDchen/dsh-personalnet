@@ -1,0 +1,57 @@
+/* 设计令牌：唯一事实来源。修改后运行 node scripts/check-contrast.mjs 复核对比度。 */
+:root {
+  color-scheme: light dark;
+
+  --bg: oklch(0.985 0.002 90);
+  --surface: oklch(0.965 0.003 90);
+  --fg: oklch(0.18 0.01 270);
+  --muted: oklch(0.52 0.01 270);
+  --border: oklch(0.88 0.006 270);
+  --border-strong: oklch(0.64 0.008 270);
+  --accent: oklch(0.56 0.19 38);
+  --accent-fg: oklch(1 0 0);
+
+  --font-sans:
+    "Geist Variable", "PingFang SC", "HarmonyOS Sans SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --page-max: 1280px;
+  --page-pad: clamp(20px, 5vw, 64px);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: oklch(0.145 0.005 270);
+  --surface: oklch(0.185 0.006 270);
+  --fg: oklch(0.94 0.004 90);
+  --muted: oklch(0.68 0.008 90);
+  --border: oklch(0.28 0.008 270);
+  --border-strong: oklch(0.5 0.008 270);
+  --accent: oklch(0.8 0.16 62);
+  --accent-fg: oklch(0.12 0 0);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+}

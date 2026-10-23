@@ -1,0 +1,96 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { render } from "astro:content";
+import { getPublishedProjects } from "@/lib/content";
+import { DOMAIN_META } from "@/data/domains";
+
+export async function getStaticPaths() {
+  const projects = await getPublishedProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { data } = project;
+const domain = DOMAIN_META[data.domain];
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <article>
+    <p class="mono-label">
+      {domain.label} · {data.status}
+    </p>
+    <h1>{data.title}</h1>
+    <p class="summary">{data.summary}</p>
+    <dl class="meta">
+      <div>
+        <dt>角色</dt>
+        <dd>{data.role}</dd>
+      </div>
+      <div>
+        <dt>周期</dt>
+        <dd>
+          {data.timeframe.start} – {data.timeframe.ongoing ? "至今" : (data.timeframe.end ?? "—")}
+        </dd>
+      </div>
+      <div>
+        <dt>状态</dt>
+        <dd>{data.status}</dd>
+      </div>
+    </dl>
+    <ul class="stack">
+      {data.stack.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    letter-spacing: -0.02em;
+    margin-block: 0.5rem 1rem;
+  }
+  .summary {
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    color: var(--muted);
+    max-width: 48rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-block: 2rem;
+  }
+  .meta dt {
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .meta dd {
+    margin: 0;
+  }
+  .stack {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .stack li {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .prose {
+    max-width: 46rem;
+  }
+</style>

@@ -1,0 +1,128 @@
+---
+import "../styles/global.css";
+import { profile } from "@/data/profile";
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description = profile.tagline, noindex = false } = Astro.props;
+const siteName = profile.name;
+const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          /* 忽略隐私模式下的异常 */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      跳到主要内容
+    </a>
+    <header class="site-header page-shell">
+      <a class="brand" href={import.meta.env.BASE_URL}>
+        {profile.name}
+      </a>
+      <nav aria-label="主导航">
+        <ul class="nav-list">
+          <li>
+            <a href={`${import.meta.env.BASE_URL}projects/`}>项目</a>
+          </li>
+          <li>
+            <a href={`${import.meta.env.BASE_URL}about/`}>关于</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main" class="page-shell">
+      <slot />
+    </main>
+    <footer class="site-footer page-shell">
+      <p>
+        © {new Date().getFullYear()} {profile.name} ·{" "}
+        <a href={`${import.meta.env.BASE_URL}`}>首页</a>
+      </p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--accent);
+    color: var(--accent-fg);
+    padding: 0.75rem 1rem;
+  }
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-list {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-list a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+  .nav-list a:hover {
+    color: var(--fg);
+  }
+  main {
+    padding-block: clamp(3rem, 8vw, 6rem);
+    min-height: 60svh;
+  }
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: 2rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+</style>

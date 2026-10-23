@@ -49,7 +49,7 @@
 | 暗色 `fg/bg` | 16.60:1 | AAA |
 | 暗色 `muted/bg` | 6.87:1 | AA |
 | 暗色 `accent/bg` | 9.98:1 | AAA |
-| 暗色 `accent-fg(黑)/accent` | 10.58:1 | AAA |
+| 暗色 `accent-fg/accent` | 10.23:1 | AAA |
 | 暗色 `border-strong/bg` | 3.30:1 | AA（非文本控件） |
 
 > 数值由 `scripts/check-contrast.mjs`（OKLCH → 线性 sRGB → 相对亮度）计算。修改令牌后必须重算。

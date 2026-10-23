@@ -1,0 +1,77 @@
+import { defineCollection } from "astro:content";
+import { z } from "zod";
+import { glob } from "astro/loaders";
+
+export const DOMAINS = [
+  "ai-llm",
+  "computer-vision",
+  "data-analytics",
+  "embedded-systems",
+  "infrastructure",
+  "web-engineering",
+  "research",
+] as const;
+
+const timeframe = z.object({
+  start: z.string().regex(/^\d{4}\.\d{2}$/, "格式应为 YYYY.MM"),
+  end: z
+    .string()
+    .regex(/^\d{4}\.\d{2}$/, "格式应为 YYYY.MM")
+    .optional(),
+  ongoing: z.boolean().default(false),
+});
+
+const link = z.url();
+
+const projects = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/projects" }),
+  schema: z.object({
+    title: z.string().min(2).max(40),
+    summary: z.string().min(20).max(200),
+    domain: z.enum(DOMAINS),
+    tags: z
+      .array(z.string().regex(/^[a-z0-9-]+$/))
+      .min(1)
+      .max(6),
+    role: z.string().max(40),
+    team: z.string().max(60).optional(),
+    timeframe,
+    status: z.enum(["active", "completed", "archived", "experimental"]),
+    featured: z.boolean().default(false),
+    order: z.number().default(999),
+    cover: z
+      .object({
+        src: z.string(),
+        alt: z.string().min(1, "封面必须提供 alt"),
+      })
+      .optional(),
+    gallery: z
+      .array(z.object({ src: z.string(), alt: z.string().min(1) }))
+      .max(6)
+      .default([]),
+    stack: z.array(z.string()).min(1).max(12),
+    links: z
+      .object({
+        repo: link.optional(),
+        demo: link.optional(),
+        paper: link.optional(),
+        doc: link.optional(),
+      })
+      .default({}),
+    metrics: z
+      .array(z.object({ label: z.string(), value: z.string(), unit: z.string().optional() }))
+      .max(4)
+      .default([]),
+    highlights: z.array(z.string().max(80)).max(4).default([]),
+    draft: z.boolean().default(false),
+    seo: z
+      .object({
+        title: z.string().max(60).optional(),
+        description: z.string().max(160).optional(),
+        ogImage: z.string().optional(),
+      })
+      .optional(),
+  }),
+});
+
+export const collections = { projects };

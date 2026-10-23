@@ -143,6 +143,7 @@
 | TypeScript 版本 | latest 为 7.0.2，但 `@astrojs/check@0.9.12` peer 为 `^5.0.0 || ^6.0.0`，`typescript-eslint@8.72` 要求 `<6.1.0` | 锁 **6.0.3** |
 | Astro 7 Markdown | 默认 Sätteri，`@astrojs/markdown-remark` 不再默认安装；MDX 8.1.1 同时 peer 依赖 remark 与 satteri 包 | 安装三件套；内容只用 GFM + Astro 组件 |
 | Vite 版本 | Astro 7 用 Vite 8；Vitest 5 peer 已支持 `^8` | 可行 |
+| ESLint 10 与 jsx-a11y | `eslint-plugin-jsx-a11y@6.10.2` 的 peer 为 ESLint ≤9，而 `eslint-plugin-astro@3.2.1` 要求 ESLint ≥10 | 不引入 jsx-a11y 插件，可访问性由 axe + 手工走查覆盖 |
 | 中文 Web 字体 | CJK 全量字体通常 3–8MB | 系统字体栈 + 拉丁子集 |
 | Pagefind 子路径 | 索引路径依赖部署 base | 用 `BASE_PATH` 专项构建验证 |
 | 模板许可证 | Magic Portfolio 为自定义许可，leerob.io 无 LICENSE | 不复制其代码 |

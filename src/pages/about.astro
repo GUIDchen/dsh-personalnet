@@ -1,0 +1,44 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { profile } from "@/data/profile";
+---
+
+<BaseLayout title="关于" description={profile.bio}>
+  <h1>关于</h1>
+  <p class="lead">{profile.bio}</p>
+  <dl class="facts">
+    <div>
+      <dt>地点</dt>
+      <dd>{profile.location}</dd>
+    </div>
+    <div>
+      <dt>邮箱</dt>
+      <dd>
+        <a href={`mailto:${profile.email}`}>{profile.email}</a>
+      </dd>
+    </div>
+  </dl>
+</BaseLayout>
+
+<style>
+  .lead {
+    max-width: 46rem;
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    color: var(--muted);
+  }
+  .facts {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+  }
+  dt {
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  dd {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="页面不存在" noindex>
+  <p class="mono-label">404</p>
+  <h1>页面不存在</h1>
+  <p class="lead">链接可能已失效，或项目已重命名。</p>
+  <p>
+    <a class="button" href={import.meta.env.BASE_URL}>
+      返回首页
+    </a>
+  </p>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin-block: 0.5rem;
+  }
+  .lead {
+    color: var(--muted);
+  }
+  .button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    text-decoration: none;
+  }
+</style>

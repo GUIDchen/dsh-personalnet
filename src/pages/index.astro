@@ -1,0 +1,154 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { profile } from "@/data/profile";
+import { getPublishedProjects } from "@/lib/content";
+import { DOMAIN_LIST } from "@/data/domains";
+
+const projects = await getPublishedProjects();
+const featured = projects.filter((project) => project.data.featured).slice(0, 3);
+const counts = new Map<string, number>();
+for (const project of projects) {
+  counts.set(project.data.domain, (counts.get(project.data.domain) ?? 0) + 1);
+}
+---
+
+<BaseLayout title={profile.name} description={profile.tagline}>
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="mono-label">{profile.availability}</p>
+    <h1 id="hero-title">{profile.name}</h1>
+    <p class="lead">{profile.role}</p>
+    <p class="tagline">{profile.tagline}</p>
+    <div class="actions">
+      <a class="button" href={`${import.meta.env.BASE_URL}projects/`}>
+        查看项目
+      </a>
+      <a class="button ghost" href={`${import.meta.env.BASE_URL}about/`}>
+        关于我
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="featured-title">
+    <h2 id="featured-title">精选项目</h2>
+    <ul class="cards">
+      {featured.map((project) => (
+        <li class="card">
+          <a href={`${import.meta.env.BASE_URL}projects/${project.id}/`}>
+            <h3>{project.data.title}</h3>
+            <p>{project.data.summary}</p>
+            <p class="mono-label">{project.data.domain}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section aria-labelledby="domains-title">
+    <h2 id="domains-title">领域</h2>
+    <ul class="domains">
+      {DOMAIN_LIST.map((domain) => (
+        <li>
+          <a href={`${import.meta.env.BASE_URL}projects/?domain=${domain.id}`}>
+            {domain.label} <span class="count">{counts.get(domain.id) ?? 0}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    max-width: 52rem;
+  }
+  h1 {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    margin-block: 0.5rem 0.75rem;
+    letter-spacing: -0.03em;
+  }
+  .lead {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: var(--muted);
+    margin: 0;
+  }
+  .tagline {
+    margin-block: 1rem 2rem;
+    max-width: 34rem;
+  }
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .button {
+    display: inline-block;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .button:hover {
+    background: var(--surface);
+    color: var(--fg);
+  }
+  .button.ghost {
+    border-color: transparent;
+    color: var(--muted);
+  }
+  section {
+    margin-top: clamp(3rem, 7vw, 5rem);
+  }
+  h2 {
+    font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+    margin-bottom: 1.5rem;
+  }
+  .cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    transition: border-color var(--dur-1) var(--ease-out);
+  }
+  .card:hover {
+    border-color: var(--border-strong);
+  }
+  .card a {
+    text-decoration: none;
+  }
+  .card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  .card p {
+    margin: 0 0 0.75rem;
+    color: var(--muted);
+  }
+  .domains {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .domains a {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.4rem 0.85rem;
+    text-decoration: none;
+  }
+  .count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+</style>

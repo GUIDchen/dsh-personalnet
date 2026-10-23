@@ -10,6 +10,6 @@
 *.woff binary
 *.woff2 binary
 
-pnpm-lock.yaml -diff linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
 dist/** linguist-generated=true
 docs/** linguist-documentation=true

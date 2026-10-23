@@ -19,10 +19,12 @@
 | M11 | Sveltia 后台、内容模型、check-admin | 1ecadeb | ci:verify、E2E 61、Chrome 本地入口实测 | 线上认证需仓库与 PAT/OAuth |
 | M12 | 健康报告、maintenance workflow、长跑契约 | 6054c27 | ci:verify、pnpm health、E2E 61、axe 17 | 定时任务需远程仓库 |
 | M13 准备 | Pages 默认变量、deploy:check、BASE_PATH 校验 | 69da95e | ci:verify、E2E 61、子路径预览 6 路由 200 | 等待远程仓库与 Pages 启用 |
+| M13 阻塞 | 仓库创建与 Pages 启用 | — | GitHub API 404、无 origin、无 gh/token | 用户建仓并启用 Pages 后 resume |
 
 ### 备注
 
 - M9–M13 准备均在本地 commit，未 push；远程仓库尚未创建。
+- 2026-10-23 复核：`api.github.com/repos/GUIDchen/dsh-personalnet` 返回 404，仍无 origin；阻塞条件持续 3 个 goal round，已标记目标 blocked。
 - 项目截图、仓库/Demo 链接、量化指标需要作者提供，Agent 未伪造。
 - 英文页面中的中文正文已用 `lang="zh-CN"` 标注，并在页面提示。
 - 后台 `backend.repo` 仍为 `OWNER/dsh-personalnet` 占位。

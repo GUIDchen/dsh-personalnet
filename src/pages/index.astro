@@ -209,7 +209,10 @@ const aboutHref = localizePath("about/", lang);
         minute: "2-digit",
         hour12: false,
       }).format(new Date());
-      element.textContent = `${time} · ${isEnglish ? "local time" : "本地时间"}`;
+      // 只替换等宽的时间文本，避免加载后改变文案长度造成布局偏移。
+      element.textContent = time;
+      element.setAttribute("aria-label", isEnglish ? "Local time" : "本地时间");
+      element.title = isEnglish ? "Local time" : "本地时间";
     });
   }
 

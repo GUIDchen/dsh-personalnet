@@ -1,8 +1,8 @@
 # Sveltia CMS 配置：项目与笔记内容管理。
-# 线上模式需把 repo 改成实际仓库，并按 docs/22-admin.md 配置认证。
+# 线上模式使用 GitHub backend；认证方式见 docs/22-admin.md。
 backend:
   name: github
-  repo: OWNER/dsh-personalnet
+  repo: GUIDchen/dsh-personalnet
   branch: main
 
 media_folder: public/media

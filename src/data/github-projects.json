@@ -301,7 +301,14 @@
       "updatedAt": "2026-10-23",
       "url": "https://github.com/GUIDchen/dsh-personalnet",
       "homepage": "https://GUIDchen.github.io/dsh-personalnet/",
-      "topics": ["astro", "i18n", "personal-website", "portfolio", "static-site", "typescript"]
+      "topics": [
+        "astro",
+        "i18n",
+        "personal-website",
+        "portfolio",
+        "static-site",
+        "typescript"
+      ]
     }
   ]
 }

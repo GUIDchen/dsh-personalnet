@@ -16,6 +16,7 @@ export async function GET(_context: APIContext) {
       year: project.data.timeframe.start.slice(0, 4),
       status: project.data.status,
       url: absoluteUrl(`projects/${project.id}/`),
+      repo: project.data.links.repo ?? null,
       links: project.data.links,
     })),
   };

@@ -18,6 +18,7 @@ const pages = [
   { path: "/en/cv/", name: "English CV" },
   { path: "/en/now/", name: "English Now" },
   { path: "/en/uses/", name: "English Uses" },
+  { path: "/admin/", name: "管理后台" },
   { path: "/404.html", name: "404" },
 ];
 

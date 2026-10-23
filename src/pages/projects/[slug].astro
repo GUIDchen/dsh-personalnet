@@ -6,6 +6,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Badge from "@/components/ui/Badge.astro";
 import ProjectCard from "@/components/project/ProjectCard.astro";
 import Gallery from "@/components/project/Gallery.astro";
+import RepoLink from "@/components/project/RepoLink.astro";
 import Toc from "@/components/project/Toc.astro";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { getPublishedProjects, getRelatedProjects } from "@/lib/content";
@@ -78,7 +79,17 @@ const period = data.timeframe.ongoing
   <article>
     <header class="head">
       <p class="mono-label">{domain.label}</p>
-      <h1>{data.title}</h1>
+      <div class="title-row">
+        <h1>{data.title}</h1>
+        <div class="title-actions">
+          {data.links.repo && <RepoLink repo={data.links.repo} title={data.title} compact />}
+          {data.links.demo && (
+            <a class="demo-link" href={data.links.demo} target="_blank" rel="noopener noreferrer">
+              演示 ↗
+            </a>
+          )}
+        </div>
+      </div>
       <p class="summary">{data.summary}</p>
       <dl class="meta">
         <div>
@@ -229,6 +240,49 @@ const period = data.timeframe.ongoing
 
   .head {
     max-width: 58rem;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .title-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .demo-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-decoration: none;
+  }
+
+  .demo-link:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
+  }
+
+  @media (max-width: 639px) {
+    .title-row {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .title-actions {
+      padding-top: 0;
+    }
   }
 
   h1 {

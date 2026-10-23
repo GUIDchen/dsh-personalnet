@@ -48,6 +48,7 @@ export function projectJsonLd(project: ProjectView, path: string) {
     url: absoluteUrl(path),
     inLanguage: "zh-CN",
     about: data.stack.join(", "),
+    sameAs: data.links.repo ? [data.links.repo] : undefined,
   };
 }
 

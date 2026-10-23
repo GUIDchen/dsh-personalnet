@@ -1,0 +1,98 @@
+---
+import { profile } from "@/data/profile";
+
+const base = import.meta.env.BASE_URL;
+const repo = "https://github.com/GUIDchen/dsh-personalnet";
+---
+
+<header class="admin-header">
+  <a class="admin-brand" href={`${base}admin/`}>
+    <span class="mark" aria-hidden="true">
+      陈
+    </span>
+    <span>
+      <strong>{profile.name}</strong>
+      <small>管理后台</small>
+    </span>
+  </a>
+  <nav aria-label="后台导航">
+    <a href={base}>查看站点</a>
+    <a href={`${base}admin/cms/`} data-astro-reload>
+      内容编辑器
+    </a>
+    <a href={repo} target="_blank" rel="noopener noreferrer">
+      GitHub
+    </a>
+    <a href={`${repo}/actions`} target="_blank" rel="noopener noreferrer">
+      部署
+    </a>
+  </nav>
+</header>
+
+<style>
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .admin-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+  }
+
+  .mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 7px;
+    background: var(--fg);
+    color: var(--bg);
+    font-size: 0.8125rem;
+  }
+
+  strong {
+    display: block;
+    font-size: 0.95rem;
+  }
+
+  small {
+    display: block;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--fg);
+  }
+
+  @media (max-width: 639px) {
+    .admin-header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>

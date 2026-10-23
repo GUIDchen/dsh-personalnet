@@ -1,9 +1,12 @@
 ---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { getDomainMeta } from "@/data/domains";
 import type { ProjectView } from "@/lib/content";
-import { formatYearRange } from "@/lib/seo";
 import type { Lang } from "@/i18n";
 import Badge from "@/components/ui/Badge.astro";
+import RepoLink from "@/components/project/RepoLink.astro";
+import placeholders from "@/data/cover-placeholders.json";
 
 interface Props {
   project: ProjectView;
@@ -16,24 +19,48 @@ const { project, index, level = 3, lang = "zh" } = Astro.props;
 const Heading = level === 2 ? "h2" : "h3";
 const { data, id } = project;
 const domain = getDomainMeta(data.domain, lang);
-const year = formatYearRange(data.timeframe);
-const number = String(index).padStart(2, "0");
+
+const covers = import.meta.glob<{ default: ImageMetadata }>("../../assets/covers/*.jpg", {
+  eager: true,
+});
+const cover = covers[`../../assets/covers/${id}.jpg`]?.default;
+const lqip = (placeholders as Record<string, string>)[id];
+const repo = data.links.repo;
+const href = `${import.meta.env.BASE_URL}projects/${id}/`;
 ---
 
-<article class="project-card">
-  <a
-    class="card-link"
-    href={`${import.meta.env.BASE_URL}projects/${id}/`}
-    hreflang={lang === "en" ? "zh-CN" : undefined}
+<article class="project-card" data-project-card>
+  <div
+    class="cover"
+    style={
+      lqip
+        ? `background-image:url("${lqip}");background-size:cover;background-position:center`
+        : undefined
+    }
   >
-    <div class="card-top">
-      <span class="mono-label">{number}</span>
-      <span class="mono-label">{year}</span>
-    </div>
+    {cover && (
+      <Picture
+        src={cover}
+        formats={["avif", "webp"]}
+        widths={[480, 720, 960]}
+        sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+        alt={`${data.title} 项目封面`}
+        loading={index <= 3 ? "eager" : "lazy"}
+        decoding="async"
+      />
+    )}
+  </div>
+
+  <div class="body">
     <p class="domain">{domain.label}</p>
-    <Heading class="title" lang={lang === "en" ? "zh-CN" : undefined}>
-      {data.title}
-    </Heading>
+    <div class="title-row">
+      <Heading class="title" lang={lang === "en" ? "zh-CN" : undefined}>
+        <a class="title-link" href={href} hreflang={lang === "en" ? "zh-CN" : undefined}>
+          {data.title}
+        </a>
+      </Heading>
+      {repo && <RepoLink repo={repo} title={data.title} lang={lang} compact />}
+    </div>
     <p class="summary" lang={lang === "en" ? "zh-CN" : undefined}>
       {data.summary}
     </p>
@@ -49,61 +76,108 @@ const number = String(index).padStart(2, "0");
     <span class="arrow" aria-hidden="true">
       →
     </span>
-  </a>
+  </div>
 </article>
 
 <style>
   .project-card {
     height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     background: color-mix(in oklch, var(--surface) 55%, transparent);
+    overflow: hidden;
     transition:
       border-color var(--dur-2) var(--ease-out),
-      background-color var(--dur-2) var(--ease-out);
+      transform var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out);
   }
 
   .project-card:hover {
     border-color: var(--border-strong);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
   }
 
-  .card-link {
+  .cover {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cover :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+
+  .project-card:hover .cover :global(img) {
+    transform: scale(1.025);
+  }
+
+  .body {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: clamp(1.1rem, 2.5vw, 1.6rem);
-    height: 100%;
-    text-decoration: none;
-    position: relative;
-  }
-
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
+    gap: 0.45rem;
+    padding: clamp(1rem, 2.2vw, 1.3rem);
+    flex: 1;
   }
 
   .domain {
-    margin: 0.35rem 0 0;
+    margin: 0;
     font-size: 0.8125rem;
     color: var(--accent);
   }
 
-  .title {
-    margin: 0;
-    font-size: clamp(1.15rem, 2vw, 1.4rem);
-    letter-spacing: -0.01em;
+  .title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.6rem;
   }
 
-  .card-link:hover .title {
+  .title {
+    margin: 0;
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    letter-spacing: -0.015em;
+  }
+
+  .title-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .title-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .title-link:focus-visible {
+    outline: none;
+  }
+
+  .title-link:focus-visible::after {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .project-card:hover .title {
     color: var(--accent);
   }
 
   .summary {
     margin: 0;
     color: var(--muted);
-    font-size: 0.9375rem;
-    line-height: 1.65;
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 
   .tags {
@@ -111,24 +185,32 @@ const number = String(index).padStart(2, "0");
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
-    margin: 0.5rem 0 0;
+    margin: 0.35rem 0 0;
     padding: 0;
   }
 
   .arrow {
     margin-top: auto;
-    padding-top: 1rem;
+    padding-top: 0.9rem;
     color: var(--muted);
     transition: transform var(--dur-2) var(--ease-out);
   }
 
-  .card-link:hover .arrow {
+  .project-card:hover .arrow {
     transform: translateX(4px);
     color: var(--accent);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .card-link:hover .arrow {
+    .project-card:hover {
+      transform: none;
+    }
+
+    .project-card:hover .cover :global(img) {
+      transform: none;
+    }
+
+    .project-card:hover .arrow {
       transform: none;
     }
   }

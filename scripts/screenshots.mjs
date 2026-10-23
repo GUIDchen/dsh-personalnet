@@ -40,6 +40,7 @@ const shots = [
   { path: "/projects/yolo-object-detection/", w: 390, h: 844, name: "detail-390" },
   { path: "/about/", w: 1280, h: 900, name: "about-1280" },
   { path: "/404.html", w: 1280, h: 900, name: "notfound-1280" },
+  { path: "/admin/", w: 1280, h: 900, name: "admin-1280" },
 ];
 
 for (const shot of shots) {

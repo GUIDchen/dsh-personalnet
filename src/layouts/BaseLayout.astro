@@ -17,6 +17,7 @@ interface Props {
   image?: string;
   lang?: Lang;
   alternates?: Alternates;
+  bare?: boolean;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   noindex = false,
   image,
   lang = getLangFromUrl(Astro.url.pathname),
+  bare = false,
 } = Astro.props;
 const t = ui[lang];
 const alternates = Astro.props.alternates ?? getAlternates(Astro.url.pathname, lang);
@@ -74,18 +76,18 @@ const descriptionText =
       })();
     </script>
   </head>
-  <body>
+  <body data-bare={bare ? "true" : undefined}>
     <a class="skip-link" href="#main">
       {t.skip}
     </a>
-    <Header lang={lang} />
+    {!bare && <Header lang={lang} />}
     <main id="main" data-pagefind-body {...(noindex ? { "data-pagefind-ignore": "" } : {})}>
       <div class="page-shell">
         <slot />
       </div>
     </main>
-    <Footer lang={lang} />
-    <CommandPalette email={profile.email} lang={lang} />
+    {!bare && <Footer lang={lang} />}
+    {!bare && <CommandPalette email={profile.email} lang={lang} />}
     <script>
       import "@/scripts/command-palette";
     </script>

@@ -5,6 +5,28 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.1.0] - 2026-10-23
+
+后台管理平台与视觉升级。
+
+### Added
+
+- `/admin/` 管理仪表盘：项目/笔记/草稿/领域/待补源码统计、最近内容、快捷入口、发布流程。
+- Sveltia 编辑器迁到 `/admin/cms/`，新增 `site` file collection：Profile、About、Now、Uses、技能、时间线（中英各一份）。
+- 站点资料迁移到 `src/data/*.json`，保留 TS wrapper；新增 `check-site-data`。
+- 项目卡加入生成封面；标题旁 GitHub 源码链接（`RepoLink`），详情/CV 同步；`projects.json` 增加 `repo`。
+- 项目卡改为标题扩展点击，避免嵌套 `<a>`；GitHub 链接独立可点。
+- About 页改为双栏资料卡；搜索页增加快捷关键词。
+
+### Changed
+
+- Sitemap 排除 `/admin/`；后台仪表盘与 CMS 均 noindex。
+- 检查脚本、E2E、axe、文档与路由更新到新后台路径。
+
+### Fixed
+
+- 项目卡封面首屏加载与图片比例；CV 源码链接的可访问名称。
+
 ## [2.0.0] - 2026-10-23
 
 v2.0.0：审阅借鉴、中英文界面、Sveltia 管理后台、自动化维护与 GitHub Pages 上线。

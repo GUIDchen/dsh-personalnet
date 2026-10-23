@@ -1,0 +1,29 @@
+{
+  "updated": "2026-10",
+  "intro": "A snapshot of where my time goes. More current than a CV, more personal than a project page; updated as I go.",
+  "sections": [
+    {
+      "title": "Doing",
+      "items": [
+        "Independent work on AI data applications: collection, cleaning, training, evaluation and deployment.",
+        "Maintaining this site: Astro static output, content model, quality gates and documentation.",
+        "Turning 12 project cases into reusable material: problem, constraints, approach and results."
+      ]
+    },
+    {
+      "title": "Learning",
+      "items": [
+        "Embedded systems: Verilog / SystemVerilog and the FPGA workflow.",
+        "CUDA parallel computing and AI operator optimisation.",
+        "Engineering practices for LLM fine-tuning and retrieval-augmented generation (RAG)."
+      ]
+    },
+    {
+      "title": "Looking for",
+      "items": [
+        "Collaborations and roles in AI, data analysis or software engineering.",
+        "Email is best: projects, data, models or engineering practice are all fair topics."
+      ]
+    }
+  ]
+}

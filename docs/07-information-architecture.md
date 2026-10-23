@@ -43,6 +43,8 @@ flowchart TD
 
 主导航 5 项以内，当前页用 `aria-current="page"` + 下划线标记。
 
+后台不属于公开导航：`/admin/` 是只读仪表盘，`/admin/cms/` 是 Sveltia 编辑器；两者 `noindex`，robots 禁止，sitemap 排除。
+
 ## 3. 页面规格
 
 ### 3.1 首页 `/`

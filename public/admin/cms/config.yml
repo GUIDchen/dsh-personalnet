@@ -1,0 +1,301 @@
+# Sveltia CMS 配置：项目与笔记内容管理。
+# 线上模式使用 GitHub backend；认证方式见 docs/22-admin.md。
+backend:
+  name: github
+  repo: GUIDchen/dsh-personalnet
+  branch: main
+
+publish_mode: simple
+
+media_folder: public/media
+public_folder: /media
+
+collections:
+  - name: projects
+    label: 项目
+    label_singular: 项目
+    description: 项目案例；字段与 src/content.config.ts 保持一致。
+    folder: src/content/projects
+    extension: mdx
+    format: yaml-frontmatter
+    create: true
+    delete: true
+    identifier_field: title
+    preview_path: projects/{{slug}}/
+    fields:
+      - { label: 标题, name: title, widget: string, hint: "2–40 字" }
+      - { label: 摘要, name: summary, widget: text, hint: "20–200 字" }
+      - label: 领域
+        name: domain
+        widget: select
+        options:
+          - { label: 大模型 / NLP, value: ai-llm }
+          - { label: 计算机视觉, value: computer-vision }
+          - { label: 数据分析, value: data-analytics }
+          - { label: 嵌入式 / 端侧, value: embedded-systems }
+          - { label: 基础设施 / 运维, value: infrastructure }
+          - { label: Web 工程, value: web-engineering }
+          - { label: 科研项目, value: research }
+      - {
+          label: 标签,
+          name: tags,
+          widget: list,
+          min: 1,
+          max: 6,
+          hint: "小写字母、数字与连字符，1–6 个",
+        }
+      - { label: 角色, name: role, widget: string, hint: "40 字以内" }
+      - { label: 团队, name: team, widget: string, required: false, hint: "选填，60 字以内" }
+      - label: 时间
+        name: timeframe
+        widget: object
+        fields:
+          - { label: 开始, name: start, widget: string, hint: "YYYY.MM" }
+          - {
+              label: 结束,
+              name: end,
+              widget: string,
+              required: false,
+              hint: "YYYY.MM；进行中可留空",
+            }
+          - { label: 进行中, name: ongoing, widget: boolean, default: false }
+      - label: 状态
+        name: status
+        widget: select
+        options:
+          - { label: 进行中, value: active }
+          - { label: 已完成, value: completed }
+          - { label: 已归档, value: archived }
+          - { label: 实验性, value: experimental }
+      - { label: 精选, name: featured, widget: boolean, default: false }
+      - { label: 排序, name: order, widget: number, default: 999, value_type: int }
+      - label: 封面
+        name: cover
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: 路径, name: src, widget: string, hint: "选填；当前页面使用生成式封面" }
+          - { label: Alt, name: alt, widget: string, hint: "封面存在时必填" }
+      - label: 图库
+        name: gallery
+        widget: list
+        required: false
+        max: 6
+        hint: "src 为相对 src/assets/projects/ 的路径"
+        fields:
+          - { label: 路径, name: src, widget: string }
+          - { label: Alt, name: alt, widget: string }
+      - { label: 技术栈, name: stack, widget: list, min: 1, max: 12, hint: "1–12 项" }
+      - label: 链接
+        name: links
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: 源码, name: repo, widget: string, required: false }
+          - { label: Demo, name: demo, widget: string, required: false }
+          - { label: 论文 / 报告, name: paper, widget: string, required: false }
+          - { label: 文档, name: doc, widget: string, required: false }
+      - label: 指标
+        name: metrics
+        widget: list
+        required: false
+        max: 4
+        fields:
+          - { label: 名称, name: label, widget: string }
+          - { label: 数值, name: value, widget: string }
+          - { label: 单位, name: unit, widget: string, required: false }
+      - {
+          label: 亮点,
+          name: highlights,
+          widget: list,
+          required: false,
+          max: 4,
+          hint: "每条 80 字以内",
+        }
+      - { label: 草稿, name: draft, widget: boolean, default: false }
+      - label: SEO
+        name: seo
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: 标题, name: title, widget: string, required: false, hint: "60 字以内" }
+          - { label: 描述, name: description, widget: string, required: false, hint: "160 字以内" }
+          - { label: OG 图, name: ogImage, widget: string, required: false }
+      - { label: 正文, name: body, widget: markdown }
+
+  - name: notes
+    label: 笔记
+    label_singular: 笔记
+    description: 技术笔记；字段与 src/content.config.ts 保持一致。
+    folder: src/content/notes
+    extension: mdx
+    format: yaml-frontmatter
+    create: true
+    delete: true
+    identifier_field: title
+    preview_path: notes/{{slug}}/
+    fields:
+      - { label: 标题, name: title, widget: string, hint: "2–60 字" }
+      - { label: 摘要, name: summary, widget: text, hint: "20–200 字" }
+      - {
+          label: 日期,
+          name: date,
+          widget: datetime,
+          date_format: "YYYY-MM-DD",
+          time_format: false,
+          format: "YYYY-MM-DD",
+        }
+      - { label: 标签, name: tags, widget: list, required: false, max: 6, hint: "0–6 个" }
+      - { label: 草稿, name: draft, widget: boolean, default: false }
+      - { label: 正文, name: body, widget: markdown }
+
+  - name: site
+    label: 站点资料
+    description: 个人资料、About、Now、Uses、技能与时间线；保存后自动提交并部署。
+    format: json
+    files:
+      - name: profile_zh
+        label: 个人资料（中文）
+        file: src/data/profile.zh.json
+        fields:
+          - { label: 姓名, name: name, widget: string }
+          - { label: 英文名, name: nameEn, widget: string }
+          - { label: 角色, name: role, widget: string }
+          - { label: 一句主张, name: statement, widget: text }
+          - { label: 副标题, name: tagline, widget: text }
+          - { label: 短简介, name: bioShort, widget: text }
+          - { label: 完整简介, name: bio, widget: text }
+          - { label: 时区, name: timezone, widget: string, default: Asia/Shanghai }
+          - { label: 地点, name: location, widget: string }
+          - { label: 邮箱, name: email, widget: string }
+          - { label: GitHub, name: github, widget: string, required: false }
+          - { label: 可用状态, name: availability, widget: string }
+      - name: profile_en
+        label: Profile (English)
+        file: src/data/profile.en.json
+        fields:
+          - { label: Name, name: name, widget: string }
+          - { label: Chinese name, name: nameEn, widget: string }
+          - { label: Role, name: role, widget: string }
+          - { label: Statement, name: statement, widget: text }
+          - { label: Tagline, name: tagline, widget: text }
+          - { label: Short bio, name: bioShort, widget: text }
+          - { label: Full bio, name: bio, widget: text }
+          - { label: Timezone, name: timezone, widget: string, default: Asia/Shanghai }
+          - { label: Location, name: location, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: GitHub, name: github, widget: string, required: false }
+          - { label: Availability, name: availability, widget: string }
+      - name: about_zh
+        label: About 自述（中文）
+        file: src/data/about.zh.json
+        fields:
+          - { label: 段落, name: story, widget: list, hint: 每个条目是一段正文 }
+      - name: about_en
+        label: About story (English)
+        file: src/data/about.en.json
+        fields:
+          - { label: Paragraphs, name: story, widget: list }
+      - name: now_zh
+        label: Now（中文）
+        file: src/data/now.zh.json
+        fields:
+          - { label: 更新时间, name: updated, widget: string, hint: 例如 2026-10 }
+          - { label: 引言, name: intro, widget: text }
+          - label: 分组
+            name: sections
+            widget: list
+            fields:
+              - { label: 标题, name: title, widget: string }
+              - { label: 条目, name: items, widget: list }
+      - name: now_en
+        label: Now (English)
+        file: src/data/now.en.json
+        fields:
+          - { label: Updated, name: updated, widget: string }
+          - { label: Intro, name: intro, widget: text }
+          - label: Sections
+            name: sections
+            widget: list
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Items, name: items, widget: list }
+      - name: uses_zh
+        label: Uses（中文）
+        file: src/data/uses.zh.json
+        fields:
+          - label: 分组
+            name: groups
+            widget: list
+            fields:
+              - { label: 标题, name: title, widget: string }
+              - label: 工具
+                name: items
+                widget: list
+                fields:
+                  - { label: 名称, name: name, widget: string }
+                  - { label: 说明, name: note, widget: string, required: false }
+      - name: uses_en
+        label: Uses (English)
+        file: src/data/uses.en.json
+        fields:
+          - label: Groups
+            name: groups
+            widget: list
+            fields:
+              - { label: Title, name: title, widget: string }
+              - label: Tools
+                name: items
+                widget: list
+                fields:
+                  - { label: Name, name: name, widget: string }
+                  - { label: Note, name: note, widget: string, required: false }
+      - name: skills_zh
+        label: 技能（中文）
+        file: src/data/skills.zh.json
+        fields:
+          - label: 分组
+            name: groups
+            widget: list
+            fields:
+              - { label: 名称, name: label, widget: string }
+              - { label: 条目, name: items, widget: list }
+      - name: skills_en
+        label: Skills (English)
+        file: src/data/skills.en.json
+        fields:
+          - label: Groups
+            name: groups
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Items, name: items, widget: list }
+      - name: timeline_zh
+        label: 时间线（中文）
+        file: src/data/timeline.zh.json
+        fields:
+          - label: 条目
+            name: items
+            widget: list
+            fields:
+              - { label: 时间, name: period, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 组织, name: org, widget: string }
+              - { label: 类型, name: kind, widget: select, options: [工作, 教育, 科研] }
+              - { label: 说明, name: detail, widget: text, required: false }
+      - name: timeline_en
+        label: Timeline (English)
+        file: src/data/timeline.en.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: Period, name: period, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Organisation, name: org, widget: string }
+              - { label: Kind, name: kind, widget: select, options: [工作, 教育, 科研] }
+              - { label: Detail, name: detail, widget: text, required: false }

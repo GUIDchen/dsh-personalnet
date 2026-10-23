@@ -18,7 +18,8 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !page.includes("/search/") && !page.endsWith("/404/"),
+      filter: (page) =>
+        !page.includes("/search/") && !page.includes("/admin/") && !page.endsWith("/404/"),
     }),
     pagefind(),
   ],

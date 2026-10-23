@@ -1,23 +1,36 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("内容管理后台", () => {
-  test("后台页、配置与索引控制可用", async ({ page }) => {
-    await page.route("https://unpkg.com/**", (route) => route.abort());
-
+  test("仪表盘统计与入口", async ({ page }) => {
     const response = await page.goto("/admin/");
     expect(response?.status()).toBe(200);
 
+    await expect(page.locator("h1")).toHaveText("内容管理");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+    await expect(page.locator('a[href="/admin/cms/"]').first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("项目");
+    await expect(page.locator("body")).toContainText("笔记");
+    await expect(page.locator("body")).toContainText("发布流程");
+  });
+
+  test("CMS 页面、配置与索引控制可用", async ({ page }) => {
+    await page.route("https://unpkg.com/**", (route) => route.abort());
+
+    const response = await page.goto("/admin/cms/");
+    expect(response?.status()).toBe(200);
+
     const script = page.locator('script[src*="@sveltia/cms@"]');
     await expect(script).toHaveAttribute("integrity", /^sha384-/);
     await expect(script).toHaveAttribute("crossorigin", "anonymous");
 
-    const config = await page.request.get("/admin/config.yml");
+    const config = await page.request.get("/admin/cms/config.yml");
     expect(config.status()).toBe(200);
     const body = await config.text();
     expect(body).toContain("collections:");
     expect(body).toContain("src/content/projects");
     expect(body).toContain("src/content/notes");
+    expect(body).toContain("src/data/profile.zh.json");
+    expect(body).toContain("publish_mode: simple");
 
     const sitemap = await page.request.get("/sitemap-0.xml");
     expect(await sitemap.text()).not.toContain("/admin/");

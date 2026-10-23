@@ -12,18 +12,23 @@
 
 ## 1. 形态
 
-- **本地模式**：Chrome / Edge（Chromium）打开 `http://localhost:4321/admin/index.html`，通过 File System Access API 直接读写工作区文件，无需登录。
-- **线上模式**：部署后访问 `https://<site>/admin/`，通过 GitHub backend 提交到仓库；单用户可用 fine-grained PAT，或部署 `sveltia-cms-auth` OAuth Worker。
+- **管理仪表盘**：`/admin/`，构建期读取项目/笔记/站点资料统计，提供快捷入口与发布说明；只读、noindex。
+- **内容编辑器**：`/admin/cms/`（Sveltia CMS），负责写入。
+- **本地模式**：Chrome / Edge 打开 `http://localhost:4321/admin/cms/index.html`，通过 File System Access API 直接读写工作区文件，无需登录。
+- **线上模式**：部署后访问 `https://<site>/admin/cms/`，通过 GitHub backend 提交到仓库；单用户可用 fine-grained PAT，或部署 `sveltia-cms-auth` OAuth Worker。
 - **不启用**：自建数据库、服务端会话、多人角色权限。需要这些能力时应重新评估架构（见 ADR 0014）。
 
 ## 2. 文件
 
 | 文件 | 作用 |
 |---|---|
-| `public/admin/index.html` | 后台入口；固定 Sveltia 版本 + SRI + noindex |
-| `public/admin/config.yml` | backend、媒体目录、projects/notes 集合与字段 |
+| `src/pages/admin/index.astro` | `/admin/` 管理仪表盘（统计、快捷入口、发布说明、待补源码） |
+| `src/components/admin/AdminHeader.astro` | 后台顶栏 |
+| `public/admin/cms/index.html` | Sveltia 编辑器入口；固定版本 + SRI + noindex |
+| `public/admin/cms/config.yml` | backend、媒体目录、projects/notes/site 集合与字段 |
 | `scripts/check-admin.mjs` | 校验配置字段与 schema 一致、SRI、noindex、robots |
-| `tests/e2e/admin.spec.ts` | `/admin/` 200、配置可访问、noindex、robots、sitemap 排除 |
+| `scripts/check-site-data.mjs` | 校验 12 个站点资料 JSON |
+| `tests/e2e/admin.spec.ts` | 仪表盘/CMS 200、配置可访问、noindex、robots、sitemap 排除 |
 
 后台是 `public/` 下的静态 HTML，**不要**改成 `src/pages/admin.astro`：Astro 开发服务器会在文件变化时刷新页面，可能打断本地保存（Sveltia 官方也明确不建议）。
 
@@ -64,12 +69,27 @@
 | draft | boolean | 草稿不进入构建 |
 | body | markdown | 笔记正文 |
 
+### site（站点资料）
+
+`site` 是 file collection，编辑 12 个 JSON：
+
+| 文件 | 内容 |
+|---|---|
+| profile.zh.json / profile.en.json | 姓名、角色、主张、简介、地点、邮箱、GitHub、可用状态 |
+| about.zh.json / about.en.json | About 自述段落 |
+| now.zh.json / now.en.json | 更新时间、引言、在做什么/在学/在找 |
+| uses.zh.json / uses.en.json | 工具分组与说明 |
+| skills.zh.json / skills.en.json | 技能分组 |
+| timeline.zh.json / timeline.en.json | 时间线（工作/教育/科研） |
+
+字段由 `check-site-data` 校验；中英结构需保持一致。
+
 ## 4. 使用流程
 
 ### 4.1 本地编辑（推荐日常使用）
 
 1. 启动开发服务器：`pnpm dev`。
-2. 用 Chrome 打开 `http://localhost:4321/admin/index.html`（注意是 `index.html`，不是 `/admin/`）。
+2. 用 Chrome 打开 `http://localhost:4321/admin/cms/index.html`（开发服务器不把目录映射到 index.html）。
 3. 选择 "Work with local repository"，选中仓库根目录（包含 `package.json` 的那一层）。
 4. 编辑项目/笔记，保存后文件直接写入 `src/content/`。
 5. 运行 `pnpm test:content && pnpm build` 检查，再按正常 Git 流程提交。
@@ -78,11 +98,11 @@
 
 ### 4.2 线上编辑
 
-1. 把 `public/admin/config.yml` 的 `backend.repo` 从 `OWNER/dsh-personalnet` 改为实际仓库。
+1. `public/admin/cms/config.yml` 的 `backend.repo` 已指向 `GUIDchen/dsh-personalnet`；换仓库时修改此处。
 2. 选择认证方式：
    - **PAT（最快）**：创建 fine-grained token，只授予目标仓库 `Contents: Read and write`；按 Sveltia 登录提示填入。token 只保存在浏览器本地，不写入仓库。
    - **OAuth（推荐长期）**：部署 [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) Worker，在 backend 增加 `base_url` 指向 Worker。
-3. 部署后访问 `/admin/`，登录并编辑；Sveltia 会以 commit 形式写入仓库，触发 CI/部署。
+3. 部署后访问 `/admin/cms/`，登录并编辑；Sveltia 会以 commit 形式写入仓库，触发 CI/部署。仪表盘 `/admin/` 可查看统计与发布入口。
 
 ## 5. 安全
 

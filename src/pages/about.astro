@@ -8,6 +8,8 @@ import { SKILL_GROUPS } from "@/data/skills";
 import { SKILL_GROUPS_EN } from "@/data/skills.en";
 import { TIMELINE } from "@/data/timeline";
 import { TIMELINE_EN } from "@/data/timeline.en";
+import { ABOUT } from "@/data/about";
+import { ABOUT_EN } from "@/data/about.en";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { personJsonLd } from "@/lib/jsonld";
 import { copy, type Lang } from "@/i18n";
@@ -20,6 +22,7 @@ interface Props {
 const { lang = "zh" } = Astro.props;
 const c = copy[lang].about;
 const person = lang === "en" ? profileEn : profile;
+const story = lang === "en" ? ABOUT_EN.story : ABOUT.story;
 const skills = lang === "en" ? SKILL_GROUPS_EN : SKILL_GROUPS;
 const timeline = lang === "en" ? TIMELINE_EN : TIMELINE;
 const kindLabel = (kind: string) =>
@@ -34,28 +37,55 @@ const kindLabel = (kind: string) =>
   <JsonLd data={personJsonLd()} />
 
   <header class="page-head">
-    <p class="mono-label">{c.kicker}</p>
-    <h1>
-      {c.title[0]}
-      <br />
-      {c.title[1]}
-    </h1>
-    <p class="lead">{person.bio}</p>
-    <div class="actions">
-      <Button href={`mailto:${person.email}`}>{c.actions.email}</Button>
-      <Button href={localizePath("projects/", lang)} variant="secondary">
-        {c.actions.projects}
-      </Button>
-      <Button href={localizePath("cv/", lang)} variant="secondary">
-        {c.actions.cv}
-      </Button>
+    <div class="intro">
+      <p class="mono-label">{c.kicker}</p>
+      <h1>
+        {c.title[0]}
+        <br />
+        {c.title[1]}
+      </h1>
+      <p class="lead">{person.bio}</p>
+      <div class="actions">
+        <Button href={`mailto:${person.email}`}>{c.actions.email}</Button>
+        <Button href={localizePath("projects/", lang)} variant="secondary">
+          {c.actions.projects}
+        </Button>
+        <Button href={localizePath("cv/", lang)} variant="secondary">
+          {c.actions.cv}
+        </Button>
+      </div>
     </div>
+    <aside class="facts" aria-label={c.contactTitle}>
+      <p class="mono-label">{person.availability}</p>
+      <dl>
+        <div>
+          <dt>{c.labels.location}</dt>
+          <dd>{person.location}</dd>
+        </div>
+        <div>
+          <dt>{c.labels.email}</dt>
+          <dd>
+            <a href={`mailto:${person.email}`}>{person.email}</a>
+          </dd>
+        </div>
+        {person.github && (
+          <div>
+            <dt>GitHub</dt>
+            <dd>
+              <a href={person.github} target="_blank" rel="noopener noreferrer">
+                @GUIDchen ↗
+              </a>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </aside>
   </header>
 
   <section class="section" aria-labelledby="story-title">
     <h2 id="story-title">{c.storyTitle}</h2>
     <div class="prose story">
-      {c.story.map((paragraph) => (
+      {story.map((paragraph) => (
         <p>{paragraph}</p>
       ))}
     </div>
@@ -111,7 +141,46 @@ const kindLabel = (kind: string) =>
 
 <style>
   .page-head {
-    max-width: 48rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(15rem, 0.7fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: end;
+    max-width: 64rem;
+  }
+
+  .facts {
+    border-top: 1px solid var(--border-strong);
+    padding-top: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .facts dl {
+    display: grid;
+    gap: 0.8rem;
+    margin: 1rem 0 0;
+  }
+
+  .facts dt {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .facts dd {
+    margin: 0.15rem 0 0;
+  }
+
+  .facts a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 767px) {
+    .page-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
   }
 
   h1 {

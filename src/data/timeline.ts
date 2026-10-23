@@ -1,3 +1,5 @@
+import data from "./timeline.zh.json";
+
 export type TimelineKind = "工作" | "教育" | "科研";
 
 export interface TimelineItem {
@@ -8,42 +10,4 @@ export interface TimelineItem {
   detail?: string;
 }
 
-export const TIMELINE: TimelineItem[] = [
-  {
-    period: "2025.07 – 至今",
-    title: "独立开发 / 自主就业",
-    org: "数据应用与自动化",
-    kind: "工作",
-    detail:
-      "AI 数据处理应用：采集清洗、模型训练调优与功能部署；持续学习软考网络工程师与嵌入式 Verilog。",
-  },
-  {
-    period: "2023.09 – 2024.05",
-    title: "软硬件维护与数据分析",
-    org: "兰州天天卓越信息技术有限公司",
-    kind: "工作",
-    detail: "负责设备与系统维护，处理日常软硬件问题并提供数据分析支持。",
-  },
-  {
-    period: "2022.09 – 2025.07",
-    title: "软件工程 · 硕士",
-    org: "西北师范大学",
-    kind: "教育",
-    detail:
-      "研究方向：智能算法 / 计算机视觉 / 数据挖掘；机器学习 88、人工智能 88.6、算法设计与分析 90。",
-  },
-  {
-    period: "2016.09 – 2020.06",
-    title: "软件工程 · 本科",
-    org: "郑州大学",
-    kind: "教育",
-    detail: "数据库系统原理、算法设计与分析、计算机网络、软件体系结构、软件工程综合实验。",
-  },
-  {
-    period: "2024 – 2027",
-    title: "返贫监测与治理决策模型研究",
-    org: "国家自然科学基金 72364033 · 参与",
-    kind: "科研",
-    detail: "负责社会分化数据采集与清洗，搭建分类预测与聚类分析流程，参与四层研究框架构建。",
-  },
-];
+export const TIMELINE: TimelineItem[] = data.items as TimelineItem[];

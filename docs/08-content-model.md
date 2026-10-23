@@ -113,6 +113,10 @@ draft: false
 - 反思必须包含"如果重做会怎么改"。
 - 不写公司内部敏感信息、客户名称（除非公开）。
 
+## 6.1 站点资料 JSON
+
+个人资料、About 自述、Now、Uses、技能、时间线放在 `src/data/*.json`（中英各一份），由 Sveltia `site` file collection 编辑，`scripts/check-site-data.mjs` 校验字段、中英结构与 URL/邮箱。TS wrapper（`profile.ts` 等）保留原有导出，页面 import 不变。
+
 ## 7. 图片规范
 
 | 类型 | 尺寸 | 格式 | 体积 |

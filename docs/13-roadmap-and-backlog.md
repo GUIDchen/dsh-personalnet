@@ -26,6 +26,8 @@
 | M11 | 管理后台（v1.5.0） | Sveltia CMS、内容模型映射、noindex/robots、校验脚本 | check:admin + E2E + 手工本地编辑 | ✅ 完成 |
 | M12 | 自动化长跑（v1.6.0） | 健康报告、每周 maintenance workflow、Agent 契约与日志 | health + workflow 解析 + 日志 | ✅ 完成 |
 | M13 | 上线发布（v2.0.0） | GitHub Pages、远程建仓、最终回归、tag | 公网 URL + LHCI/axe/SEO | ✅ 完成 |
+| M14 | 管理平台（v2.1.0） | /admin 仪表盘、/admin/cms、site collection、JSON 迁移 | 后台 E2E、check-site、手工发布 | ✅ 完成 |
+| M15 | 视觉升级（v2.1.0） | 项目封面卡、GitHub 链接、About 双栏、搜索快捷词 | 截图走查、axe/LHCI、预算 | ✅ 完成 |
 
 ## 2. Backlog
 

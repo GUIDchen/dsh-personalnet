@@ -38,12 +38,12 @@ const expected = {
   notes: ["title", "summary", "date", "tags", "draft"],
 };
 
-if (!exists("public/admin/index.html")) errors.push("缺少 public/admin/index.html");
-if (!exists("public/admin/config.yml")) errors.push("缺少 public/admin/config.yml");
+if (!exists("public/admin/cms/index.html")) errors.push("缺少 public/admin/cms/index.html");
+if (!exists("public/admin/cms/config.yml")) errors.push("缺少 public/admin/cms/config.yml");
 if (!exists("public/media")) warnings.push("缺少 public/media 目录（CMS 上传时会创建）");
 
-if (exists("public/admin/index.html")) {
-  const html = read("public/admin/index.html");
+if (exists("public/admin/cms/index.html")) {
+  const html = read("public/admin/cms/index.html");
   if (!/<meta[^>]+name="robots"[^>]+content="noindex/i.test(html)) {
     errors.push("admin/index.html 缺少 robots noindex");
   }
@@ -60,10 +60,10 @@ if (exists("public/admin/index.html")) {
   }
 }
 
-if (exists("public/admin/config.yml")) {
+if (exists("public/admin/cms/config.yml")) {
   let config;
   try {
-    config = parse(read("public/admin/config.yml"));
+    config = parse(read("public/admin/cms/config.yml"));
   } catch (error) {
     errors.push("config.yml 无法解析: " + error.message);
   }
@@ -107,6 +107,19 @@ if (exists("public/admin/config.yml")) {
     const date = notes?.fields?.find((field) => field.name === "date");
     if (date && date.format !== "YYYY-MM-DD") {
       errors.push("notes.date 输出格式应为 YYYY-MM-DD");
+    }
+
+    const site = config.collections?.find((item) => item.name === "site");
+    if (!site) {
+      errors.push("缺少 collection: site（站点资料）");
+    } else {
+      if (site.format !== "json") errors.push("site format 应为 json");
+      const files = site.files ?? [];
+      if (files.length !== 12) errors.push("site files 应为 12 个，实际 " + files.length);
+      for (const file of files) {
+        if (!file.file || !exists(file.file))
+          errors.push("site 文件不存在: " + (file.file ?? file.name));
+      }
     }
   }
 }

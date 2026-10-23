@@ -1,51 +1,8 @@
+import data from "./uses.zh.json";
+
 export interface UseGroup {
   title: string;
   items: { name: string; note?: string }[];
 }
 
-export const USES: UseGroup[] = [
-  {
-    title: "语言",
-    items: [
-      { name: "Python", note: "数据处理、模型与自动化" },
-      { name: "C / C++", note: "算法、CUDA 与底层调试" },
-      { name: "Java", note: "JavaWeb 与课程项目" },
-      { name: "Shell / SQL", note: "运维与数据查询" },
-    ],
-  },
-  {
-    title: "AI 与数据",
-    items: [
-      { name: "PyTorch / TensorFlow / PaddlePaddle", note: "训练与实验" },
-      { name: "OpenCV", note: "图像预处理与检测" },
-      { name: "NumPy / Pandas", note: "数据清洗与分析" },
-      { name: "SPSS / Stata", note: "统计与建模" },
-    ],
-  },
-  {
-    title: "系统与工程",
-    items: [
-      { name: "Linux / Docker", note: "环境与部署" },
-      { name: "Git / GitHub Actions", note: "版本与 CI" },
-      { name: "MySQL", note: "数据存储" },
-      { name: "CUDA / Verilog", note: "并行与硬件实验" },
-    ],
-  },
-  {
-    title: "这个网站",
-    items: [
-      { name: "Astro 7 + TypeScript", note: "静态输出与内容模型" },
-      { name: "Tailwind CSS 4", note: "设计令牌与布局" },
-      { name: "Pagefind", note: "构建期搜索" },
-      { name: "Playwright + Lighthouse CI", note: "质量门禁" },
-    ],
-  },
-  {
-    title: "写作与记录",
-    items: [
-      { name: "Markdown / MDX", note: "项目与笔记" },
-      { name: "Mermaid", note: "架构与流程" },
-      { name: "文档驱动", note: "ADR、维护手册与检查清单" },
-    ],
-  },
-];
+export const USES: UseGroup[] = data.groups;

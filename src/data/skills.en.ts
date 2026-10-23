@@ -1,22 +1,4 @@
+import data from "./skills.en.json";
 import type { SkillGroup } from "./skills";
 
-export const SKILL_GROUPS_EN: SkillGroup[] = [
-  { label: "Languages", items: ["Python", "C / C++", "Java", "Shell", "SQL", "Assembly"] },
-  {
-    label: "Deep learning",
-    items: ["PyTorch", "TensorFlow", "PaddlePaddle", "Transformer / Llama", "CUDA"],
-  },
-  {
-    label: "Vision & detection",
-    items: ["OpenCV", "YOLO", "Image preprocessing", "Annotation & augmentation"],
-  },
-  {
-    label: "Data & modelling",
-    items: ["NumPy / Pandas", "SPSS / Stata", "Classification & clustering", "Data cleaning"],
-  },
-  { label: "Systems & tools", items: ["Linux", "Docker", "Git", "MySQL", "TCP/IP"] },
-  {
-    label: "Hardware & edge",
-    items: ["Verilog / SystemVerilog", "FPGA flow", "Microcontrollers", "Edge inference"],
-  },
-];
+export const SKILL_GROUPS_EN: SkillGroup[] = data.groups;

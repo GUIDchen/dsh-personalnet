@@ -1,0 +1,486 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdminHeader from "@/components/admin/AdminHeader.astro";
+import { NOW } from "@/data/now";
+import { USES } from "@/data/uses";
+import { SKILL_GROUPS } from "@/data/skills";
+import { TIMELINE } from "@/data/timeline";
+
+const base = import.meta.env.BASE_URL;
+const cms = `${base}admin/cms/`;
+const repo = "https://github.com/GUIDchen/dsh-personalnet";
+const allProjects = await getCollection("projects");
+const allNotes = await getCollection("notes");
+const publishedProjects = allProjects.filter((project) => !project.data.draft);
+const publishedNotes = allNotes.filter((note) => !note.data.draft);
+const missingRepo = publishedProjects.filter((project) => !project.data.links.repo);
+const recent = [
+  ...[...allProjects]
+    .sort((a, b) => a.data.order - b.data.order)
+    .slice(0, 5)
+    .map((project) => ({
+      type: "项目",
+      title: project.data.title,
+      status: project.data.draft ? "草稿" : "已发布",
+      date: project.data.timeframe.start,
+      href: `${cms}#/collections/projects/entries/${project.id}`,
+    })),
+  ...[...allNotes]
+    .sort((a, b) => b.data.date.localeCompare(a.data.date))
+    .slice(0, 4)
+    .map((note) => ({
+      type: "笔记",
+      title: note.data.title,
+      status: note.data.draft ? "草稿" : "已发布",
+      date: note.data.date,
+      href: `${cms}#/collections/notes/entries/${note.id}`,
+    })),
+].slice(0, 7);
+
+const stats = [
+  {
+    label: "项目",
+    value: publishedProjects.length,
+    note: `共 ${allProjects.length} 个，${allProjects.length - publishedProjects.length} 个草稿`,
+  },
+  {
+    label: "笔记",
+    value: publishedNotes.length,
+    note: `共 ${allNotes.length} 篇，${allNotes.length - publishedNotes.length} 个草稿`,
+  },
+  {
+    label: "领域",
+    value: new Set(publishedProjects.map((project) => project.data.domain)).size,
+    note: "项目覆盖方向",
+  },
+  { label: "待补源码", value: missingRepo.length, note: "项目缺 GitHub 链接" },
+];
+---
+
+<BaseLayout title="管理后台" description="个人网站内容管理仪表盘" noindex bare lang="zh">
+  <AdminHeader />
+
+  <section class="hero" aria-labelledby="admin-title">
+    <p class="mono-label">管理 / Dashboard</p>
+    <h1 id="admin-title">内容管理</h1>
+    <p class="lead">
+      项目、笔记与站点资料都在同一个 Git 仓库里。保存即提交，GitHub Actions 自动部署。
+    </p>
+    <div class="hero-actions">
+      <a class="button button--primary" href={`${cms}#/collections/projects/new`} data-astro-reload>
+        新建项目
+      </a>
+      <a class="button" href={`${cms}#/collections/notes/new`} data-astro-reload>
+        新建笔记
+      </a>
+      <a class="text-link" href={`${cms}`} data-astro-reload>
+        打开内容编辑器 →
+      </a>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="内容统计">
+    {stats.map((stat) => (
+      <article>
+        <span class="mono-label">{stat.label}</span>
+        <strong>{stat.value}</strong>
+        <small>{stat.note}</small>
+      </article>
+    ))}
+  </section>
+
+  <div class="columns">
+    <section class="panel" aria-labelledby="recent-title">
+      <div class="panel-head">
+        <h2 id="recent-title">最近内容</h2>
+        <a href={`${cms}`} data-astro-reload>
+          全部 →
+        </a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>类型</th>
+              <th>标题</th>
+              <th>状态</th>
+              <th>日期</th>
+              <th>
+                <span class="sr-only">操作</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {recent.map((item) => (
+              <tr>
+                <td class="muted">{item.type}</td>
+                <td class="title-cell">{item.title}</td>
+                <td>
+                  <span class:list={["status", { draft: item.status === "草稿" }]}>
+                    {item.status}
+                  </span>
+                </td>
+                <td class="mono">{item.date}</td>
+                <td>
+                  <a href={item.href} data-astro-reload>
+                    编辑
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel" aria-labelledby="publish-title">
+        <h2 id="publish-title">发布流程</h2>
+        <ol class="steps">
+          <li>
+            <span>01</span>在编辑器里保存项目/笔记
+          </li>
+          <li>
+            <span>02</span>Sveltia 以 commit 写入 <code>main</code>
+          </li>
+          <li>
+            <span>03</span>Actions 构建并发布到 Pages
+          </li>
+        </ol>
+        <a
+          class="button button--wide"
+          href={`${repo}/actions`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          查看部署状态 ↗
+        </a>
+      </section>
+
+      <section class="panel" aria-labelledby="quick-title">
+        <h2 id="quick-title">快捷入口</h2>
+        <ul class="quick">
+          <li>
+            <a href={`${cms}#/collections/site`} data-astro-reload>
+              站点资料 <span>Profile / About / Now / Uses</span>
+            </a>
+          </li>
+          <li>
+            <a href={`${cms}#/collections/projects`} data-astro-reload>
+              项目管理 <span>{publishedProjects.length} 个已发布</span>
+            </a>
+          </li>
+          <li>
+            <a href={`${cms}#/collections/notes`} data-astro-reload>
+              笔记管理 <span>{publishedNotes.length} 篇已发布</span>
+            </a>
+          </li>
+          <li>
+            <a href={`${base}cv/`}>
+              查看简历 <span>CV / 打印</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <section class="panel repo-panel" aria-labelledby="repo-title">
+    <div class="panel-head">
+      <h2 id="repo-title">项目 GitHub 链接</h2>
+      <span class="mono-label">{missingRepo.length} 个待补</span>
+    </div>
+    {missingRepo.length === 0 ? (
+      <p class="muted">所有已发布项目都配置了 GitHub 源码链接。</p>
+    ) : (
+      <>
+        <p class="muted">
+          以下项目的标题旁暂不显示 GitHub 图标；在后台的「链接 → 源码」填入仓库地址即可。
+        </p>
+        <ul class="missing">
+          {missingRepo.map((project) => (
+            <li>
+              <span>{project.data.title}</span>
+              <a href={`${cms}#/collections/projects/entries/${project.id}`} data-astro-reload>
+                补充链接 →
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </section>
+
+  <section class="panel note" aria-labelledby="data-title">
+    <h2 id="data-title">站点资料</h2>
+    <p class="muted">
+      资料文件已集中到 <code>src/data/*.json</code>，可在「站点资料」中修改；当前更新
+      <strong>{NOW.updated}</strong>，技能 <strong>{SKILL_GROUPS.length}</strong> 组、工具
+      <strong>{USES.length}</strong> 组、时间线 <strong>{TIMELINE.length}</strong> 条。
+      <a href={`${cms}#/collections/site`} data-astro-reload>
+        立即编辑 →
+      </a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    max-width: 48rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+  .hero h1 {
+    margin: 0.5rem 0 0.75rem;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    letter-spacing: -0.045em;
+  }
+  .lead {
+    margin: 0;
+    color: var(--muted);
+    max-width: 42rem;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .text-link {
+    font-size: 0.875rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .text-link:hover {
+    color: var(--fg);
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--fg);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .button--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-fg);
+  }
+  .button--wide {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--border);
+    margin-bottom: 1.25rem;
+  }
+  .stats article {
+    background: var(--bg);
+    padding: 1.1rem 1.25rem;
+  }
+  .stats strong {
+    display: block;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 0.5rem 0 0.35rem;
+  }
+  .stats small {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(17rem, 0.8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .side {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: clamp(1rem, 2.5vw, 1.4rem);
+    background: var(--surface-raised);
+  }
+  .panel + .panel,
+  .repo-panel,
+  .note {
+    margin-top: 1.25rem;
+  }
+  .panel-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+  }
+  .panel h2 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+  .panel-head a {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .table-wrap {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  th {
+    text-align: left;
+    padding: 0.45rem 0.5rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:last-child td {
+    border-bottom: 0;
+  }
+  .title-cell {
+    font-weight: 500;
+    min-width: 10rem;
+  }
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .muted {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  td a,
+  .missing a {
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .note a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+  .status {
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 99px;
+    font-size: 0.7rem;
+  }
+  .status.draft {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .steps {
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.65rem;
+    font-size: 0.875rem;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: 1.7rem 1fr;
+    gap: 0.5rem;
+    color: var(--muted);
+  }
+  .steps span {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding-top: 0.15rem;
+  }
+  .quick {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.2rem;
+  }
+  .quick a {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+  .quick li:last-child a {
+    border-bottom: 0;
+  }
+  .quick a span {
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+  .missing {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+  .missing li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.875rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.45rem;
+  }
+  .note code {
+    font-size: 0.8em;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 900px) {
+    .columns {
+      grid-template-columns: 1fr;
+    }
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

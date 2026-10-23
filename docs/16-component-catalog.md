@@ -36,12 +36,14 @@
 | Footer | `lang?` | 本地化链接、许可、RSS、返回顶部 |
 | SkipLink | — | 首个可聚焦，指向 `#main` |
 | CommandPalette | `email`、`lang?` | ⌘K 命令面板：导航/主题/复制邮箱/RSS；role=dialog + listbox |
+| AdminHeader | — | 后台顶栏：站点/编辑器/GitHub/部署 |
 
 ## 3. project/
 
 | 组件 | Props | 说明 |
 |---|---|---|
-| ProjectCard | `project`、`index`、`level?`、`lang?` | 封面（可占位）、标题、摘要、领域、标签、年份 |
+| ProjectCard | `project`、`index`、`level?`、`lang?` | 封面、标题 + GitHub 链接、摘要、领域、标签；标题链接扩展整卡点击 |
+| RepoLink | `repo`、`title`、`lang?`、`compact?` | GitHub 源码链接；target/rel/aria-label |
 | ProjectGrid | `projects` | 响应式 3/2/1 列；`<ul>` 语义 |
 | FilterBar | `facets`、`active` | 领域 chips + 标签多选；`aria-pressed`；无 JS 退化为锚点 |
 | SortSelect | `value` | 原生 `<select>` + label |

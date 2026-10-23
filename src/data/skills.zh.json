@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "label": "编程语言",
+      "items": ["Python", "C / C++", "Java", "Shell", "SQL", "汇编"]
+    },
+    {
+      "label": "深度学习",
+      "items": ["PyTorch", "TensorFlow", "PaddlePaddle", "Transformer / Llama", "CUDA"]
+    },
+    {
+      "label": "视觉与检测",
+      "items": ["OpenCV", "YOLO", "图像预处理", "标注与增强"]
+    },
+    {
+      "label": "数据与建模",
+      "items": ["NumPy / Pandas", "SPSS / Stata", "分类与聚类", "数据清洗"]
+    },
+    {
+      "label": "系统与工具",
+      "items": ["Linux", "Docker", "Git", "MySQL", "TCP/IP"]
+    },
+    {
+      "label": "硬件与端侧",
+      "items": ["Verilog / SystemVerilog", "FPGA 流程", "单片机", "端侧推理"]
+    }
+  ]
+}

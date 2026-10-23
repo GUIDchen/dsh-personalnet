@@ -31,7 +31,7 @@ test.describe("中英文界面", () => {
     await page.goto("/en/projects/");
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.locator("body")).toContainText("Case studies are currently in Chinese.");
-    const firstCard = page.locator(".project-card .card-link").first();
+    const firstCard = page.locator(".project-card .title-link").first();
     await expect(firstCard).toHaveAttribute("href", /^\/projects\//);
   });
 

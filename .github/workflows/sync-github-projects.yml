@@ -20,13 +20,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Sync metadata
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/sync-github-projects.mjs
+      - name: Format generated data
+        run: pnpm exec prettier --write src/data/github-projects.json
       - name: Commit if changed
         run: |
           if git diff --quiet -- src/data/github-projects.json; then

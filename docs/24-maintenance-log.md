@@ -22,10 +22,12 @@
 | M13 完成 | GitHub Pages 上线、v2.0.0 tag 与 Release | d74a7ba | 公网 4 页 LHCI、CI success、tag/release | — |
 | M14 | 管理仪表盘、/admin/cms、site collection、JSON 迁移 | 75fd6cf | ci:verify、E2E 66、axe 18、LHCI 10 | — |
 | M15 | 项目封面卡、RepoLink、About 双栏、搜索快捷词 | 75fd6cf | 截图走查、E2E、预算 | 项目仓库 URL 仍缺 10 个 |
+| v2.1.0 | 管理平台/视觉升级发布 | fb39503 | 公网 200、CI success、tag/release | 10 个仓库 URL 待补 |
 
 ### 备注
 
-- M9–M15 已推送到 `GUIDchen/dsh-personalnet` 的 `main`；v2.0.0 tag 与 GitHub Release 已创建，v2.1.0 发布中。
+- M9–M15 已推送到 `GUIDchen/dsh-personalnet` 的 `main`；v2.0.0 与 v2.1.0 tag/Release 均已创建。
+- v2.1.0 GitHub Actions CI、deploy 均成功；公网地址 https://guidchen.github.io/dsh-personalnet/。
 - 公网地址：https://guidchen.github.io/dsh-personalnet/；Pages Source 为 GitHub Actions。
 - 阻塞条件（仓库不存在）已由用户授权后解除。
 - 项目截图、仓库/Demo 链接、量化指标需要作者提供，Agent 未伪造。

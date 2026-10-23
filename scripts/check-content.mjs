@@ -8,6 +8,8 @@ import { join, resolve } from "node:path";
 
 const ROOT = resolve(process.cwd());
 const PROJECTS_DIR = join(ROOT, "src/content/projects");
+const NOTES_DIR = join(ROOT, "src/content/notes");
+const LQIP = JSON.parse(readFileSync(join(ROOT, "src/data/cover-placeholders.json"), "utf8"));
 const TAGS = new Set(JSON.parse(readFileSync(join(ROOT, "src/data/tags.json"), "utf8")).tags);
 const DOMAINS = new Set([
   "ai-llm",
@@ -118,14 +120,77 @@ for (const file of files) {
   if (!existsSync(join(ROOT, "public/og", slug + ".jpg"))) {
     errors.push(`${file}: 缺少 OG 图 public/og/${slug}.jpg（运行 pnpm gen:og）`);
   }
+  if (!LQIP[slug]) {
+    errors.push(`${file}: 缺少 LQIP 占位 src/data/cover-placeholders.json（运行 pnpm gen:og）`);
+  }
 }
 
 if (!existsSync(join(ROOT, "public/og/default.jpg"))) {
   errors.push("缺少默认 OG 图 public/og/default.jpg（运行 pnpm gen:og）");
 }
 
+// 笔记校验：字段、真实日期、标签词表、长度与隐私；笔记不要求六段式与 OG。
+let noteFiles = [];
+if (existsSync(NOTES_DIR)) {
+  noteFiles = readdirSync(NOTES_DIR)
+    .filter((file) => file.endsWith(".mdx"))
+    .sort();
+}
+let publishedNotes = 0;
+let draftNotes = 0;
+
+for (const file of noteFiles) {
+  const path = join(NOTES_DIR, file);
+  const text = readFileSync(path, "utf8");
+  const fm = frontmatter(text, file);
+
+  for (const key of ["title", "summary", "date"]) {
+    if (!new RegExp("^" + key + ":", "m").test(fm)) errors.push(`${file}: 缺少字段 ${key}`);
+  }
+
+  const date = /^date:\s*"?([^"\n]+)"?$/m.exec(fm)?.[1]?.trim() ?? "";
+  if (date) {
+    const parsed = new Date(date + "T00:00:00Z");
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+      Number.isNaN(parsed.getTime()) ||
+      !parsed.toISOString().startsWith(date)
+    ) {
+      errors.push(`${file}: 日期无效 ${date}`);
+    }
+  }
+
+  const tagsLine = /^tags:\s*\[([^\]]*)\]/m.exec(fm)?.[1] ?? "";
+  const tags = tagsLine
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+  for (const tag of tags) {
+    if (!TAGS.has(tag)) errors.push(`${file}: 标签不在词表内 ${tag}`);
+  }
+
+  const title = /^title:\s*(.+)$/m.exec(fm)?.[1]?.trim() ?? "";
+  if (title.length < 2 || title.length > 60) {
+    errors.push(`${file}: 标题长度 ${title.length}（2–60）`);
+  }
+
+  const summary = /^summary:\s*(.+)$/m.exec(fm)?.[1]?.trim() ?? "";
+  if (summary.length < 20 || summary.length > 200) {
+    errors.push(`${file}: 摘要长度 ${summary.length}（20–200）`);
+  }
+
+  if (/1[3-9]\d{9}/.test(text)) errors.push(`${file}: 疑似手机号`);
+  for (const key of SENSITIVE_KEYS) {
+    if (new RegExp("^" + key + ":", "mi").test(fm)) errors.push(`${file}: 含敏感字段 ${key}`);
+  }
+
+  if (/^draft:\s*true/m.test(fm)) draftNotes += 1;
+  else publishedNotes += 1;
+}
+
 console.log("内容校验");
 console.log("  项目: " + published + "（草稿 " + drafts + "）");
+console.log("  笔记: " + publishedNotes + "（草稿 " + draftNotes + "）");
 console.log("  领域: " + domainsUsed.size + " / " + DOMAINS.size);
 console.log("  标签词表: " + TAGS.size);
 console.log("  错误: " + errors.length);

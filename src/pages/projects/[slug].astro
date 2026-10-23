@@ -9,6 +9,7 @@ import Toc from "@/components/project/Toc.astro";
 import JsonLd from "@/components/seo/JsonLd.astro";
 import { getPublishedProjects, getRelatedProjects } from "@/lib/content";
 import { DOMAIN_META } from "@/data/domains";
+import placeholders from "@/data/cover-placeholders.json";
 import { breadcrumbJsonLd, projectJsonLd } from "@/lib/jsonld";
 
 export async function getStaticPaths() {
@@ -22,6 +23,7 @@ const covers = import.meta.glob<{ default: ImageMetadata }>("../../assets/covers
   eager: true,
 });
 const cover = covers[`../../assets/covers/${project.id}.jpg`];
+const lqip = (placeholders as Record<string, string>)[project.id];
 const { data } = project;
 const domain = DOMAIN_META[data.domain];
 const statusLabels = {
@@ -89,7 +91,14 @@ const period = data.timeframe.ongoing
     </header>
 
     {cover && (
-      <figure class="cover">
+      <figure
+        class="cover"
+        style={
+          lqip
+            ? `background-image:url("${lqip}");background-size:cover;background-position:center`
+            : undefined
+        }
+      >
         <Picture
           src={cover.default}
           formats={["avif", "webp"]}
@@ -249,7 +258,9 @@ const period = data.timeframe.ongoing
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    background: var(--surface);
+    background-color: var(--surface);
+    background-size: cover;
+    background-position: center;
   }
 
   .cover :global(img) {

@@ -1,9 +1,9 @@
 {
   "name": "dsh-personalnet",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
-  "description": "个人网站：7 个领域、12 个项目案例的作品集（Astro 7 + Tailwind 4）",
+  "description": "个人网站：7 个领域、12 个项目案例与 3 篇技术笔记（Astro 7 + Tailwind 4）",
   "license": "MIT",
   "packageManager": "pnpm@12.8.1",
   "engines": {
@@ -24,7 +24,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:docs": "node scripts/check-docs.mjs",
-    "ci:verify": "pnpm lint && pnpm format:check && pnpm check && pnpm test:unit && pnpm build && pnpm test:docs && pnpm test:content && pnpm check:contrast && pnpm test:integration && pnpm check:budget",
+    "ci:verify": "pnpm lint && pnpm format:check && pnpm check && pnpm test:unit && pnpm build && pnpm test:docs && pnpm test:content && pnpm check:contrast && pnpm test:integration && pnpm test:seo && pnpm check:budget",
     "check:contrast": "node scripts/check-contrast.mjs",
     "screenshots": "node scripts/screenshots.mjs",
     "test:content": "node scripts/check-content.mjs",
@@ -35,7 +35,8 @@
     "check:budget": "node scripts/check-budget.mjs",
     "perf": "lhci autorun",
     "new:project": "node scripts/new-project.mjs",
-    "check:links": "node scripts/check-links.mjs"
+    "check:links": "node scripts/check-links.mjs",
+    "test:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.4",

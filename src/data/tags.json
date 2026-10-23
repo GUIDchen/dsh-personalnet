@@ -33,6 +33,13 @@
     "verilog",
     "fpga",
     "hdl",
-    "platform"
+    "platform",
+    "astro",
+    "static-site",
+    "pagefind",
+    "testing",
+    "ci",
+    "architecture",
+    "seo"
   ]
 }

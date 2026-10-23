@@ -13,8 +13,8 @@
 | 集合 | 目录 | 格式 | 用途 |
 |---|---|---|---|
 | `projects` | `src/content/projects/` | MDX | 项目案例（12 个） |
-| `notes`（预留） | `src/content/notes/` | MDX | 技术笔记（M7） |
-| `pages`（预留） | `src/content/pages/` | MDX | 长文页面（M7） |
+| `notes` | `src/content/notes/` | MDX | 技术笔记（当前 3 篇） |
+| `pages`（预留） | `src/content/pages/` | MDX | 长文页面（未启用） |
 
 ## 2. projects schema
 
@@ -137,6 +137,18 @@ draft: false
 | slug 重复 | 构建失败 | 列出冲突文件 |
 | 草稿 | 跳过构建 | 日志提示 |
 
+## 2.1 notes schema
+
+| 字段 | 类型 | 必填 | 约束 |
+|---|---|---|---|
+| `title` | string | 是 | 2–60 字 |
+| `summary` | string | 是 | 20–200 字 |
+| `date` | string | 是 | `YYYY-MM-DD`，必须为真实日期 |
+| `tags` | string[] | 否 | 0–6 个，必须在词表内 |
+| `draft` | boolean | 否 | 默认 false，草稿不构建 |
+
+笔记不要求六段式结构，也不单独生成 OG 图（使用默认 OG）。正文可自由使用 H2/H3，详情页自动生成 TOC。
+
 ## 9. 内容工作流
 
 1. `pnpm new:project <slug>` 生成草稿骨架（`draft: true`，不会进入构建）。
@@ -145,6 +157,13 @@ draft: false
 4. `pnpm build && pnpm gen:og` 重新生成 OG 图与封面；把 `draft` 改为 `false`。
 5. 提交 PR；CI 通过后合并，自动部署。
 6. `CHANGELOG.md` 记录新增项目。
+
+### 9.1 新增笔记
+
+1. 在 `src/content/notes/` 新建 `<slug>.mdx`，填写 `title` / `summary` / `date`（加引号，避免 YAML 解析成日期对象）/ `tags`。
+2. 正文按主题写作，H2 会自动进入目录。
+3. `pnpm test:content` 校验日期、标签与摘要长度。
+4. 笔记自动进入 `/notes/`、首页“最近笔记”（最新 3 篇）、RSS、sitemap 与 Pagefind 索引。
 
 ## 10. 内容清单（与 14 号文档对应）
 

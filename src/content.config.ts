@@ -74,4 +74,26 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+const noteDate = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "格式应为 YYYY-MM-DD")
+  .refine((value) => {
+    const parsed = new Date(`${value}T00:00:00Z`);
+    return !Number.isNaN(parsed.getTime()) && parsed.toISOString().startsWith(value);
+  }, "日期无效");
+
+const notes = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/notes" }),
+  schema: z.object({
+    title: z.string().min(2).max(60),
+    summary: z.string().min(20).max(200),
+    date: noteDate,
+    tags: z
+      .array(z.string().regex(/^[a-z0-9-]+$/))
+      .max(6)
+      .default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, notes };

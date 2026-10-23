@@ -1,0 +1,202 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import JsonLd from "@/components/seo/JsonLd.astro";
+import { getPublishedNotes, estimateReadingTime } from "@/lib/notes";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
+
+const notes = await getPublishedNotes();
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="笔记"
+  description={`${notes.length} 篇技术笔记：关于工程、内容建模与质量门禁的记录。`}
+>
+  <JsonLd
+    data={breadcrumbJsonLd([
+      { name: "首页", path: "/" },
+      { name: "笔记", path: "/notes/" },
+    ])}
+  />
+
+  <header class="page-head">
+    <p class="mono-label">索引 / 笔记</p>
+    <h1>笔记</h1>
+    <p class="lead">
+      {notes.length} 篇记录：关于工程取舍、内容建模与质量门禁。比项目案例更短，也比文档更随意。
+    </p>
+    <p class="feed">
+      <a href={`${base}rss.xml`}>RSS 订阅</a>
+    </p>
+  </header>
+
+  {notes.length === 0 ? (
+    <div class="empty">
+      <p class="empty-title">笔记正在整理中</p>
+      <p class="empty-desc">先看看项目案例，或者稍后再来。</p>
+      <a class="button" href={`${base}projects/`}>
+        浏览项目
+      </a>
+    </div>
+  ) : (
+    <ol class="notes">
+      {notes.map((note) => (
+        <li>
+          <a href={`${base}notes/${note.id}/`}>
+            <span class="date">{note.data.date}</span>
+            <span class="body">
+              <span class="title">{note.data.title}</span>
+              <span class="summary">{note.data.summary}</span>
+              <span class="meta">
+                {note.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+                <span class="reading">{estimateReadingTime(note.body ?? "")} 分钟</span>
+              </span>
+            </span>
+            <span class="arrow" aria-hidden="true">
+              →
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  )}
+</BaseLayout>
+
+<style>
+  .page-head {
+    max-width: 46rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  h1 {
+    margin: 0.5rem 0 0.75rem;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    letter-spacing: -0.04em;
+  }
+
+  .lead {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .feed {
+    margin: 1rem 0 0;
+    font-size: 0.875rem;
+  }
+
+  .notes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .notes li {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .notes a {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    padding-block: 1.25rem;
+    text-decoration: none;
+  }
+
+  .date,
+  .reading {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .body {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .title {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 600;
+  }
+
+  .notes a:hover .title {
+    color: var(--accent);
+  }
+
+  .summary {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .reading {
+    margin-left: 0.35rem;
+  }
+
+  .arrow {
+    color: var(--muted);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .notes a:hover .arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+
+  .empty {
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+  }
+
+  .empty-title {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .empty-desc {
+    margin: 0.35rem 0 1.25rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .button {
+    display: inline-block;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 639px) {
+    .notes a {
+      grid-template-columns: 1fr auto;
+    }
+
+    .date {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

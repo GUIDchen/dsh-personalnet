@@ -52,6 +52,25 @@ export function projectJsonLd(project: ProjectView, path: string) {
 }
 
 /** 面包屑结构化数据。 */
+/** 笔记详情页结构化数据。 */
+export function noteJsonLd(
+  note: { id: string; data: { title: string; summary: string; date: string; tags: string[] } },
+  path: string,
+) {
+  const { data } = note;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: data.title,
+    description: data.summary,
+    datePublished: data.date,
+    keywords: data.tags.join(", "),
+    author: { "@id": PERSON_ID() },
+    url: absoluteUrl(path),
+    inLanguage: "zh-CN",
+  };
+}
+
 export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",

@@ -74,19 +74,24 @@
 
 | 钩子 | 作用 |
 |---|---|
-| `data-filter-root` | 筛选容器根节点 |
-| `data-filter-chip` + `data-domain` | 领域 chip |
-| `data-filter-tag` + `data-tag` | 标签 chip |
-| `data-project-item` + `data-domain`/`data-tags` | 可筛选卡片 |
-| `data-result-count` | 结果计数节点 |
+| `data-projects-root` | 筛选容器根节点 |
+| `data-filter-domain` | 领域筛选按钮 |
+| `data-filter-tag` | 标签筛选按钮 |
+| `data-project-item` + `data-domain`/`data-tags`/`data-start` | 可筛选卡片（挂在 `li` 上） |
+| `data-visible-count` | 结果计数节点 |
 | `data-sort` | 排序控件 |
-| `data-search-open` | 打开搜索 |
+| `data-search-input` / `data-search-results` | 搜索输入与结果 |
 | `data-theme-toggle` | 主题切换 |
-| `data-lightbox` | 打开灯箱的图片链接 |
+| `data-menu-toggle` | 移动端菜单 |
+| `data-print` | 简历打印 |
+
+## 6.1 笔记页组合
+
+笔记列表与详情不新增专用组件：列表使用页面内结构 + `src/lib/notes.ts` 的数据；详情复用 `BaseLayout`、`Toc.astro`、`prose` 样式与 `JsonLd.astro`。
 
 ## 7. 组件规则
 
 1. 组件不读文件系统，不直接调用 `getCollection`（页面负责数据）。
 2. 所有交互元素必须是原生可聚焦元素。
-3. 不在组件内写死中文文案（通过 `t()` 或 props）。
+3. 可复用组件通过 props 接收文案；页面级文案集中在页面或 `src/data/`，避免重复。
 4. 新增组件需在本目录登记 props 与 a11y 要求，并补组件测试。

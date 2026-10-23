@@ -90,7 +90,8 @@ test.describe("机器可读输出", () => {
     const rss = await request.get("/rss.xml");
     expect(rss.ok()).toBeTruthy();
     const rssText = await rss.text();
-    expect((rssText.match(/<item>/g) ?? []).length).toBe(12);
+    // 12 个项目 + 3 篇笔记
+    expect((rssText.match(/<item>/g) ?? []).length).toBe(15);
 
     const json = await request.get("/projects.json");
     expect(json.ok()).toBeTruthy();

@@ -13,15 +13,17 @@
 ```mermaid
 flowchart TD
   Home["/"] --> Projects["/projects/"]
+  Home --> Notes["/notes/"]
   Home --> About["/about/"]
   Home --> Search["/search/"]
   Projects --> Detail["/projects/<slug>/"]
+  Notes --> Note["/notes/<slug>/"]
   Detail --> Related["相关项目（同领域）"]
-  Detail --> PrevNext["上/下一篇"]
-  Home -.-> RSS["/rss.xml"]
+  Note --> RelatedNote["相关笔记"]
+  Home -.-> RSS["/rss.xml（项目 + 笔记）"]
   Home -.-> Sitemap["/sitemap-index.xml"]
   Home -.-> JSON["/projects.json"]
-  Home -.-> OG["/og/<slug>.png"]
+  Home -.-> OG["/og/<slug>.jpg"]
   NotFound["/404"]
 ```
 
@@ -29,12 +31,13 @@ flowchart TD
 
 | 位置 | 内容 |
 |---|---|
-| 顶部导航 | 首页、项目、关于、搜索（图标+快捷键提示）、主题切换 |
-| 页脚 | 版权、GitHub 仓库、RSS、许可证、返回顶部 |
+| 顶部导航 | 首页、项目、笔记、搜索（图标+快捷键提示）、关于、主题切换 |
+| 页脚 | 版权、项目、笔记、关于、RSS、邮箱、返回顶部 |
 | 项目详情 | 面包屑（首页 / 项目 / 当前）、TOC（桌面侧栏） |
-| 移动端 | 汉堡按钮打开原生 popover 菜单，Esc 关闭，焦点陷阱 |
+| 笔记详情 | 面包屑（首页 / 笔记 / 当前）、TOC（桌面侧栏）、上/下一篇 |
+| 移动端 | 汉堡按钮打开菜单，Esc 关闭 |
 
-主导航 4 项以内，当前页用 `aria-current="page"` + 下划线标记。
+主导航 5 项以内，当前页用 `aria-current="page"` + 下划线标记。
 
 ## 3. 页面规格
 
@@ -58,7 +61,9 @@ flowchart TD
 ├──────────────────────────────────────────────┤
 │ 履历摘要 04  教育/经历时间线（精简 3 条）       │
 ├──────────────────────────────────────────────┤
-│ 联系 CTA + Footer                             │
+│ 最近笔记 05  3 条（日期 / 标题 / 摘要）         │
+├──────────────────────────────────────────────┤
+│ 联系 CTA 06 + Footer                          │
 └──────────────────────────────────────────────┘
 ```
 
@@ -115,7 +120,22 @@ flowchart TD
 - 无结果：显示建议关键词与"浏览全部项目"链接。
 - 索引加载失败：显示静态说明与项目库入口（不白屏）。
 
-### 3.6 404
+### 3.6 笔记列表 `/notes/`
+
+- 标题、说明、RSS 链接。
+- 行式列表：日期、标题、摘要、标签、阅读时长，按日期倒序。
+- 无笔记时展示空态并引导到项目库。
+- JSON-LD：`BreadcrumbList`。
+
+### 3.7 笔记详情 `/notes/<slug>/`
+
+- 头部：日期、阅读时长、标签；正文 `prose` 排版。
+- 桌面侧栏 TOC；无目录时隐藏。
+- 底部：上一篇/下一篇、相关笔记（共享标签优先）。
+- JSON-LD：`BlogPosting` + `BreadcrumbList`。
+- OG 图使用默认 `/og/default.jpg`。
+
+### 3.8 404
 
 大号"404"排版 + 一句话 + [返回首页] [浏览项目]。保持 Header/Footer，状态码由托管平台返回 `404`。
 

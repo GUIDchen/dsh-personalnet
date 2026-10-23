@@ -1,6 +1,6 @@
 # dsh-personalnet
 
-> 个人网站：以 7 个领域、12 个真实项目案例展示履历与作品集。静态优先、零运行时后端、MIT 开源。
+> 个人网站：7 个领域、12 个项目案例与 3 篇技术笔记。静态优先、零运行时后端、MIT 开源。
 
 [![文档](https://img.shields.io/badge/docs-17%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
@@ -15,6 +15,10 @@
 | ------------------------------------- | --------------------------------- |
 | ![项目详情](./docs/assets/detail.png) | ![搜索](./docs/assets/search.png) |
 
+| 笔记列表                             | 笔记详情                                   |
+| ------------------------------------ | ------------------------------------------ |
+| ![笔记列表](./docs/assets/notes.png) | ![笔记详情](./docs/assets/note-detail.png) |
+
 ## 状态
 
 | 里程碑 | 内容                                  | 状态    |
@@ -27,6 +31,7 @@
 | M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成 |
 | M6     | MIT 开源发布 v1.0.0                   | ✅ 完成 |
 | M7     | 维护基线（手册/简历页/robots/脚手架） | ✅ 完成 |
+| M8     | 技术笔记、合并 RSS、SEO 审计、LQIP    | ✅ 完成 |
 
 ## 技术栈
 
@@ -35,7 +40,7 @@
 | 框架 | Astro 7（静态输出、islands）                       |
 | 语言 | TypeScript 6（`@astrojs/check` 当前不支持 TS 7）   |
 | 样式 | Tailwind CSS 4 + OKLCH 设计令牌                    |
-| 内容 | Content Collections + Zod + MDX                    |
+| 内容 | Content Collections + Zod + MDX（项目与笔记）      |
 | 搜索 | Pagefind（构建期索引，零服务）                     |
 | 测试 | Vitest 5、Playwright 1.64、axe-core、Lighthouse CI |
 | 部署 | GitHub Pages（主）/ Cloudflare Pages（备）         |
@@ -67,6 +72,7 @@ pnpm test:integration # 构建产物集成校验
 pnpm check:budget    # 体积预算
 pnpm perf            # Lighthouse CI
 pnpm test:docs       # 文档索引与结构
+pnpm test:seo        # 中文 SEO 审计（标题/描述/唯一性）
 pnpm test:content    # 内容与隐私校验
 pnpm gen:og          # 重新生成 OG 图与封面（需先 build）
 pnpm new:project     # 新建项目骨架（草稿）

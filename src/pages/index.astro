@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading.astro";
 import ProjectCard from "@/components/project/ProjectCard.astro";
 import { profile } from "@/data/profile";
 import { getPublishedProjects } from "@/lib/content";
+import { getPublishedNotes } from "@/lib/notes";
 import { DOMAIN_LIST } from "@/data/domains";
 import { SKILL_GROUPS } from "@/data/skills";
 import { TIMELINE } from "@/data/timeline";
@@ -12,6 +13,8 @@ import JsonLd from "@/components/seo/JsonLd.astro";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
 
 const projects = await getPublishedProjects();
+const notes = (await getPublishedNotes()).slice(0, 3);
+const contactIndex = notes.length > 0 ? "06" : "05";
 const featured = projects.slice(0, 3);
 const counts = new Map<string, number>();
 for (const project of projects) {
@@ -21,7 +24,7 @@ const domainCount = counts.size;
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={profile.name} description={profile.tagline}>
+<BaseLayout title={`${profile.name} — ${profile.role}`} description={profile.tagline}>
   <JsonLd data={personJsonLd()} />
   <JsonLd data={websiteJsonLd()} />
 
@@ -155,8 +158,38 @@ const base = import.meta.env.BASE_URL;
     </ol>
   </section>
 
+  {notes.length > 0 && (
+    <section class="section" aria-labelledby="notes-title">
+      <SectionHeading
+        id="notes-title"
+        index="05"
+        title="最近笔记"
+        description="关于工程取舍、内容建模与质量门禁的记录。"
+      />
+      <ul class="notes">
+        {notes.map((note) => (
+          <li>
+            <a href={`${base}notes/${note.id}/`}>
+              <span class="note-date">{note.data.date}</span>
+              <span class="note-body">
+                <span class="note-title">{note.data.title}</span>
+                <span class="note-summary">{note.data.summary}</span>
+              </span>
+              <span class="note-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="more">
+        <a href={`${base}notes/`}>查看全部笔记 →</a>
+      </p>
+    </section>
+  )}
+
   <section class="contact" aria-labelledby="contact-title">
-    <p class="mono-label">05 / 联系</p>
+    <p class="mono-label">{contactIndex} / 联系</p>
     <h2 id="contact-title">有合适的机会，或者想聊聊某个项目？</h2>
     <p>欢迎邮件联系，我通常会在 1–2 个工作日内回复。</p>
     <div class="contact-actions">
@@ -422,6 +455,62 @@ const base = import.meta.env.BASE_URL;
     padding: 0.15rem 0.55rem;
   }
 
+  .notes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .notes li {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .notes a {
+    display: grid;
+    grid-template-columns: 7rem 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    padding-block: 1rem;
+    text-decoration: none;
+  }
+
+  .note-date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .note-body {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .note-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .notes a:hover .note-title {
+    color: var(--accent);
+  }
+
+  .note-summary {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .note-arrow {
+    color: var(--muted);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .notes a:hover .note-arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+
   .contact {
     margin-top: clamp(5rem, 12vw, 9rem);
     padding-top: 2.5rem;
@@ -447,7 +536,11 @@ const base = import.meta.env.BASE_URL;
     margin-top: 1.75rem;
   }
 
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
+    .facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .facts > div:last-child {
       grid-column: 1 / -1;
     }

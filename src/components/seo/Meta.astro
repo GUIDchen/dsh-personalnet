@@ -17,7 +17,7 @@ const {
   image = "/og/default.jpg",
 } = Astro.props;
 const siteName = "陈陇刚";
-const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
+const fullTitle = title.includes(siteName) ? title : `${title} · ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = absoluteUrl(image);
 ---

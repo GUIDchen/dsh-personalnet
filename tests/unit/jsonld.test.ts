@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { breadcrumbJsonLd, personJsonLd, projectJsonLd, websiteJsonLd } from "../../src/lib/jsonld";
+import {
+  breadcrumbJsonLd,
+  noteJsonLd,
+  personJsonLd,
+  projectJsonLd,
+  websiteJsonLd,
+} from "../../src/lib/jsonld";
 import type { ProjectView } from "../../src/lib/content";
 
 const project = {
@@ -61,5 +67,27 @@ describe("breadcrumbJsonLd", () => {
     expect(data.itemListElement).toHaveLength(2);
     expect(data.itemListElement[0]?.position).toBe(1);
     expect(data.itemListElement[1]?.position).toBe(2);
+  });
+});
+
+describe("noteJsonLd", () => {
+  it("输出 BlogPosting 必填字段", () => {
+    const data = noteJsonLd(
+      {
+        id: "sample-note",
+        data: {
+          title: "示例笔记",
+          summary: "这是一段用于测试的笔记摘要，长度足够。",
+          date: "2026-10-20",
+          tags: ["astro", "seo"],
+        },
+      },
+      "notes/sample-note/",
+    );
+    expect(data["@type"]).toBe("BlogPosting");
+    expect(data.headline).toBe("示例笔记");
+    expect(data.datePublished).toBe("2026-10-20");
+    expect(data.keywords).toBe("astro, seo");
+    expect(data.url).toContain("/notes/sample-note/");
   });
 });

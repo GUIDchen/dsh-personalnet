@@ -20,22 +20,38 @@
 
 ## 2. 页面元数据
 
-每页由 `buildSeoMeta()` 生成：
+每页由 `src/components/seo/Meta.astro` 生成：
 
 | 标签 | 规则 |
 |---|---|
-| `<title>` | `页面标题 · 站点名`；首页 `姓名 — 定位` |
-| `description` | 项目用 `summary`；其他页面手写 ≤160 字 |
+| `<title>` | `页面标题 · 站点名`；标题已包含站点名则不重复追加；首页为 `姓名 — 定位` |
+| `description` | 项目/笔记用 `summary`；其他页面手写 20–160 字 |
 | `canonical` | `SITE_URL + BASE_PATH + path`，不含查询参数 |
-| `og:title/description/image/type` | 与页面一致；项目图用 `/og/<slug>.png` |
+| `og:title/description/image/type` | 与页面一致；项目图用 `/og/<slug>.jpg`，其他页面用默认图 |
 | `twitter:card` | `summary_large_image` |
 | `<html lang>` | `zh-CN` |
-| `robots` | 草稿与预览环境 `noindex` |
+| `robots` | 搜索页与 404 使用 `noindex` |
+
+### 2.1 SEO 审计（`pnpm test:seo`）
+
+`scripts/check-seo.mjs` 对构建产物逐页检查：
+
+| 规则 | 阈值 |
+|---|---|
+| `lang` | `zh-CN` |
+| H1 数量 | 恰好 1 个 |
+| title 显示宽度 | 8–64（CJK 计 2，ASCII 计 1） |
+| description | 20–160 字符 |
+| title / description | 全站唯一 |
+| canonical / og:image / twitter:card | 必须存在 |
+
+noindex 页面跳过长度与唯一性规则；失败时输出页面、规则与实际值并退出 1。
 
 ## 3. 结构化数据（JSON-LD）
 
 - 全站：`Person`（姓名、职位、邮箱、社交链接）、`WebSite`。
 - 项目详情：`CreativeWork`（名称、摘要、作者、日期、关键词、URL）+ `BreadcrumbList`。
+- 笔记详情：`BlogPosting`（标题、摘要、发布日期、关键词、作者、URL）+ `BreadcrumbList`。
 - 验证：集成测试用 `JSON.parse` + 必填字段断言；上线后用 Schema Markup Validator 人工抽查。
 
 示例（项目）：
@@ -59,7 +75,7 @@
 |---|---|
 | `/sitemap-index.xml` | 由 `@astrojs/sitemap` 生成，排除草稿 |
 | `/robots.txt` | 允许全站，声明 sitemap 绝对地址 |
-| `/rss.xml` | 最近 20 个项目/笔记，含绝对链接 |
+| `/rss.xml` | 最近 20 条项目与笔记（按日期倒序），含绝对链接 |
 | `/projects.json` | 机器可读作品集（非 SEO 用途，供集成方消费） |
 | `404.html` | 自定义 404，返回正确状态码 |
 

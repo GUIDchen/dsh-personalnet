@@ -6,7 +6,7 @@
  * 用法：pnpm gen:og
  * 注意：Linux/CI 环境需要 CJK 字体（如 fonts-noto-cjk），否则中文会显示为方框。
  */
-import { mkdir, readFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { chromium, webkit } from "@playwright/test";
 import sharp from "sharp";
 
@@ -135,12 +135,20 @@ const pageInstance = await browser.newPage({
 await mkdir("public/og", { recursive: true });
 await mkdir("src/assets/covers", { recursive: true });
 
+const placeholders = {};
+
+async function toLqip(buffer) {
+  const small = await sharp(buffer).resize({ width: 24 }).webp({ quality: 40 }).toBuffer();
+  return `data:image/webp;base64,${small.toString("base64")}`;
+}
+
 async function render(html, width, height, path) {
   await pageInstance.setViewportSize({ width, height });
   await pageInstance.setContent(html, { waitUntil: "load" });
   await pageInstance.evaluate(() => document.fonts.ready);
   const buffer = await pageInstance.screenshot();
   await sharp(buffer).jpeg({ quality: 82, mozjpeg: true }).toFile(path);
+  return buffer;
 }
 
 await render(
@@ -156,7 +164,7 @@ await render(
   "public/og/default.jpg",
 );
 
-await render(
+const defaultCover = await render(
   coverCard({
     index: "PROFILE",
     domain: "个人网站",
@@ -168,6 +176,7 @@ await render(
   1000,
   "src/assets/covers/default.jpg",
 );
+placeholders.default = await toLqip(defaultCover);
 
 for (const [position, project] of payload.projects.entries()) {
   const index = String(position + 1).padStart(2, "0");
@@ -181,13 +190,16 @@ for (const [position, project] of payload.projects.entries()) {
     `public/og/${project.slug}.jpg`,
   );
 
-  await render(
+  const coverBuffer = await render(
     coverCard({ index, domain, title: project.title, description: project.summary, footer }),
     1600,
     1000,
     `src/assets/covers/${project.slug}.jpg`,
   );
+  placeholders[project.slug] = await toLqip(coverBuffer);
 }
+
+await writeFile("src/data/cover-placeholders.json", JSON.stringify(placeholders, null, 2) + "\n");
 
 await browser.close();
 console.log(

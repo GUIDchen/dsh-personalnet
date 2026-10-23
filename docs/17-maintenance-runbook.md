@@ -45,9 +45,9 @@
 
 ### 3.1 合并前
 
-- [ ] `pnpm ci:verify` 全绿（lint/format/check/unit/build/docs/content/contrast/integration/budget）
-- [ ] `pnpm test:e2e` 26 项通过
-- [ ] `pnpm test:a11y` 7 个页面 0 serious/critical
+- [ ] `pnpm ci:verify` 全绿（lint/format/check/unit/build/docs/content/contrast/integration/seo/budget）
+- [ ] `pnpm test:e2e` 34 项通过
+- [ ] `pnpm test:a11y` 9 个页面 0 serious/critical
 - [ ] 涉及性能改动时 `pnpm perf` 全绿
 - [ ] 新增/修改内容通过 `pnpm test:content`，无敏感信息
 - [ ] 文档与 ADR 已同步
@@ -89,9 +89,16 @@ pnpm build && pnpm gen:og          # 重新生成 OG 图与封面
 
 ### 4.2 内容变更
 
-- 修改项目标题/摘要后必须重新运行 `pnpm gen:og`（OG 图与封面会过期）。
+- 修改项目标题/摘要后必须重新运行 `pnpm gen:og`（OG 图、封面与 LQIP 占位会过期）。
 - slug 一旦发布不要修改；如必须修改，需在托管平台配置重定向并在 `CHANGELOG` 说明。
 - 删除内容前先确认没有外部引用；必要时保留页面并标注归档。
+
+### 4.3 笔记
+
+- 新建：在 `src/content/notes/` 添加 `<slug>.mdx`，`date` 必须加引号（保留字符串类型）。
+- 笔记自动进入列表、首页最近 3 篇、RSS、sitemap 与搜索索引，无需额外注册。
+- 笔记使用默认 OG 图；如后续需要独立卡片，扩展 `scripts/generate-og.mjs` 的输入源。
+- 修改标题/摘要后重新运行 `pnpm build`（RSS 与列表在构建期生成）。
 
 ## 5. 依赖升级
 

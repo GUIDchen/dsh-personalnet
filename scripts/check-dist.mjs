@@ -26,8 +26,11 @@ walk(DIST);
 
 const routes = htmlFiles.map((file) => "/" + relative(DIST, file).replace(/\\/g, "/"));
 const projectRoutes = routes.filter((route) => /^\/projects\/[^/]+\/index\.html$/.test(route));
+const noteRoutes = routes.filter((route) => /^\/notes\/[^/]+\/index\.html$/.test(route));
 
 if (projectRoutes.length !== 12) errors.push(`项目详情页应为 12 个，实际 ${projectRoutes.length}`);
+if (noteRoutes.length === 0) errors.push("没有生成任何笔记页面");
+if (!exists("notes/index.html")) errors.push("缺少笔记列表页 notes/index.html");
 if (!exists("404.html")) errors.push("缺少 404.html");
 
 const titles = new Map();
@@ -63,7 +66,11 @@ for (const file of htmlFiles) {
 // sitemap
 const sitemap = exists("sitemap-0.xml") ? read("sitemap-0.xml") : "";
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-if (sitemapUrls.length !== 16) errors.push(`sitemap URL 应为 16 个，实际 ${sitemapUrls.length}`);
+// 所有构建页面都应进入 sitemap，仅 search 与 404 例外。
+const expectedSitemap = htmlFiles.length - 2;
+if (sitemapUrls.length !== expectedSitemap) {
+  errors.push(`sitemap URL 应为 ${expectedSitemap} 个，实际 ${sitemapUrls.length}`);
+}
 if (sitemapUrls.some((url) => url.includes("/search/"))) errors.push("sitemap 不应包含搜索页");
 if (sitemapUrls.some((url) => url.endsWith("/404/"))) errors.push("sitemap 不应包含 404");
 
@@ -83,7 +90,8 @@ if (!exists("cv/index.html")) errors.push("缺少简历页 cv/index.html");
 // RSS
 const rss = exists("rss.xml") ? read("rss.xml") : "";
 const rssItems = (rss.match(/<item>/g) ?? []).length;
-if (rssItems !== 12) errors.push(`RSS 条目应为 12，实际 ${rssItems}`);
+const expectedFeed = projectRoutes.length + noteRoutes.length;
+if (rssItems !== expectedFeed) errors.push(`RSS 条目应为 ${expectedFeed}，实际 ${rssItems}`);
 if (!rss.includes("<language>zh-cn</language>")) warnings.push("RSS 缺少 language");
 
 // projects.json

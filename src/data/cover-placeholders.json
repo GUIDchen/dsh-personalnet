@@ -1,0 +1,15 @@
+{
+  "default": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAACQAwCdASoYAA8APu1iqU2ppaQiMAgBMB2JaQAAW+qxqrgK5hwAAP7ulkKvlQX87Z+BnoT58nzFxDDpuCLuw8pvyuYT9bya7YdmYFJ4bA9Z66YcAAA=",
+  "yolo-object-detection": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABQAwCdASoYAA8APu1iqU2ppaQiMAgBMB2JaQAAW+z5RAh+AAD+7pZR1VyXTT5gKIi1TyaSAZd2QH8/gR/E7jHKkoJRZTHAAAA=",
+  "poverty-relapse-model": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAABwAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JaQAAW+0BAHb3IAAA/u6WUecq1+s463RSzJi1ySh0wzqSP4xjlSV3RZTHAAAA",
+  "medical-knowledge-graph": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAABQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JaQAAW+z9KjsLAAD+7pZR41h/TntelbQ7hrg6Z+TjvTsRzgR/EEPtn+lbCgAA",
+  "mobile-banking-analytics": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASoYAA8APu1iqk2ppaQiMAgBMB2JaQAAW+z5Q+fq5GFAAAD+7pZR4yOqZ9TAJ5BMoku8HIU4t+Rou99Xap3Lnr2PKHAAAA==",
+  "qingyang-east-data-west": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACQAwCdASoYAA8APu1iqU2ppaQiMAgBMB2JaQAAW+z5Q+fmnFQAAP7ullHjI6pn2PEJV8qPZW6fosiPyCqtFyYU/w+mYPe0XjIcAA==",
+  "llm-transformer-finetune": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACQAwCdASoYAA8APu1iqk2ppaQiMAgBMB2JaQAAW+jxGmP6GYEAAP7ulkKWgHscisDpWGNBGe00G5N5qwdfwiLqZc6isJbVc2bheBwA",
+  "multimodal-medical-diagnosis": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASoYAA8APu1kqU2ppaQiMAgBMB2JaQAAW++3V9iqozL4AAD+7pZQYdLY5dPGMawQyPqH/Ph/KLS5dH+6BKB/gElciBwAAA==",
+  "smart-home-light": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAABQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JaQAAW+z1nV0/AAD+7pZR6RTlQrEDJziQtwlTqvwUXQTEqTF7qFTelbCgAA==",
+  "javaweb-blog": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JaQAAW+z4M+FodvnAAP7ullHjI9ukIqh7yGlGyyYVz9DORXEkg4KK+puN3X3DgAA=",
+  "cuda-ai-operator": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACQAwCdASoYAA8APu1iqU2ppaQiMAgBMB2JaQAAW+z5Q+fmhFWAAP7ullHVXJPWQN9bMr8s+DytL15VKEC0d62vkh7SyiJEsOew4AAA",
+  "verilog-fpga-practice": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAABwAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JaQAAW+tDiRIIgYAA/u6WRUbfYSs+uvV0m4fNPq1HDv6ae3/zTWH+ZApKpCSEs3EOAA==",
+  "agri-bank-platform": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAABwAwCdASoYAA8APu1kqk4ppaQiMAgBMB2JaQAAW+s1dgYskAAA/u6WSvQA3cCka+ah2tzypeUp18Ux4WIWlBIlG4mAlAtk3QoAAA=="
+}

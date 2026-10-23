@@ -2,6 +2,8 @@
 
 > 个人网站：7 个领域、12 个项目案例与 3 篇技术笔记。静态优先、零运行时后端、MIT 开源，支持中英文界面。
 
+**在线预览**：<https://guidchen.github.io/dsh-personalnet/>
+
 [![文档](https://img.shields.io/badge/docs-26%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
 
@@ -38,22 +40,22 @@
 
 ## 状态
 
-| 里程碑 | 内容                                  | 状态            |
-| ------ | ------------------------------------- | --------------- |
-| M0     | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成         |
-| M1     | Astro 7 工程脚手架 + CI               | ✅ 完成         |
-| M2     | 设计系统与页面骨架                    | ✅ 完成         |
-| M3     | 内容模型与全部页面                    | ✅ 完成         |
-| M4     | 搜索、动效、OG、图片优化              | ✅ 完成         |
-| M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成         |
-| M6     | MIT 开源发布 v1.0.0                   | ✅ 完成         |
-| M7     | 维护基线（手册/简历页/robots/脚手架） | ✅ 完成         |
-| M8     | 技术笔记、合并 RSS、SEO 审计、LQIP    | ✅ 完成         |
-| M9     | 审阅借鉴、Hero、Now/Uses、命令面板    | ✅ 完成         |
-| M10    | 中英文界面、/en 路由、hreflang        | ✅ 完成         |
-| M11    | Sveltia 管理后台、内容模型、校验      | ✅ 完成         |
-| M12    | 健康报告、每周审计、Agent 长跑契约    | ✅ 完成         |
-| M13    | 公网部署与 v2.0.0 发布                | ⏳ 等待远程仓库 |
+| 里程碑 | 内容                                  | 状态    |
+| ------ | ------------------------------------- | ------- |
+| M0     | 调研、对比、架构、12 篇 ADR、文档基线 | ✅ 完成 |
+| M1     | Astro 7 工程脚手架 + CI               | ✅ 完成 |
+| M2     | 设计系统与页面骨架                    | ✅ 完成 |
+| M3     | 内容模型与全部页面                    | ✅ 完成 |
+| M4     | 搜索、动效、OG、图片优化              | ✅ 完成 |
+| M5     | 质量门禁（单测/E2E/a11y/性能）        | ✅ 完成 |
+| M6     | MIT 开源发布 v1.0.0                   | ✅ 完成 |
+| M7     | 维护基线（手册/简历页/robots/脚手架） | ✅ 完成 |
+| M8     | 技术笔记、合并 RSS、SEO 审计、LQIP    | ✅ 完成 |
+| M9     | 审阅借鉴、Hero、Now/Uses、命令面板    | ✅ 完成 |
+| M10    | 中英文界面、/en 路由、hreflang        | ✅ 完成 |
+| M11    | Sveltia 管理后台、内容模型、校验      | ✅ 完成 |
+| M12    | 健康报告、每周审计、Agent 长跑契约    | ✅ 完成 |
+| M13    | 公网部署与 v2.0.0 发布                | ✅ 完成 |
 
 ## 技术栈
 
@@ -103,9 +105,9 @@ pnpm check:links     # 外部链接检查
 
 ## 部署
 
-1. 仓库 Settings → Pages → Source 选择 **GitHub Actions**。
-2. 设置仓库变量 `SITE_URL`（如 `https://example.com`）与 `BASE_PATH`（根域为 `/`，项目页为 `/repo/`）。
-3. push 到 `main` 后由 [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) 构建并发布。
+- 生产地址：<https://guidchen.github.io/dsh-personalnet/>
+- 仓库 Settings → Pages → Source 为 **GitHub Actions**；仓库变量 `SITE_URL=https://guidchen.github.io`、`BASE_PATH=/dsh-personalnet/`。
+- push 到 `main` 后由 [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) 构建并发布；发布前可跑 `pnpm deploy:check`。
 
 Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.md)。
 

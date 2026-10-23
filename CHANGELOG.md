@@ -5,7 +5,9 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
-## [Unreleased]
+## [2.0.0] - 2026-10-23
+
+v2.0.0：审阅借鉴、中英文界面、Sveltia 管理后台、自动化维护与 GitHub Pages 上线。
 
 ### Added
 
@@ -25,6 +27,15 @@
 - Agent 长跑契约（docs/23）与维护日志（docs/24）；ADR 0015 明确自动化边界。
 - 部署预检 `pnpm deploy:check`；Pages 变量未设置时按仓库名推导。
 - `check-dist`/`check-budget` 支持 `BASE_PATH` 子路径；上线清单 docs/25。
+
+### Fixed
+
+- 英文首页字体加载与本地时间更新导致的布局偏移（CLS 0.216 → 0）：字体改为 `font-display: optional` 并预加载 Geist；时间只替换等宽数字。
+
+### Deployment
+
+- GitHub Pages：<https://guidchen.github.io/dsh-personalnet/>
+- 仓库变量 `SITE_URL=https://guidchen.github.io`、`BASE_PATH=/dsh-personalnet/`；Pages Source 为 GitHub Actions。
 
 ## [1.2.0] - 2026-10-23
 

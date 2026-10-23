@@ -20,6 +20,8 @@ const pages = [
   { path: "/en/uses/", name: "English Uses" },
   { path: "/github/", name: "GitHub 项目" },
   { path: "/en/github/", name: "English GitHub" },
+  { path: "/security/", name: "安全" },
+  { path: "/en/security/", name: "English security" },
   { path: "/admin/", name: "管理后台" },
   { path: "/404.html", name: "404" },
 ];

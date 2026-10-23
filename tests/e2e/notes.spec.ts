@@ -12,6 +12,9 @@ test.describe("技术笔记", () => {
     await page.goto("/notes/why-astro-7/");
     await expect(page.locator("h1")).toHaveText("为什么这个站点选择 Astro 7");
 
+    await expect(page.locator(".takeaways")).toContainText("关键要点");
+    await expect(page.locator(".takeaways")).toContainText("长期维护成本");
+
     const toc = page.locator(".toc a");
     await expect(toc.first()).toBeVisible();
     expect(await toc.count()).toBeGreaterThanOrEqual(3);

@@ -102,6 +102,9 @@ else {
 // 简历页
 if (!exists("cv/index.html")) errors.push("缺少简历页 cv/index.html");
 
+// security.txt
+if (!exists(".well-known/security.txt")) errors.push("缺少 .well-known/security.txt");
+
 // RSS
 const rss = exists("rss.xml") ? read("rss.xml") : "";
 const rssItems = (rss.match(/<item>/g) ?? []).length;

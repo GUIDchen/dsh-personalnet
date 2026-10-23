@@ -72,6 +72,7 @@
 | summaryEn | text | 英文摘要（选填） |
 | date | datetime | 输出 `YYYY-MM-DD` |
 | tags | list | 0–6 个 |
+| takeaways | list | 0–4 条关键要点，显示在详情页 |
 | draft | boolean | 草稿不进入构建 |
 | body | markdown | 笔记正文 |
 

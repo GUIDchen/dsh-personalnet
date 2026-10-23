@@ -19,6 +19,7 @@ const links = [
   { href: localizePath("now/", lang), label: t.footer.now },
   { href: localizePath("uses/", lang), label: t.footer.uses },
   { href: localizePath("about/", lang), label: t.footer.about },
+  { href: localizePath("security/", lang), label: lang === "en" ? "Security" : "安全" },
   { href: `${import.meta.env.BASE_URL}rss.xml`, label: t.footer.rss },
   { href: `mailto:${profile.email}`, label: t.footer.email },
   { href: "#main", label: t.footer.top },

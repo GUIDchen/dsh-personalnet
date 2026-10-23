@@ -4,6 +4,7 @@ import { ClientRouter } from "astro:transitions";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import CommandPalette from "@/components/ui/CommandPalette.astro";
+import SiteBackground from "@/components/layout/SiteBackground.astro";
 import Meta from "@/components/seo/Meta.astro";
 import { profile } from "@/data/profile";
 import { absoluteUrl } from "@/lib/seo";
@@ -84,6 +85,7 @@ const descriptionText =
     </script>
   </head>
   <body data-bare={bare ? "true" : undefined}>
+    {!bare && <SiteBackground lang={lang} />}
     <a class="skip-link" href="#main">
       {t.skip}
     </a>

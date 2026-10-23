@@ -27,6 +27,9 @@ test.describe("Now / Uses", () => {
 
   test("关于页保留技能与经历", async ({ page }) => {
     await page.goto("/about/");
+    await expect(page.locator("body")).toContainText("工作原则");
+    await expect(page.locator("body")).toContainText("先验证，再优化");
+    await expect(page.locator("body")).toContainText("关注方向");
     await expect(page.locator("#skills-title")).toBeVisible();
     await expect(page.locator("#timeline-title")).toBeVisible();
   });

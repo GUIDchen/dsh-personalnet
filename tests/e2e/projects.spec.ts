@@ -70,6 +70,8 @@ test.describe("项目库筛选与排序", () => {
 test.describe("项目详情", () => {
   test("TOC、结构化数据与面包屑", async ({ page }) => {
     await page.goto("/projects/yolo-object-detection/");
+    await expect(page.locator(".side")).toContainText("亮点");
+    await expect(page.locator(".boundary")).toContainText("展示边界与技术安全");
     const toc = page.locator(".toc a");
     await expect(toc).toHaveCount(6);
     const hrefs = await toc.evaluateAll((links) => links.map((link) => link.getAttribute("href")));

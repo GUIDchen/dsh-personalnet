@@ -1,0 +1,4 @@
+Contact: mailto:GU-IDchen@outlook.com
+Expires: 2027-10-24T00:00:00Z
+Preferred-Languages: zh, en
+Canonical: https://guidchen.github.io/dsh-personalnet/.well-known/security.txt

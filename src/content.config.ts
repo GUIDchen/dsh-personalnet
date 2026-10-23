@@ -91,6 +91,7 @@ const notes = defineCollection({
     titleEn: z.string().min(2).max(80).optional(),
     summary: z.string().min(20).max(200),
     summaryEn: z.string().min(20).max(240).optional(),
+    takeaways: z.array(z.string().min(4).max(80)).max(4).optional(),
     date: noteDate,
     tags: z
       .array(z.string().regex(/^[a-z0-9-]+$/))

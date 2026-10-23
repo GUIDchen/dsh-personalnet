@@ -35,6 +35,7 @@ jobs:
       - run: pnpm check:site
       - run: pnpm check:media
       - run: pnpm check:github
+      - run: pnpm check:security
       - run: pnpm check:admin
       - run: pnpm check:contrast
       - run: pnpm test:integration

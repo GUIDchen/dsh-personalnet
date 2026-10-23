@@ -2,7 +2,7 @@
 
 ## 支持的版本
 
-本项目为静态站点，安全更新直接发布到 `main`。当前支持版本为 1.x。
+本项目为静态站点，安全更新直接发布到 `main`。当前支持版本为 2.x。公开安全模型见 <https://guidchen.github.io/dsh-personalnet/security/>。
 
 ## 报告漏洞
 
@@ -33,6 +33,13 @@
 - CSP 绕过、XSS、内容注入
 - 隐私信息泄露
 - 构建/部署流程中的凭据泄露
+- 内容编辑器的 token 存储与权限边界
+
+## 已知限制
+
+- GitHub Pages 不支持站点级自定义响应头（CSP/HSTS）。
+- CMS token 存在浏览器 localStorage；清除站点数据或撤销 token 即失效。
+- 上传的 SVG 作为图片提供，不按文档执行脚本。
 
 ## 不在范围
 

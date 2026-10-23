@@ -1,0 +1,180 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { profile } from "@/data/profile";
+import { profileEn } from "@/data/profile.en";
+import type { Lang } from "@/i18n";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+const person = lang === "en" ? profileEn : profile;
+const copy =
+  lang === "en"
+    ? {
+        kicker: "Security / Model",
+        title: "Security",
+        lead: "This site is a static publication. The security model is small on purpose: no backend, no database, no user accounts, and no runtime secrets.",
+        sections: [
+          {
+            title: "Static boundary",
+            body: "Every public page is pre-rendered HTML. There is no application server, database, upload endpoint or login for visitors. The content editor is a client-side Git client; it writes through the GitHub API.",
+          },
+          {
+            title: "Editor authentication",
+            body: "The CMS uses a fine-grained GitHub token with repository Contents read/write. The token is stored in the browser's localStorage and is never committed. The default OAuth flow is disabled because the site is not hosted on Netlify.",
+          },
+          {
+            title: "Supply chain",
+            body: "Dependencies are locked, the CMS script is version-pinned with SRI, and CI runs type checks, tests, content checks, budget checks and accessibility audits. Dependabot alerts remain the source of truth for advisories.",
+          },
+          {
+            title: "Media and uploads",
+            body: "Images are uploaded to public/media through the CMS, limited by format and size. SVG is served as an image; it is not executed as a page script. Article HTML is authored by the site owner, not by visitors.",
+          },
+          {
+            title: "Privacy",
+            body: "No analytics, advertising or tracking cookies. Fonts are self-hosted. The public site does not call a third-party API; only the admin page loads the CMS bundle from a pinned CDN.",
+          },
+          {
+            title: "Known limits",
+            body: "GitHub Pages does not allow custom response headers, so a site-specific CSP/HSTS policy cannot be set here. GitHub provides transport security and platform-level protections. Report issues rather than assuming a bug bounty.",
+          },
+        ],
+        report: "Report a security issue",
+        reportBody:
+          "If you find a problem, email me with the URL, steps to reproduce and impact. Please do not open a public issue with exploit details.",
+        contact: "Contact",
+      }
+    : {
+        kicker: "安全 / 模型",
+        title: "安全",
+        lead: "本站是静态出版物。安全模型刻意保持很小：没有运行时后端、数据库、访客账户，也没有运行时密钥。",
+        sections: [
+          {
+            title: "静态边界",
+            body: "所有公开页面都是预渲染 HTML。访客侧没有应用服务器、数据库、上传接口或登录。内容编辑器是浏览器端 Git 客户端，通过 GitHub API 写入仓库。",
+          },
+          {
+            title: "编辑器鉴权",
+            body: "CMS 使用 fine-grained GitHub token，仅授予本仓库 Contents 读写。token 存在浏览器 localStorage，不提交到仓库。站点不在 Netlify，因此默认 OAuth 已关闭。",
+          },
+          {
+            title: "供应链",
+            body: "依赖锁定版本，CMS 脚本固定版本并带 SRI；CI 运行类型检查、测试、内容检查、体积预算与可访问性审计。依赖安全告警以 Dependabot 为准。",
+          },
+          {
+            title: "媒体与上传",
+            body: "图片通过 CMS 上传到 public/media，受格式与体积限制。SVG 作为图片提供，不按页面脚本执行。文章 HTML 由站点作者维护，不接受访客输入。",
+          },
+          {
+            title: "隐私",
+            body: "没有分析、广告或追踪 cookie；字体自托管。公开页面不调用第三方 API，只有后台页面从固定 CDN 加载 CMS bundle。",
+          },
+          {
+            title: "已知限制",
+            body: "GitHub Pages 不支持自定义响应头，因此无法在本站设置站点级 CSP/HSTS。传输安全与平台防护由 GitHub 提供。请通过邮件报告问题，不要假设存在漏洞赏金。",
+          },
+        ],
+        report: "报告安全问题",
+        reportBody:
+          "如果发现问题，请邮件说明 URL、复现步骤与影响。请不要在公开 issue 中贴出利用细节。",
+        contact: "联系",
+      };
+---
+
+<BaseLayout title={copy.title} description={copy.lead} lang={lang}>
+  <header class="page-head">
+    <p class="mono-label">{copy.kicker}</p>
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+  </header>
+
+  <div class="security-grid">
+    {copy.sections.map((section, index) => (
+      <section class="security-card">
+        <span class="mono-label">{String(index + 1).padStart(2, "0")}</span>
+        <h2>{section.title}</h2>
+        <p>{section.body}</p>
+      </section>
+    ))}
+  </div>
+
+  <section class="report" aria-labelledby="report-title">
+    <h2 id="report-title">{copy.report}</h2>
+    <p>{copy.reportBody}</p>
+    <p class="contact">
+      <span class="mono-label">{copy.contact}</span>
+      <a href={`mailto:${person.email}`}>{person.email}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    max-width: 48rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  h1 {
+    margin: 0.5rem 0 0.9rem;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    letter-spacing: -0.045em;
+  }
+
+  .lead {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .security-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .security-card {
+    background: var(--bg);
+    padding: clamp(1rem, 2.4vw, 1.4rem);
+  }
+
+  .security-card h2 {
+    margin: 0.5rem 0;
+    font-size: 1.05rem;
+  }
+
+  .security-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .report {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    max-width: 46rem;
+  }
+
+  .report h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .report p {
+    color: var(--muted);
+  }
+
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+</style>

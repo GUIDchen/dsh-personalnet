@@ -91,6 +91,33 @@ const kindLabel = (kind: string) =>
     </div>
   </section>
 
+  <section class="section" aria-labelledby="principles-title">
+    <div class="section-head">
+      <h2 id="principles-title">{lang === "en" ? "Working principles" : "工作原则"}</h2>
+      <p>
+        {lang === "en"
+          ? "The habits behind the projects: validate early, document the decisions, keep the result reproducible."
+          : "项目背后的工作习惯：尽早验证、记录决策、让结果可复现。"}
+      </p>
+    </div>
+    <div class="principles">
+      {(lang === "en" ? ABOUT_EN.principles : ABOUT.principles).map((principle) => (
+        <article>
+          <h3>{principle.title}</h3>
+          <p>{principle.body}</p>
+        </article>
+      ))}
+    </div>
+    <p class="focus-label mono-label">{lang === "en" ? "Focus areas" : "关注方向"}</p>
+    <ul class="focus" aria-label={lang === "en" ? "Focus areas" : "关注方向"}>
+      {(lang === "en" ? ABOUT_EN.focus : ABOUT.focus).map((item) => (
+        <li>
+          <Badge tone="outline">{item}</Badge>
+        </li>
+      ))}
+    </ul>
+  </section>
+
   <section class="section" aria-labelledby="skills-title">
     <h2 id="skills-title">{c.skillsTitle}</h2>
     <div class="skills">
@@ -214,6 +241,65 @@ const kindLabel = (kind: string) =>
     margin: 0 0 1.5rem;
     font-size: clamp(1.3rem, 2.6vw, 1.8rem);
     letter-spacing: -0.02em;
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-head h2 {
+    margin: 0;
+  }
+
+  .section-head p {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .principles article {
+    padding: 1.15rem;
+    background: var(--bg);
+  }
+
+  .principles h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .principles p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .focus-label {
+    margin: 1.25rem 0 0;
+  }
+
+  .focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
   }
 
   .story {

@@ -20,10 +20,12 @@
 | M12 | 健康报告、maintenance workflow、长跑契约 | 6054c27 | ci:verify、pnpm health、E2E 61、axe 17 | 定时任务需远程仓库 |
 | M13 准备 | Pages 默认变量、deploy:check、BASE_PATH 校验 | 69da95e | ci:verify、E2E 61、子路径预览 6 路由 200 | 等待远程仓库与 Pages 启用 |
 | M13 完成 | GitHub Pages 上线、v2.0.0 tag 与 Release | d74a7ba | 公网 4 页 LHCI、CI success、tag/release | — |
+| M14 | 管理仪表盘、/admin/cms、site collection、JSON 迁移 | 75fd6cf | ci:verify、E2E 66、axe 18、LHCI 10 | — |
+| M15 | 项目封面卡、RepoLink、About 双栏、搜索快捷词 | 75fd6cf | 截图走查、E2E、预算 | 项目仓库 URL 仍缺 10 个 |
 
 ### 备注
 
-- M9–M13 已推送到 `GUIDchen/dsh-personalnet` 的 `main`；v2.0.0 tag 与 GitHub Release 已创建。
+- M9–M15 已推送到 `GUIDchen/dsh-personalnet` 的 `main`；v2.0.0 tag 与 GitHub Release 已创建，v2.1.0 发布中。
 - 公网地址：https://guidchen.github.io/dsh-personalnet/；Pages Source 为 GitHub Actions。
 - 阻塞条件（仓库不存在）已由用户授权后解除。
 - 项目截图、仓库/Demo 链接、量化指标需要作者提供，Agent 未伪造。

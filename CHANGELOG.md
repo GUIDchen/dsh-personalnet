@@ -5,6 +5,12 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [Unreleased]
+
+### Added
+
+- 优秀个人网站基准调研与差距分析（docs/18）：8 个站点 + 5 个开源仓库的实测数据、差距矩阵与 v1.3 改进路线。
+
 ## [1.2.0] - 2026-10-23
 
 内容与发现性版本：新增技术笔记、中文 SEO 审计与封面 LQIP。

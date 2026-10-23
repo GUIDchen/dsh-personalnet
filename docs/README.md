@@ -41,6 +41,7 @@
 | 15 | [15-writing-style.md](./15-writing-style.md) | 中文写作与图表规范 | Approved |
 | 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
 | 17 | [17-maintenance-runbook.md](./17-maintenance-runbook.md) | 维护手册（发布/升级/内容/故障） | Approved |
+| 18 | [18-benchmark-and-gap-analysis.md](./18-benchmark-and-gap-analysis.md) | 优秀个人网站基准调研与差距分析 | Approved |
 | ADR | [adr/](./adr/) | 12 篇架构决策记录 | Approved |
 
 ## 文档规则
@@ -59,3 +60,4 @@
 | 2026-10-23 | 1.0.0 | 全部文档 Approved，补充搜索、OG/封面、质量门禁与开源发布说明 |
 | 2026-10-23 | 1.1.0 | 新增维护手册、简历打印页与 robots；补充内容脚手架说明 |
 | 2026-10-23 | 1.2.0 | 新增技术笔记、合并 RSS、中文 SEO 审计与封面 LQIP |
+| 2026-10-23 | 未发布 | 新增优秀个人网站基准调研与差距分析（docs/18） |

@@ -98,7 +98,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 
 ```
 .
-├─ docs/            # 软件工程文档（17 篇 + 12 篇 ADR）
+├─ docs/            # 软件工程文档（18 篇 + 12 篇 ADR）
 ├─ src/             # Astro 源码（页面/组件/内容/样式/逻辑）
 ├─ scripts/         # 内容校验、体积预算、文档检查、OG 生成
 ├─ tests/           # unit / integration / e2e / a11y
@@ -115,6 +115,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 - 内容：[内容模型](./docs/08-content-model.md)、[迁移清单](./docs/14-content-migration.md)
 - 工程：[架构](./docs/05-architecture.md)、[测试](./docs/10-testing-strategy.md)、[部署](./docs/11-deployment-operations.md)
 - 安全与许可：[安全、隐私与许可](./docs/12-security-privacy-licensing.md)
+- 基准调研：[优秀个人网站对比与差距分析](./docs/18-benchmark-and-gap-analysis.md)
 
 ## 贡献
 

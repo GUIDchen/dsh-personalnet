@@ -34,12 +34,11 @@ jobs:
       - run: pnpm build
       - name: Deploy to Cloudflare Pages
         if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "4.152.0"
-          command: pages deploy dist --project-name=${{ env.CLOUDFLARE_PROJECT_NAME }} --branch=main
+        run: |
+          npx --yes wrangler@4.152.0 pages deploy dist \
+            --project-name="$CLOUDFLARE_PROJECT_NAME" \
+            --branch=main \
+            --commit-dirty=true
       - name: Cloudflare secrets not configured
         if: env.CLOUDFLARE_API_TOKEN == '' || env.CLOUDFLARE_ACCOUNT_ID == ''
         run: |

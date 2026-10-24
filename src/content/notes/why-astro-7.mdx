@@ -35,3 +35,9 @@ Astro 的匹配点很直接：默认输出零客户端 JS，内容集合用 Zod 
 框架选择不是"谁最强"，而是"谁的默认值最接近你的问题"。这个站点的默认值是静态、内容优先、少交互，Astro 7 正好把这些默认值做成了产品。
 
 相关决策记录在 ADR 0001、0004 与 0011。
+
+## 实现索引
+
+- `astro.config.mjs`：静态输出、站点与集成配置。
+- `src/content.config.ts`：Content Collections 与 Zod schema。
+- `src/layouts/BaseLayout.astro`：SEO、主题、字体与路由布局。

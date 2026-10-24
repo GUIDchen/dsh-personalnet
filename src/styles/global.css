@@ -209,22 +209,7 @@
 .prose hr {
   margin: 2.5rem 0;
 }
-/* 滚动驱动入场：只做轻微位移，保证不支持时内容完全可见 */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation: reveal-rise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 35%;
-    }
-  }
-}
-
-@keyframes reveal-rise {
-  from {
-    transform: translateY(10px);
-  }
-  to {
-    transform: translateY(0);
-  }
+/* 滚动驱动动画在 Safari/低端设备上会造成合成抖动；保留类名但不做滚动绑定。 */
+.reveal {
+  /* 静态；如需回归，先做帧率基准再启用 */
 }

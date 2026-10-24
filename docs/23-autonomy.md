@@ -25,7 +25,7 @@
 - 脚本：`scripts/health-report.mjs`（先 `pnpm build`，再运行 `pnpm health`）
 - 输出：`reports/health.md`（gitignored），并上传为 Actions artifact
 - 汇总：查找带 `maintenance` 标签且含标记的 open Issue，存在则更新，不存在则创建；检查失败时 job 最终为失败
-- 报告包含：生成时间、分支、commit、Node 版本、每项检查结果与耗时、失败项、每项最后 80 行输出；检查含内容模型、站点资料、媒体、内容证据、GitHub 项目、安全基线、SEO、产物、后台、对比度、预算与外部链接（12 项）。
+- 报告包含：生成时间、分支、commit、Node 版本、每项检查结果与耗时、失败项、每项最后 80 行输出；检查含内容模型、站点资料、媒体、内容证据、GitHub 项目、安全基线、性能护栏、SEO、产物、后台、对比度、预算与外部链接（13 项）。
 
 手动触发：Actions → maintenance → Run workflow；本地等价命令：
 

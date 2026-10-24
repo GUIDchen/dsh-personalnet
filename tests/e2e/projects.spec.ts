@@ -73,7 +73,7 @@ test.describe("项目详情", () => {
     await expect(page.locator(".side")).toContainText("亮点");
     await expect(page.locator(".boundary")).toContainText("展示边界与技术安全");
     const toc = page.locator(".toc a");
-    await expect(toc).toHaveCount(6);
+    await expect(toc).toHaveCount(7);
     const hrefs = await toc.evaluateAll((links) => links.map((link) => link.getAttribute("href")));
     for (const href of hrefs) expect(href?.startsWith("#")).toBeTruthy();
 

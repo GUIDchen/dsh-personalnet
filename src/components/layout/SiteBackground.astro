@@ -48,8 +48,7 @@ const { lang = "zh" } = Astro.props;
         color-mix(in oklch, var(--accent) 12%, transparent),
         transparent 70%
       );
-    filter: blur(70px);
-    animation: aurora-drift 28s var(--ease-in-out) infinite alternate;
+    animation: aurora-drift 36s var(--ease-in-out) infinite alternate;
   }
 
   .site-bg__grid {
@@ -63,7 +62,6 @@ const { lang = "zh" } = Astro.props;
     transform: perspective(640px) rotateX(58deg) translateY(4%);
     transform-origin: 50% 0;
     mask-image: linear-gradient(to bottom, transparent 4%, black 24%, black 64%, transparent 96%);
-    animation: grid-drift 22s linear infinite;
   }
 
   .site-bg__fade {
@@ -99,23 +97,17 @@ const { lang = "zh" } = Astro.props;
     }
   }
 
-  @keyframes grid-drift {
-    from {
-      background-position: 0 0;
-    }
-    to {
-      background-position: 0 72px;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .site-bg__aurora,
-    .site-bg__grid {
+    .site-bg__aurora {
       animation: none;
     }
   }
 
   @media (max-width: 639px) {
+    .site-bg__aurora {
+      animation: none;
+    }
+
     .site-bg__grid {
       opacity: 0.1;
       background-size: 48px 48px;

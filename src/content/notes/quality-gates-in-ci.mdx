@@ -35,3 +35,9 @@ draft: false
 ## 结论
 
 门禁的价值在于"让正确的做法成为默认路径"。当预算、可访问性与测试都写进 CI，维护者不需要每次凭记忆检查，只需要让流水线绿。相关决策见 ADR 0008，具体阈值见项目文档的性能章节。
+
+## 实现索引
+
+- `.github/workflows/ci.yml`：格式、类型、测试、构建、E2E、axe 与预算。
+- `scripts/check-*.mjs`：产物、SEO、链接、对比度与体积检查。
+- `lighthouserc.json`：Lighthouse CI 的页面集合与断言。

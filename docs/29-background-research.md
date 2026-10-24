@@ -58,7 +58,21 @@
 - 浅色/深色截图走查；
 - 视觉上正文卡片仍保持 `--surface` 可读背景。
 
-## 6. 后续可选
+## 6. 卡顿修复（v2.6.0）
+
+真实设备反馈"加载与上下滑动一卡一卡"。代码级原因与处理：
+
+| 原因 | 处理 |
+|---|---|
+| 全屏 `filter: blur(70px)` + transform 动画，Safari 每帧重新模糊 | 去掉 blur，直接用径向渐变；动画降为 36s 的 transform |
+| 透视网格用 `background-position` 动画，触发整层重绘 | 网格改为静态；保留透视与 mask |
+| sticky header 的 `backdrop-filter: blur(12px)` 与动态背景叠加，滚动时反复重算背景模糊 | 去掉 backdrop-filter，改为 95% 不透明背景 |
+| `SectionHeading` 使用 `animation-timeline: view()` 滚动绑定，低端设备合成抖动 | 移除滚动绑定，保留类名但不做动画 |
+| 低端/移动设备持续动画 | `prefers-reduced-motion` 与 `max-width: 639px` 均停止 aurora |
+
+说明：headless Chrome 的 rAF 间隔固定 60fps，无法复现真实 GPU/Safari 抖动；因此以合成成本分析 + Lighthouse/真机走查为准，不把 headless 帧率当作通过证据。
+
+## 7. 后续可选
 
 - 背景强度/开关（存储用户偏好）；
 - 独立的 WebGL/Spline 实验页，按需加载并单独预算；

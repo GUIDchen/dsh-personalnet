@@ -16,6 +16,24 @@
 
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [2.6.0] - 2026-10-24
+
+滚动流畅度与内容深度。
+
+### Fixed
+
+- 移除全屏背景的 `filter: blur(70px)` 与网格 `background-position` 动画，消除滚动时的全层重绘。
+- 去掉 sticky header 的 `backdrop-filter`，避免与动态背景叠加反复重算模糊。
+- 移除 `animation-timeline: view()` 的滚动绑定标题动画，降低低端设备合成抖动。
+- 移动端与 reduced-motion 停止 aurora 动画。
+- 新增 `check:perf` 护栏，禁止 backdrop-filter、全屏 blur 与 animation-timeline 回归。
+
+### Changed
+
+- 12 个项目详情新增「技术细节」，补充数据格式、训练/评估、线程/内存、图谱 schema、FPGA 流程等术语。
+- 6 篇笔记新增「实现索引」，列出对应脚本、配置与配置文件路径。
+- 背景调研文档补充卡顿原因分析与修复对照。
+
 ## [2.5.0] - 2026-10-24
 
 阅读体验、安全模型与背景视觉。

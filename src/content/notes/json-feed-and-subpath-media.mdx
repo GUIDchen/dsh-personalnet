@@ -27,3 +27,9 @@ RSS 适合阅读器，JSON Feed 更适合脚本与前端消费。新增 `/feed.j
 ## 校验
 
 构建后检查 `feed.json` 的 version 与条目数；RSS 仍保留，二者互不替代。子路径构建再跑一次 `check-dist`，可以提前发现只在 GitHub Pages 出现的 404。
+
+## 实现索引
+
+- `src/pages/feed.json.ts`：Feed 生成与 Content-Type。
+- `src/lib/seo.ts`：absoluteUrl / toDate 子路径处理。
+- `scripts/check-dist.mjs`：Feed 条目与 version 校验。

@@ -37,3 +37,9 @@ Pagefind 走第三条路：构建完成后扫描 HTML，生成分片的索引与
 ## 结论
 
 对中小型内容站，Pagefind 是"成本最低的够用方案"：没有服务、没有密钥、没有月费。代价是索引随构建生成，以及中文召回率的上限。相关决策见 ADR 0005。
+
+## 实现索引
+
+- `src/pages/search.astro`：搜索页与结果容器。
+- `pnpm build`：构建后生成 Pagefind 索引。
+- `scripts/check-dist.mjs`：检查索引与搜索页产物。

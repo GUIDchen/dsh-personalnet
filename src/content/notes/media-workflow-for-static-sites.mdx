@@ -32,3 +32,9 @@ draft: false
 ## 结果
 
 图库与封面可以在后台完成，部署到 `/dsh-personalnet/` 时路径仍然正确。没有图片的项目继续使用生成封面，不会出现空图。
+
+## 实现索引
+
+- `public/admin/cms/config.yml`：image 字段与 media_folder。
+- `src/components/project/ProjectMedia.astro`：BASE_URL 解析。
+- `scripts/check-media.mjs`：体积、格式与引用检查。

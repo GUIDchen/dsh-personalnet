@@ -44,7 +44,7 @@ jobs:
       - run: pnpm test:integration
       - run: pnpm test:seo
       - run: pnpm check:budget
-      - run: pnpm exec playwright install --with-deps chromium webkit
+      - run: pnpm exec playwright install chromium webkit
       - run: pnpm test:e2e
       - run: pnpm test:a11y
       - run: pnpm perf

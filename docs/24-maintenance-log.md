@@ -42,6 +42,7 @@
 | Cloudflare | Pages 直接上传双站 | 897f694 / be3a0b2 | guidchen.pages.dev 200、headers/search/admin | 未接 Git 自动部署 |
 | M33 | Cloudflare 自动部署 workflow | d76e907 | 监听 main；token/变量已配；自动部署 success | token 需轮换（曾在会话暴露） |
 | RSS 修复 | 笔记 pubDate 保留完整日期 | 本提交 | 单测 + rss.xml 检查 | — |
+| 界面清理 | 公开页移除 DSH/开源文案；GitHub 索引 13→10 | 本提交 | E2E/check:github | 仓库自身仍为 MIT |
 | 维护增强 | 内容证据审计、站点/媒体健康检查、链接容错 | 本提交 | health 14 项 0 失败 | — |
 
 ### 备注

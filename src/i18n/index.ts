@@ -36,7 +36,7 @@ export const ui = {
       rss: "RSS",
       email: "邮箱",
       top: "回到顶部",
-      license: "代码以 MIT 许可开源 · 内容保留版权",
+      license: "保留所有权利",
     },
     palette: {
       title: "命令面板",
@@ -88,7 +88,7 @@ export const ui = {
       rss: "RSS",
       email: "Email",
       top: "Back to top",
-      license: "Code MIT licensed · content copyrighted",
+      license: "All rights reserved",
     },
     palette: {
       title: "Command palette",

@@ -17,7 +17,10 @@ pnpm dev
 
 ## 分支与提交
 
+完整流程、分支保护、tag/release 与变更记录见 [Git 工作流](./docs/30-git-workflow.md)。
+
 - 从 `main` 拉分支：`feat/<scope>`、`fix/<scope>`、`docs/<scope>`、`chore/<scope>`。
+- 可选：`git config commit.template .gitmessage` 使用仓库内提交模板。
 - 提交信息遵循 Conventional Commits，type 用英文、摘要用中文祈使句：
 
 ```

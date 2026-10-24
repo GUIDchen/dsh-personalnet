@@ -1,0 +1,6 @@
+# <type>(<scope>): <subject>
+#
+# 说明为什么改、影响范围、验证方式
+#
+# type: feat | fix | perf | docs | test | refactor | chore
+# 一次提交只做一件事；不用中文句号结尾

@@ -4,7 +4,7 @@
 
 **在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Release**：[v2.7.0](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.7.0)
 
-[![文档](https://img.shields.io/badge/docs-30%20%E7%AF%87-4B5563)](#文档)
+[![文档](https://img.shields.io/badge/docs-32%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
 
 ## 预览
@@ -41,6 +41,8 @@
 - 线上编辑：`/admin/cms/` 使用 GitHub fine-grained token（`Contents: Read and write`）；默认 OAuth 未配置，因此登录页只保留 token 入口。
 - 图片：项目封面/图库在编辑器中上传到 `public/media/projects/`；单文件 ≤300KB。
 - GitHub 项目：`/github/`；后台编辑仓库源，保存后 Actions 同步元数据并部署。详见 [GitHub 项目文档](./docs/28-github-projects.md)。
+- Git：每次改动提交并记录；见 [Git 工作流](./docs/30-git-workflow.md)。
+- 部署调研：GitHub Pages / Cloudflare Pages / VPS / 自建的成本与边界，见 [部署方案调研](./docs/31-deployment-options.md)（待审阅，未执行迁移）。
 - 安全：`noindex`、`robots.txt` 禁止、固定版本 + SRI；详见 [管理后台文档](./docs/22-admin.md)。
 
 ## 状态
@@ -142,7 +144,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 
 ```
 .
-├─ docs/            # 软件工程文档（30 篇 + 19 篇 ADR）
+├─ docs/            # 软件工程文档（32 篇 + 19 篇 ADR）
 ├─ src/             # Astro 源码（页面/组件/内容/样式/逻辑）
 ├─ scripts/         # 内容校验、体积预算、文档检查、OG 生成
 ├─ tests/           # unit / integration / e2e / a11y

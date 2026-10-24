@@ -8,6 +8,8 @@
 
 # 部署与运维
 
+> 独立托管方案（静态托管 / VPS / 自建）的成本与取舍见 [31-deployment-options.md](./31-deployment-options.md)；当前仍使用 GitHub Pages，未执行迁移。
+
 ## 1. 环境
 
 | 环境 | 触发 | URL | 用途 |

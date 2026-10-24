@@ -53,6 +53,8 @@
 | 27 | [27-media-and-evidence.md](./27-media-and-evidence.md) | 媒体与内容证据 | Approved |
 | 28 | [28-github-projects.md](./28-github-projects.md) | GitHub 项目索引与同步 | Approved |
 | 29 | [29-background-research.md](./29-background-research.md) | 站点背景与动态视觉调研 | Approved |
+| 30 | [30-git-workflow.md](./30-git-workflow.md) | Git 工作流与变更记录 | Approved |
+| 31 | [31-deployment-options.md](./31-deployment-options.md) | 独立网站部署方案调研 | Draft（待审阅） |
 | ADR | [adr/](./adr/) | 19 篇架构决策记录 | Approved |
 
 ## 文档规则

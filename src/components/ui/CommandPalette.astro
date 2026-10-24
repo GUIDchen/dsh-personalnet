@@ -23,7 +23,7 @@ const entries = [
   { key: "search", href: `${localizePath("search/", lang)}?focus=1` },
   { key: "theme", action: "theme" },
   { key: "email", action: "copy-email", hint: email },
-  { key: "rss", href: `${base}rss.xml` },
+  { key: "rss", href: localizePath("feed/", lang) },
 ] as const;
 
 const items = entries.map((entry) => {

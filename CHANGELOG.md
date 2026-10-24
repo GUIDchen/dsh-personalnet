@@ -20,6 +20,10 @@
 - Cloudflare Pages 已通过直接上传部署到 https://guidchen.pages.dev/；当前不是 Git 自动部署。
 - deploy-cloudflare-pages workflow 改为监听 main；配置 `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` 后，后台保存即可自动更新 Cloudflare 副本；未配置时只构建并跳过。
 
+### Added
+
+- 新增 `/feed/` 与 `/en/feed/` 订阅说明页；页脚 RSS 入口改为说明页，`rss.xml` 本身保留给阅读器。
+
 ### Fixed
 
 - RSS 笔记 `pubDate` 原来只保留年月，统一变成每月 1 日；现在保留完整日期（如 2026-10-23）。

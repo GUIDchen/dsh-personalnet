@@ -52,8 +52,16 @@ Cloudflare 构建使用 `SITE_URL=https://guidchen.pages.dev`、`BASE_PATH=/`；
 
 在 GitHub 仓库 Settings → Secrets and variables → Actions 添加：
 
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
+- Secret：`CLOUDFLARE_API_TOKEN`
+- 仓库变量（非 secret）：`CLOUDFLARE_ACCOUNT_ID`
+
+当前已配置仓库变量：
+
+- `CLOUDFLARE_SITE_URL=https://guidchen.pages.dev`
+- `CLOUDFLARE_PROJECT_NAME=guidchen`
+- `CLOUDFLARE_ACCOUNT_ID=03f508772aee438c4ef70d51bef44963`
+
+还缺 **`CLOUDFLARE_API_TOKEN` secret**。
 
 部署 workflow `.github/workflows/deploy-cloudflare.yml` 已配置：
 
@@ -113,7 +121,7 @@ cd dist && zip -qr ../guidchen-pages.zip .
 - 线上：https://guidchen.pages.dev/
 - 构建方式：`SITE_URL=https://guidchen.pages.dev`、`BASE_PATH=/`，上传 `guidchen-pages.zip`。
 - GitHub Pages 继续在线：https://guidchen.github.io/dsh-personalnet/
-- **自动部署待配置 secrets**：workflow 已监听 main，但需要 `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`；在配置前，`guidchen.pages.dev` 是直接上传快照，不会跟随 GitHub 更新。
+- **自动部署待配置 API Token**：workflow 已监听 main；site/project/account 变量已配置，只缺 `CLOUDFLARE_API_TOKEN` secret。在配置前，`guidchen.pages.dev` 是直接上传快照，不会跟随 GitHub 更新。
 - 验证：首页/项目/笔记/GitHub/安全/后台/Feed/sitemap 200；canonical、sitemap、robots 指向 `guidchen.pages.dev`；CSP、X-Frame-Options、Permissions-Policy、admin X-Robots 生效；搜索与 admin token 登录可用。
 
 ## 5. 部署后验收

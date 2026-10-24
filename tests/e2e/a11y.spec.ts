@@ -22,6 +22,8 @@ const pages = [
   { path: "/en/github/", name: "English GitHub" },
   { path: "/security/", name: "安全" },
   { path: "/en/security/", name: "English security" },
+  { path: "/feed/", name: "订阅" },
+  { path: "/en/feed/", name: "English subscribe" },
   { path: "/admin/", name: "管理后台" },
   { path: "/404.html", name: "404" },
 ];

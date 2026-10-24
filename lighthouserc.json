@@ -14,7 +14,8 @@
         "http://127.0.0.1:4321/en/",
         "http://127.0.0.1:4321/en/projects/",
         "http://127.0.0.1:4321/github/",
-        "http://127.0.0.1:4321/security/"
+        "http://127.0.0.1:4321/security/",
+        "http://127.0.0.1:4321/feed/"
       ],
       "numberOfRuns": 1,
       "settings": {

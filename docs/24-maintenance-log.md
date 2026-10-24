@@ -48,7 +48,7 @@
 | v2.9.0 | 英文正文、CSP 头、实验/时间线 | 8e8456a | 18 英文正文、96 E2E/30 axe/17 LHCI、CSP 响应头 | 待作者审阅英文 |
 | v2.9.1 | 工程文档 34–38、ADR 20–23、timeline 纯函数 | 656e03c | docs/unit/local ci | CI 性能缓冲 0.75/1000ms |
 | v2.9.2 | ProjectDetail/NoteDetail 共享视图 | 29395e3 | E2E/unit/lint | TD-01 关闭 |
-| v2.9.3 | 技术债 TD-02/03/04/06/09；repoVisibility | 本提交 | 3x LHCI + CI | TD-05/07/08 外部 gate |
+| v2.9.3 | 技术债 TD-02/03/04/06/09；repoVisibility | 079c2e1 | 3x LHCI + CI | TD-05/07/08 外部 gate |
 | 维护增强 | 内容证据审计、站点/媒体健康检查、链接容错 | 本提交 | health 14 项 0 失败 | — |
 
 ### 备注

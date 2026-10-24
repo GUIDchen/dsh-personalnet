@@ -27,8 +27,9 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "viewport",
+    // 不在滚动时预取所有卡片链接；只在 hover/tap 时按需预取。
+    prefetchAll: false,
+    defaultStrategy: "hover",
   },
   devToolbar: {
     enabled: false,

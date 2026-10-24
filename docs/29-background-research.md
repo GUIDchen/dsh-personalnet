@@ -69,6 +69,7 @@
 | sticky header 的 `backdrop-filter: blur(12px)` 与动态背景叠加，滚动时反复重算背景模糊 | 去掉 backdrop-filter，改为 95% 不透明背景 |
 | `SectionHeading` 使用 `animation-timeline: view()` 滚动绑定，低端设备合成抖动 | 移除滚动绑定，保留类名但不做动画 |
 | 低端/移动设备持续动画 | `prefers-reduced-motion` 与 `max-width: 639px` 均停止 aurora |
+| `prefetchAll: true`，滚动进入视口即预取所有卡片/链接 | 改为 `prefetchAll: false`，仅 hover/tap 预取 |
 
 说明：headless Chrome 的 rAF 间隔固定 60fps，无法复现真实 GPU/Safari 抖动；因此以合成成本分析 + Lighthouse/真机走查为准，不把 headless 帧率当作通过证据。
 

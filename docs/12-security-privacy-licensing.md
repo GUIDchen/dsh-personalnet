@@ -75,7 +75,7 @@ form-action 'self';
 | 项目与基金号 | 发布 | 公开信息 |
 | 照片 | 默认不用 | 除非明确同意 |
 
-实现：`scripts/check-privacy.mjs` 扫描 `src/content`、`src/data`、`docs`，命中手机号正则或敏感键名即失败。
+实现：`pnpm check:privacy`（`scripts/check-privacy.mjs`）扫描 `src/content`、`src/data`、`docs`，命中手机号/身份证号正则或敏感键名即失败；已接入 CI 与健康报告。
 
 ## 5. 泄漏处理
 

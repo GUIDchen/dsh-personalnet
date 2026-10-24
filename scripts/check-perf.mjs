@@ -15,6 +15,16 @@ const rules = [
 ];
 const errors = [];
 const extensions = /.(?:css|astro|ts|js)$/;
+
+// 全站预取会在滚动进入视口时发起大量页面请求，是已证实的卡顿来源。
+try {
+  const configText = readFileSync(resolve(root, "astro.config.ts"), "utf8");
+  if (/prefetchAll\s*:\s*true/.test(configText)) {
+    errors.push("prefetchAll: true（滚动预取全部链接）→ astro.config.ts");
+  }
+} catch {
+  errors.push("无法读取 astro.config.ts");
+}
 function walk(dir) {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);

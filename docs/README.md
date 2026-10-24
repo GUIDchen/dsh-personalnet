@@ -8,7 +8,7 @@
 |---|---|
 | 项目 | dsh-personalnet（个人网站） |
 | 文档负责人 | 陈陇刚 |
-| 状态 | Approved（v2.6.0） |
+| 状态 | Approved（v2.7.0） |
 | 最后更新 | 2026-10-23 |
 | 文档语言 | 简体中文（术语首现保留英文） |
 
@@ -42,7 +42,7 @@
 | 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
 | 17 | [17-maintenance-runbook.md](./17-maintenance-runbook.md) | 维护手册（发布/升级/内容/故障） | Approved |
 | 18 | [18-benchmark-and-gap-analysis.md](./18-benchmark-and-gap-analysis.md) | 优秀个人网站基准调研与差距分析 | Approved |
-| 19 | [19-project-completion-audit.md](./19-project-completion-audit.md) | v1.2.0 完成度审计与 v2.0 KPI | Approved |
+| 19 | [19-project-completion-audit.md](./19-project-completion-audit.md) | v2.7.0 完成度审计与 v2.0 KPI 对照 | Approved |
 | 20 | [20-borrowing-notes.md](./20-borrowing-notes.md) | 优秀站点借鉴清单与不借鉴理由 | Approved |
 | 21 | [21-i18n.md](./21-i18n.md) | 中英文界面、路由与 SEO | Approved |
 | 22 | [22-admin.md](./22-admin.md) | Sveltia CMS 管理后台 | Approved |

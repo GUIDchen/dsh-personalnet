@@ -35,7 +35,9 @@
 | v2.5.0 | 阅读体验、安全模型与背景视觉 | 37779c5 | 公网 200、deploy success、tag/release | 真实截图/仓库 URL 仍待补 |
 | M25 | 滚动流畅度、项目技术细节、笔记实现索引 | d9edfba | E2E 81、a11y 22、LHCI 12、check:perf | — |
 | v2.6.0 | 流畅度与内容深度 | d9edfba | 公网 200、deploy success、tag/release | 真实截图/仓库 URL 仍待补 |
-| 维护增强 | 内容证据审计、站点/媒体健康检查、链接容错 | 本提交 | health 13 项 0 失败 | — |
+| M27 | 完成度复审、关闭全视口预取、隐私检查 | 本提交 | health 14、check:perf/privacy | — |
+| v2.7.0 | 复审与滚动/隐私收口 | 本提交 | 公网 200、CI/deploy、tag/release | 真实截图/仓库 URL 仍待补 |
+| 维护增强 | 内容证据审计、站点/媒体健康检查、链接容错 | 本提交 | health 14 项 0 失败 | — |
 
 ### 备注
 

@@ -18,6 +18,7 @@ const checks = [
   { name: "GitHub 项目", command: "node scripts/check-github-projects.mjs" },
   { name: "安全基线", command: "node scripts/check-security.mjs" },
   { name: "性能护栏", command: "node scripts/check-perf.mjs" },
+  { name: "隐私", command: "node scripts/check-privacy.mjs" },
   { name: "SEO", command: "node scripts/check-seo.mjs" },
   { name: "构建产物", command: "node scripts/check-dist.mjs" },
   { name: "管理后台", command: "node scripts/check-admin.mjs" },

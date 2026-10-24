@@ -16,6 +16,16 @@
 
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [Unreleased]
+
+### Added
+
+- Cloudflare Pages 构建目标（wrangler.toml、deploy-cloudflare workflow、本地 deploy:cloudflare）。
+- 双站文档 docs/33；GitHub Pages 保持在线，Cloudflare 根路径独立构建。
+- _headers 在 Cloudflare 上生效（安全头、admin X-Robots、_astro 长缓存）。
+
+> 尚未执行 Cloudflare 实际部署：本机 wrangler OAuth 超时，未获得 API token；配置已就绪，待授权。
+
 ## [2.8.0] - 2026-10-24
 
 网络攻击面、并发与信息展示审计。

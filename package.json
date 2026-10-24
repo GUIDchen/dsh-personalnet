@@ -39,6 +39,7 @@
     "check:admin": "node scripts/check-admin.mjs",
     "health": "node scripts/health-report.mjs",
     "deploy:check": "node scripts/deploy-preflight.mjs",
+    "deploy:cloudflare": "node scripts/deploy-cloudflare.mjs",
     "gen:og": "node scripts/generate-og.mjs",
     "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
     "test:load": "node scripts/load-test.mjs",

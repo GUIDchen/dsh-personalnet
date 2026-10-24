@@ -8,7 +8,7 @@
 
 # 部署与运维
 
-> 独立托管方案（静态托管 / VPS / 自建）的成本与取舍见 [31-deployment-options.md](./31-deployment-options.md)；当前仍使用 GitHub Pages，未执行迁移。
+> 独立托管方案（静态托管 / VPS / 自建）的成本与取舍见 [31-deployment-options.md](./31-deployment-options.md)；Cloudflare Pages 双站配置见 [33-cloudflare-pages.md](./33-cloudflare-pages.md)。当前 GitHub Pages 仍在线，Cloudflare 待授权部署。
 
 ## 1. 环境
 

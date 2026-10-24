@@ -42,3 +42,7 @@ pnpm-debug.log*
 
 # maintenance reports
 reports/
+
+# cloudflare local state
+.wrangler/
+.dev.vars

@@ -14,7 +14,7 @@ let index = 0;
 
 async function worker() {
   while (index < total) {
-    const current = index++;
+    index++;
     const started = performance.now();
     try {
       const response = await fetch(url, { cache: "no-store" });

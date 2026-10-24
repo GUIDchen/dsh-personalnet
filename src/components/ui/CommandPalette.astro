@@ -9,7 +9,6 @@ interface Props {
 
 const { email, lang = "zh" } = Astro.props;
 const t = ui[lang];
-const base = import.meta.env.BASE_URL;
 
 const entries = [
   { key: "home", href: localizePath("", lang) },

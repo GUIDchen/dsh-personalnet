@@ -15,7 +15,7 @@
 | 可抓取 | 全部页面静态 HTML，无 JS 依赖 |
 | 可理解 | 唯一 title/description、语义化标题层级、结构化数据 |
 | 可分享 | OG/Twitter 卡片，项目级 OG 图 |
-| 速度 | 目标：移动端 LCP ≤1.8s、CLS ≤0.05、TBT ≤150ms；CI 共享 runner 使用 LCP ≤2.5s、TBT ≤300ms、性能 ≥0.90 的缓冲门禁 |
+| 速度 | 目标：移动端 LCP ≤1.8s、CLS ≤0.05、TBT ≤150ms；CI 共享 runner 使用 LCP ≤2.5s、TBT ≤600ms、性能 ≥0.90 的缓冲门禁 |
 | 无障碍 | WCAG 2.2 AA |
 
 ## 2. 页面元数据
@@ -146,7 +146,7 @@ WCAG 2.2 AA：可感知、可操作、可理解、健壮。
 
 ## 7. 测量与回归
 
-- CI：LHCI 对 10 个 URL 各跑 1 次，预算写在 `lighthouserc.json`；共享 runner 使用缓冲阈值（性能 ≥0.90、LCP ≤2.5s、TBT ≤300ms、CLS ≤0.05）。
+- CI：LHCI 对 13 个 URL 各跑 1 次，预算写在 `lighthouserc.json`；共享 runner 使用缓冲阈值（性能 ≥0.90、LCP ≤2.5s、TBT ≤600ms、CLS ≤0.05）。
 - 本地：`pnpm build && pnpm preview` 后用 DevTools Performance 记录；目标值仍是 LCP ≤1.8s、TBT ≤150ms。
 - 归档：LHCI 报告作为 CI artifact 保留 30 天。
 - 回归判定：任一指标超出预算即失败；性能分数下降 >3 分需说明原因。

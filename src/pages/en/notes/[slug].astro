@@ -1,0 +1,255 @@
+---
+import { getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Toc from "@/components/project/Toc.astro";
+import JsonLd from "@/components/seo/JsonLd.astro";
+import {
+  getPublishedNotes,
+  getRelatedNotes,
+  getAdjacentNotes,
+  estimateReadingTime,
+} from "@/lib/notes";
+import { breadcrumbJsonLd, noteJsonLd } from "@/lib/jsonld";
+
+export async function getStaticPaths() {
+  const notes = await getPublishedNotes();
+  return notes.map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const translated = await getEntry("notes-en", note.id);
+if (!translated) throw new Error("Missing English body for note: " + note.id);
+const { Content, headings } = await render(translated);
+const notes = await getPublishedNotes();
+const related = getRelatedNotes(note, notes, 3);
+const adjacent = getAdjacentNotes(note, notes);
+const readingTime = estimateReadingTime(translated.body ?? "");
+const base = import.meta.env.BASE_URL;
+const title = note.data.titleEn ?? note.data.title;
+const seoTitle = note.id === "pagefind-static-search" ? "Pagefind for a Static Site" : title;
+const summary = note.data.summaryEn ?? note.data.summary;
+const takeaways = note.data.takeawaysEn ?? [];
+const alternates = {
+  zh: `${base}notes/${note.id}/`,
+  en: `${base}en/notes/${note.id}/`,
+};
+---
+
+<BaseLayout title={seoTitle} description={summary} lang="en" alternates={alternates}>
+  <JsonLd data={noteJsonLd(note, `notes/${note.id}/`)} />
+  <JsonLd
+    data={breadcrumbJsonLd([
+      { name: "Home", path: "/en/" },
+      { name: "Notes", path: "/en/notes/" },
+      { name: title, path: `en/notes/${note.id}/` },
+    ])}
+  />
+
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol>
+      <li>
+        <a href={`${base}en/`}>Home</a>
+      </li>
+      <li>
+        <a href={`${base}en/notes/`}>Notes</a>
+      </li>
+      <li aria-current="page">{title}</li>
+    </ol>
+  </nav>
+
+  <article>
+    <header class="head">
+      <p class="mono-label">Notes / {note.data.date}</p>
+      <h1>{title}</h1>
+      <p class="summary">{summary}</p>
+      <div class="meta">
+        <span>{readingTime} min read</span>
+        {note.data.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    </header>
+
+    {takeaways.length > 0 && (
+      <aside class="takeaways" aria-labelledby="takeaways-title">
+        <h2 id="takeaways-title">Key takeaways</h2>
+        <ul>
+          {takeaways.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <div class="layout">
+      <div class="prose">
+        <Content />
+      </div>
+      <aside class="side" aria-label="Note information">
+        <Toc headings={headings} />
+      </aside>
+    </div>
+  </article>
+
+  <nav class="adjacent" aria-label="Note navigation">
+    {adjacent.prev ? (
+      <a href={`${base}en/notes/${adjacent.prev.id}/`}>
+        <span class="mono-label">Previous</span>
+        <span>{adjacent.prev.data.titleEn ?? adjacent.prev.data.title}</span>
+      </a>
+    ) : (
+      <span />
+    )}
+    {adjacent.next ? (
+      <a class="next" href={`${base}en/notes/${adjacent.next.id}/`}>
+        <span class="mono-label">Next</span>
+        <span>{adjacent.next.data.titleEn ?? adjacent.next.data.title}</span>
+      </a>
+    ) : (
+      <span />
+    )}
+  </nav>
+
+  {related.length > 0 && (
+    <section class="related" aria-labelledby="related-title">
+      <h2 id="related-title">Related notes</h2>
+      <ul>
+        {related.map((item) => (
+          <li>
+            <a href={`${base}en/notes/${item.id}/`}>
+              <span class="mono-label">{item.data.date}</span>
+              <span>{item.data.titleEn ?? item.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .crumbs li:not(:last-child)::after {
+    content: "/";
+    margin-left: 0.5rem;
+    color: var(--border-strong);
+  }
+  .crumbs a {
+    text-decoration: none;
+  }
+  .head {
+    max-width: 52rem;
+  }
+  h1 {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+  .summary {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.9vw, 1.25rem);
+    color: var(--muted);
+    max-width: 46rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .tag {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+  }
+  .takeaways {
+    max-width: 52rem;
+    margin: 1.5rem 0 0;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    background: color-mix(in oklch, var(--surface) 55%, transparent);
+  }
+  .takeaways h2 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .takeaways ul {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+  }
+  .layout {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    margin-top: 2.5rem;
+    align-items: start;
+  }
+  .side {
+    position: sticky;
+    top: 5.5rem;
+  }
+  .adjacent {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  .adjacent a {
+    display: grid;
+    gap: 0.25rem;
+    text-decoration: none;
+  }
+  .adjacent .next {
+    text-align: right;
+  }
+  .related {
+    margin-top: 2.5rem;
+  }
+  .related ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .related a {
+    display: grid;
+    gap: 0.2rem;
+    text-decoration: none;
+  }
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      position: static;
+      order: -1;
+    }
+  }
+</style>

@@ -15,6 +15,8 @@ const year = new Date().getFullYear();
 const links = [
   { href: localizePath("projects/", lang), label: t.footer.projects },
   { href: localizePath("github/", lang), label: "GitHub" },
+  { href: localizePath("timeline/", lang), label: lang === "en" ? "Timeline" : "时间线" },
+  { href: localizePath("experiments/", lang), label: lang === "en" ? "Experiments" : "实验" },
   { href: localizePath("notes/", lang), label: t.footer.notes },
   { href: localizePath("now/", lang), label: t.footer.now },
   { href: localizePath("uses/", lang), label: t.footer.uses },

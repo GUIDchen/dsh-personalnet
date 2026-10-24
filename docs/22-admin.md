@@ -159,3 +159,4 @@
 - 后台依赖网络加载 CDN 脚本；离线时无法打开编辑器（本地文件仍可直接改）。
 - MDX 只使用 Markdown 语法，不包含 import/组件；若未来引入 MDX 组件，富文本编辑器可能破坏结构，需要改用代码编辑器或自定义字段。
 - 字段的细粒度约束（长度、URL、标签正则）仍以 Zod 为最终裁判；后台提示是辅助。
+- 英文正文使用 `projectBodiesEn` / `noteBodiesEn` folder collections，对应 `src/content/projects-en`、`src/content/notes-en`；项目/笔记主条目保留 `roleEn`、`teamEn`、`highlightsEn`、`metricsEn`、`takeawaysEn` 英文字段。

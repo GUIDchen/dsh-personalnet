@@ -1,0 +1,31 @@
+---
+title: "A Media Workflow for a Static Site"
+draft: false
+---
+
+## Background
+
+Project case studies need real screenshots, but the early covers were generated programmatically. The admin could edit MDX but had no way to upload images; and even with uploads, deployed under a GitHub Pages subpath the paths were easy to get wrong.
+
+## The approach
+
+Point the media directory of the Sveltia projects collection at `public/media/projects` and change the cover and gallery fields to `image`:
+
+- After upload the CMS returns `/media/projects/...`;
+- Components all call `ProjectMedia`, which adds `BASE_URL` automatically;
+- With no real cover, it falls back to the generated image in `src/assets/covers`;
+- Single files are limited to 300KB and the total to 8MB, enforced by `check-media`.
+
+## Trade-offs
+
+Images in `public/media` skip the build-time optimization of `astro:assets`, in exchange for CMS previews and simple paths. Lazy loading, fixed aspect ratios and size checks are still kept; if the number of images grows later, a Sharp variant pipeline can be introduced then.
+
+## Result
+
+Galleries and covers can be handled in the admin, and paths stay correct when deployed at `/dsh-personalnet/`. Projects without images keep using generated covers, so no empty images appear.
+
+## Implementation index
+
+- `public/admin/cms/config.yml`: the image field and media_folder.
+- `src/components/project/ProjectMedia.astro`: BASE_URL resolution.
+- `scripts/check-media.mjs`: size, format and reference checks.

@@ -1,0 +1,40 @@
+---
+title: "YOLO Object Detection in Practice"
+draft: false
+---
+
+## Background and problem
+
+I needed a reusable object detection pipeline that covers the full path from raw images to an evaluable model, so that every experiment did not require writing scripts by hand again.
+
+## Constraints
+
+- Solo work over about 4 months.
+- Compute was limited, so training and tuning had to be completed on a single GPU.
+- The data came from public scene images and had to be annotated and cleaned myself.
+
+## Approach and architecture
+
+The pipeline has four stages: data annotation and splitting, augmentation and preprocessing, training and tuning, and evaluation and visualisation. Scripts are split by stage and configuration is centralised in YAML to keep experiments reproducible.
+
+## Key decisions
+
+- **Annotation format**: use the official YOLO format to reduce conversion steps.
+- **Augmentation strategy**: keep only the geometric and colour augmentations that are effective for these scenes, avoiding overfitting.
+- **Evaluation metrics**: use mAP@0.5 as the primary metric with inference latency as a secondary one, balancing accuracy and usability.
+
+## Results and measurement
+
+Completed more than 40 training rounds and produced reusable training and evaluation scripts; detection visualisations were used for manual review.
+
+Ran the complete loop from annotation to training to evaluation, and the training and evaluation scripts can be reused for similar scenarios; specific mAP and latency figures are subject to the experiment records.
+
+## Technical details
+
+- Standardised the data into the YOLO annotation format and fixed the training/validation split.
+- Centralised training, augmentation and evaluation parameters in YAML to reduce script duplication.
+- Evaluated with mAP@0.5 together with inference latency, and visualised results for review.
+
+## Reflection
+
+Data quality affects the final result more than model architecture does. If I did it again, I would establish annotation guidelines and a spot-check mechanism before starting training.

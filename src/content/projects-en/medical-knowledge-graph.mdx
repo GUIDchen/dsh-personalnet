@@ -1,0 +1,40 @@
+---
+title: "Medical Disease Knowledge Graph"
+draft: false
+---
+
+## Background and problem
+
+Medical knowledge is scattered across medical records, guidelines and literature, making retrieval costly and relationships hard to see. Building a disease knowledge graph structures relations such as "disease — symptom — examination — treatment", supporting retrieval and assisted judgement.
+
+## Constraints
+
+- Medical text is highly specialised, with inconsistent entity boundaries and wording.
+- The data is sensitive and had to be processed in a controlled environment, with no raw text provided externally.
+- The graph structure had to accommodate clinical usage habits as well as future extension.
+
+## Approach and architecture
+
+The process has three steps: medical text preprocessing and entity recognition, relation extraction and verification, and design of the graph's node and relation structure. Extraction results were manually spot-checked before being loaded into the graph.
+
+## Key decisions
+
+- **Ontology first**: define entity types and relation types before extraction, avoiding changing things mid-extraction.
+- **Manual spot checks**: the medical domain tolerates little error, so extraction results must be sampled and verified.
+- **Extensible structure**: relation types leave room for extension, making it easy to add examination and treatment information later.
+
+## Results and measurement
+
+Completed information extraction and organisation of medical text, contributed to designing the graph's node and relation structure, and provided a structured foundation for knowledge retrieval and downstream applications.
+
+> Project details and data scope are subject to the partner's public information.
+
+## Technical details
+
+- Performed entity recognition and relation extraction on medical text, unifying disease/symptom naming.
+- Designed the schema for nodes, relations and attributes, constraining the graph's query paths.
+- Used graph retrieval to connect symptoms, diseases and assisted-diagnosis knowledge.
+
+## Reflection
+
+The hard part of a medical knowledge graph is not the algorithm but ontology design and quality verification. If I did it again, I would move manual verification earlier, into the annotation stage, and establish more detailed entity guidelines.

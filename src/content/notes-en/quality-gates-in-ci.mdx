@@ -1,0 +1,34 @@
+---
+title: "Putting Quality Gates into CI"
+draft: false
+---
+
+## Layers
+
+Gates are not about "running a few more tests"; each layer answers a different question:
+
+- Unit tests answer "do the pure functions compute the right thing?", covering filtering, sorting, SEO, JSON-LD and reading time.
+- Build artifact checks answer "were the pages actually generated?", checking page count, canonical uniqueness, sitemap, RSS, OG and internal links.
+- E2E answers "can users actually complete the flow?", covering filtering, search, view transitions, theme and print.
+- axe answers "can assistive technology use it?", running automated scans on key pages.
+- Lighthouse answers "is the experience up to standard?", using budgets to constrain LCP, CLS, TBT and the four category scores.
+
+## Budgets
+
+Scores alone are not enough; scores fluctuate. A steadier approach is to constrain size as well: home page JS, detail page JS, CSS, fonts and HTML each have a gzip ceiling, and exceeding it fails. That way performance regressions surface before merge, instead of being discovered after release.
+
+## An incident
+
+Early in the project, the filter bar in the projects library was hidden with the hidden attribute and only shown after the script loaded. Lighthouse measured CLS 0.27 and Performance at just 0.86 — the content shifted down as a whole after the first screen.
+
+The fix was not to add animation but to make the layout stable from the first frame: whether the bar is shown is decided by a .js class written before first paint, and the script only binds events. After the fix CLS dropped to near 0 and Performance returned to 1.0.
+
+## Conclusion
+
+The value of gates is that they "make the right way the default path". Once budgets, accessibility and tests are all written into CI, maintainers do not need to check from memory every time — they just need to keep the pipeline green. See ADR 0008 for the decision, and the performance chapter of the project docs for the specific thresholds.
+
+## Implementation index
+
+- `.github/workflows/ci.yml`: formatting, types, tests, build, E2E, axe and budgets.
+- `scripts/check-*.mjs`: artifact, SEO, link, contrast and size checks.
+- `lighthouserc.json`: the page set and assertions for Lighthouse CI.

@@ -2,14 +2,18 @@
 title: 静态站点的全文搜索：Pagefind 的取舍
 summary: 不引入搜索服务的前提下，用 Pagefind 在构建期建立索引，并说明它在体积、中文检索与子路径部署上的边界。
 titleEn: "Full-text Search for a Static Site: Pagefind Trade-offs"
-summaryEn: "Building a search index at build time without a search service, and the limits around size, Chinese retrieval and subpath deployment."
+summaryEn: Building a search index at build time without a search service, and the limits around size, Chinese retrieval and subpath deployment.
 date: "2026-10-21"
 tags: [pagefind, static-site, seo]
 takeaways:
-  - "构建期索引，不需要搜索服务。"
-  - "中文检索与索引体积需要实测。"
-  - "子路径部署要验证 URL 前缀。"
+  - 构建期索引，不需要搜索服务。
+  - 中文检索与索引体积需要实测。
+  - 子路径部署要验证 URL 前缀。
 draft: false
+takeawaysEn:
+  - A build-time index removes the search service.
+  - Chinese retrieval and index size need measurement.
+  - Verify URL prefixes for subpath deployment.
 ---
 
 ## 问题

@@ -15,7 +15,11 @@
         "http://127.0.0.1:4321/en/projects/",
         "http://127.0.0.1:4321/github/",
         "http://127.0.0.1:4321/security/",
-        "http://127.0.0.1:4321/feed/"
+        "http://127.0.0.1:4321/feed/",
+        "http://127.0.0.1:4321/en/projects/yolo-object-detection/",
+        "http://127.0.0.1:4321/en/notes/why-astro-7/",
+        "http://127.0.0.1:4321/experiments/",
+        "http://127.0.0.1:4321/timeline/"
       ],
       "numberOfRuns": 1,
       "settings": {

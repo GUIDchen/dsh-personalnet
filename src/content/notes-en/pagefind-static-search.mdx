@@ -1,0 +1,36 @@
+---
+title: "Full-text Search for a Static Site: Pagefind Trade-offs"
+draft: false
+---
+
+## The problem
+
+A static site has no server, so search usually takes one of three routes: plug in a hosted search service, load the full JSON on the client and match there, or generate an inverted index at build time.
+
+The first two each carry obvious costs: a hosted service adds an external dependency and a bill; the full JSON will eat the entire first-screen budget once the content grows.
+
+## The approach
+
+Pagefind takes the third route: after the build completes it scans the HTML and generates a chunked index and metadata; the browser loads index chunks only when needed, and queries run in WebAssembly.
+
+Wiring it into this site was simple: the integration builds the index at the end of the build, the search page loads pagefind.js dynamically, the input is debounced at 160ms, and results render only the title and the excerpt.
+
+## Limits
+
+First, the index is a "build artifact": content updates require a rebuild, which is normal for a static site.
+
+Second, Chinese retrieval depends on segmentation quality. Pagefind works for Chinese, but its recall is lower than a dedicated search engine; at this site's scale that is enough.
+
+Third, subpath deployment needs care: index file paths must include the base, otherwise search returns 404. The project covers this specifically in its integration tests.
+
+Fourth, the search page itself should not be indexed; exclude it in both robots and the page markup.
+
+## Conclusion
+
+For small and medium-sized content sites, Pagefind is the "cheapest option that is good enough": no service, no keys, no monthly fee. The price is an index generated with each build, and a ceiling on Chinese recall. See ADR 0005 for the decision.
+
+## Implementation index
+
+- `src/pages/search.astro`: the search page and results container.
+- `pnpm build`: generates the Pagefind index after the build.
+- `scripts/check-dist.mjs`: verifies the index and the search page artifacts.

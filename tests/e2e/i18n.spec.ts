@@ -27,21 +27,36 @@ test.describe("中英文界面", () => {
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/en\/$/);
   });
 
-  test("英文项目页标注中文正文并链接到中文详情", async ({ page }) => {
+  test("英文项目页链接到英文详情", async ({ page }) => {
     await page.goto("/en/projects/");
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
-    await expect(page.locator("body")).toContainText("Case studies are currently in Chinese.");
     const firstCard = page.locator(".project-card .title-link").first();
-    await expect(firstCard).toHaveAttribute("href", /^\/projects\//);
+    await expect(firstCard).toHaveAttribute("href", /^\/en\/projects\//);
     await expect(firstCard).toContainText("YOLO Object Detection in Practice");
     await page.goto("/en/notes/");
     await expect(page.locator(".notes")).toContainText("A Media Workflow for a Static Site");
+    const noteLink = page.locator(".notes a").first();
+    await expect(noteLink).toHaveAttribute("href", /^\/en\/notes\//);
   });
 
-  test("中文详情页的语言切换回退到英文列表", async ({ page }) => {
+  test("英文详情正文与 hreflang", async ({ page }) => {
+    await page.goto("/en/projects/yolo-object-detection/");
+    await expect(page.locator("h1")).toHaveText("YOLO Object Detection in Practice");
+    await expect(page.locator("body")).toContainText("Background and problem");
+    const alternates = await page
+      .locator('link[rel="alternate"][hreflang]')
+      .evaluateAll((links) => links.map((link) => link.getAttribute("hreflang")));
+    expect(alternates).toEqual(expect.arrayContaining(["zh-CN", "en", "x-default"]));
+    await page.goto("/en/notes/why-astro-7/");
+    await expect(page.locator("h1")).toHaveText("Why This Site Uses Astro 7");
+    await expect(page.locator("body")).toContainText("Requirements");
+    await expect(page.locator(".takeaways")).toContainText("Key takeaways");
+  });
+
+  test("中文详情页的语言切换保持同一 slug", async ({ page }) => {
     await page.goto("/projects/yolo-object-detection/");
     await page.locator(".lang-switch").click();
-    await expect(page).toHaveURL(/\/en\/projects\/$/);
+    await expect(page).toHaveURL(/\/en\/projects\/yolo-object-detection\/$/);
   });
 
   test("英文命令面板使用英文文案", async ({ page }) => {

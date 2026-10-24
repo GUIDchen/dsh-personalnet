@@ -1,0 +1,38 @@
+---
+title: "Transformer / Llama Pre-training and Fine-tuning"
+draft: false
+---
+
+## Background and problem
+
+I wanted to genuinely understand how large models are trained and fine-tuned, rather than only calling APIs. That required a controllable experimental environment that links data, training and evaluation, and can compare the impact of different hyperparameters.
+
+## Constraints
+
+- Compute was limited, so experiments had to stay within what a single GPU could complete.
+- Training took a long time, so experiments had to be interruptible and reproducible.
+- Evaluation could not look at loss alone; task-level metrics were needed.
+
+## Approach and architecture
+
+The experiments were split into three stages: data preparation, training/fine-tuning, and evaluation. Data was normalised into instruction or dialogue format, the training scripts supported configurable hyperparameters, and evaluation recorded both automatic metrics and manual spot-check results.
+
+## Key decisions
+
+- **Get it working small first**: validate the pipeline with a small model and a small dataset before scaling up.
+- **Externalised configuration**: hyperparameters and paths live in config files, and scripts are not hard-coded.
+- **RAG as a control**: learn the retrieval-augmented route alongside fine-tuning and compare where each approach fits.
+
+## Results and measurement
+
+Completed pre-training and fine-tuning experiments, producing reproducible training and evaluation scripts and recording performance differences across hyperparameters, laying a foundation for later large-model applications.
+
+## Technical details
+
+- Managed experiments around the Transformer/Llama pre-training and fine-tuning pipeline.
+- Compared evaluation results across hyperparameters such as learning rate, batch size and training steps.
+- Mapped out the RAG pipeline of retrieval, context assembly and generation.
+
+## Reflection
+
+The easiest thing to overlook in large-model experiments is evaluation. If I did it again, I would design the evaluation set and the manual scoring rubric before starting training.

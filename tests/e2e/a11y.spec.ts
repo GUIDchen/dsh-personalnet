@@ -24,6 +24,12 @@ const pages = [
   { path: "/en/security/", name: "English security" },
   { path: "/feed/", name: "订阅" },
   { path: "/en/feed/", name: "English subscribe" },
+  { path: "/experiments/", name: "实验" },
+  { path: "/en/experiments/", name: "English experiments" },
+  { path: "/timeline/", name: "时间线" },
+  { path: "/en/timeline/", name: "English timeline" },
+  { path: "/en/projects/yolo-object-detection/", name: "English project detail" },
+  { path: "/en/notes/why-astro-7/", name: "English note detail" },
   { path: "/admin/", name: "管理后台" },
   { path: "/404.html", name: "404" },
 ];

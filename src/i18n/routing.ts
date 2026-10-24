@@ -54,10 +54,11 @@ export function switchLanguagePath(pathname: string, target: Lang): string {
   }
   const rest = localWithoutLang(pathname);
   const detail = isDetailPath(pathname);
-  const section = rest.split("/")[0] ?? "";
 
   if (target === "en") {
-    if (detail) return ensureTrailingSlash(`${BASE}en/${section}/`.replace(/\/{2,}/g, "/"));
+    if (detail) {
+      return ensureTrailingSlash(`${BASE}en/${rest}`.replace(/\/{2,}/g, "/"));
+    }
     return rest
       ? ensureTrailingSlash(`${BASE}en/${rest}`.replace(/\/{2,}/g, "/"))
       : ensureTrailingSlash(`${BASE}en`.replace(/\/{2,}/g, "/"));
@@ -71,10 +72,9 @@ export interface Alternates {
   en?: string;
 }
 
-/** 仅当存在对等页面时输出 en alternate；项目/笔记详情没有英文版。 */
+/** 输出 zh/en alternate；详情页在 P1 完成后全部有英文正文。 */
 export function getAlternates(pathname: string, _lang: Lang): Alternates {
   const zh = switchLanguagePath(pathname, "zh");
-  if (isDetailPath(pathname)) return { zh };
   const en = switchLanguagePath(pathname, "en");
   return { zh, en };
 }

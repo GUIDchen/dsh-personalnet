@@ -1,0 +1,38 @@
+---
+title: "Multimodal Medical Data and AI-Assisted Diagnosis"
+draft: false
+---
+
+## Background and problem
+
+Medical data contains both images and text, and a single modality cannot cover the information a diagnosis requires. The research needed to align and clean both data types and extract usable features as input to assisted-diagnosis models.
+
+## Constraints
+
+- Medical data is sensitive, so processing had to be completed within a controlled environment.
+- Image quality and annotations are inconsistent, requiring unified preprocessing.
+- Multimodal alignment depends on medical record timestamps and examination information.
+
+## Approach and architecture
+
+The pipeline has four stages: data ingestion, preprocessing, feature extraction and alignment. Images are denoised, normalised and resized; text is structurally extracted; correspondences are then established by patient and by time.
+
+## Key decisions
+
+- **Standardised preprocessing**: fix the image preprocessing parameters first so different batches are comparable.
+- **Layered features**: low-level visual features and high-level semantic features are managed separately, making models easier to replace.
+- **De-identification first**: remove identifiable information before analysis, keeping only the fields needed for research.
+
+## Results and measurement
+
+Completed preprocessing and feature extraction for medical images and text, built a multimodal data processing pipeline, and provided a data foundation for subsequent assisted-diagnosis research.
+
+## Technical details
+
+- Preprocessed medical images with size, channel and intensity normalisation.
+- Cleaned, tokenised and extracted features from text, with unified sample alignment.
+- Built an image/text feature fusion pipeline to support assisted-diagnosis research.
+
+## Reflection
+
+The bottleneck in multimodal projects is often data alignment, not the model. If I did it again, I would establish a data dictionary and alignment rules before moving into modelling.

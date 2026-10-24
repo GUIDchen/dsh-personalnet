@@ -1,0 +1,234 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Lang } from "@/i18n";
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = "zh" } = Astro.props;
+const projectsHref = `${import.meta.env.BASE_URL}${lang === "en" ? "en/projects/" : "projects/"}`;
+const copy =
+  lang === "en"
+    ? {
+        kicker: "Experiments / WebGL",
+        title: "Field",
+        lead: "A small WebGL study: a perspective field reacts to time and pointer without a 3D library. It is intentionally isolated from the main reading experience.",
+        note: "Custom shader · no Three.js · reduced-motion aware",
+        fallback: "WebGL is unavailable. The static field below is the fallback.",
+        back: "Back to projects",
+      }
+    : {
+        kicker: "实验 / WebGL",
+        title: "场",
+        lead: "一个很小的 WebGL 实验：透视场随时间与指针变化，不引入 3D 库。它刻意与主阅读体验隔离。",
+        note: "自定义 shader · 无 Three.js · 尊重 reduced-motion",
+        fallback: "当前浏览器不支持 WebGL，下面显示静态降级。",
+        back: "返回项目库",
+      };
+---
+
+<BaseLayout title={copy.title} description={copy.lead} lang={lang}>
+  <header class="page-head">
+    <p class="mono-label">{copy.kicker}</p>
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+    <p class="note mono-label">{copy.note}</p>
+  </header>
+
+  <section class="stage" aria-label={copy.title}>
+    <canvas data-webgl-field width="1280" height="620" aria-label={copy.title}></canvas>
+    <div class="fallback" data-webgl-fallback hidden>
+      <span class="fallback-grid" aria-hidden="true"></span>
+      <p>{copy.fallback}</p>
+    </div>
+    <div class="stage-caption">
+      <span>WebGL / fragment shader</span>
+      <span>pointer + time</span>
+    </div>
+  </section>
+
+  <p class="back">
+    <a href={projectsHref}>{copy.back} →</a>
+  </p>
+</BaseLayout>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>("[data-webgl-field]");
+  const fallback = document.querySelector<HTMLElement>("[data-webgl-fallback]");
+
+  if (canvas && fallback) {
+    const gl = canvas.getContext("webgl", { alpha: true, antialias: true });
+    if (!gl) {
+      canvas.hidden = true;
+      fallback.hidden = false;
+    } else {
+      const vertexSource = "attribute vec2 a;void main(){gl_Position=vec4(a,0.0,1.0);}";
+      const fragmentSource = [
+        "precision mediump float;",
+        "uniform vec2 u_res;uniform float u_time;uniform vec2 u_mouse;",
+        "void main(){",
+        "vec2 uv=(gl_FragCoord.xy*2.0-u_res)/min(u_res.x,u_res.y);",
+        "uv.x+=u_mouse.x*0.12;uv.y+=u_mouse.y*0.08;",
+        "float wave=sin(uv.x*7.0+u_time*0.7)*cos(uv.y*6.0-u_time*0.45);",
+        "float grid=step(0.42,fract(uv.y*9.0+uv.x*0.6+wave*0.12));",
+        "float vignette=smoothstep(1.35,0.2,length(uv));",
+        "float line=1.0-smoothstep(0.0,0.07,abs(fract(uv.x*4.0+wave*0.2)-0.5));",
+        "vec3 accent=vec3(0.86,0.28,0.09);",
+        "vec3 base=vec3(0.96,0.94,0.90);",
+        "vec3 color=mix(base,accent,0.16+0.24*grid+0.12*line);",
+        "float alpha=(0.15+0.28*grid+0.12*line)*vignette;",
+        "gl_FragColor=vec4(color,alpha);",
+        "}",
+      ].join("");
+
+      const compile = (type: number, source: string) => {
+        const shader = gl.createShader(type);
+        if (!shader) throw new Error("shader");
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
+          throw new Error(gl.getShaderInfoLog(shader) ?? "shader");
+        return shader;
+      };
+
+      try {
+        const program = gl.createProgram();
+        if (!program) throw new Error("program");
+        gl.attachShader(program, compile(gl.VERTEX_SHADER, vertexSource));
+        gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragmentSource));
+        gl.linkProgram(program);
+        gl.useProgram(program);
+
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(program, "a");
+        gl.enableVertexAttribArray(loc);
+        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+        const uRes = gl.getUniformLocation(program, "u_res");
+        const uTime = gl.getUniformLocation(program, "u_time");
+        const uMouse = gl.getUniformLocation(program, "u_mouse");
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const start = performance.now();
+        const mouse = { x: 0, y: 0 };
+        let frame = 0;
+        let visible = true;
+
+        const resize = () => {
+          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          const rect = canvas.getBoundingClientRect();
+          canvas.width = Math.max(1, Math.floor(rect.width * ratio));
+          canvas.height = Math.max(1, Math.floor(rect.height * ratio));
+          gl.viewport(0, 0, canvas.width, canvas.height);
+        };
+
+        const draw = (now: number) => {
+          gl.uniform2f(uRes, canvas.width, canvas.height);
+          gl.uniform1f(uTime, (now - start) / 1000);
+          gl.uniform2f(uMouse, mouse.x, mouse.y);
+          gl.clearColor(0, 0, 0, 0);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+          if (!reduce && visible) frame = requestAnimationFrame(draw);
+        };
+
+        canvas.addEventListener("pointermove", (event) => {
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = (event.clientX - rect.left) / rect.width - 0.5;
+          mouse.y = 0.5 - (event.clientY - rect.top) / rect.height;
+        });
+
+        const observer = new IntersectionObserver(([entry]) => {
+          const wasVisible = visible;
+          visible = entry?.isIntersecting ?? false;
+          if (visible && !reduce && !wasVisible) frame = requestAnimationFrame(draw);
+          if (!visible) {
+            cancelAnimationFrame(frame);
+            frame = 0;
+          }
+        });
+        observer.observe(canvas);
+        window.addEventListener("resize", resize);
+        resize();
+        draw(start);
+      } catch {
+        canvas.hidden = true;
+        fallback.hidden = false;
+      }
+    }
+  }
+</script>
+
+<style>
+  .page-head {
+    max-width: 48rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+  h1 {
+    margin: 0.5rem 0 0.9rem;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    letter-spacing: -0.045em;
+  }
+  .lead {
+    margin: 0;
+    color: var(--muted);
+  }
+  .note {
+    margin: 1rem 0 0;
+  }
+  .stage {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    min-height: 220px;
+  }
+  .fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    text-align: center;
+    background: var(--bg);
+  }
+  .fallback p {
+    position: relative;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .fallback-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-image:
+      linear-gradient(color-mix(in oklch, var(--fg) 20%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklch, var(--fg) 20%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+    transform: perspective(500px) rotateX(55deg) scale(1.5);
+  }
+  .stage-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 0.85rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .back {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+  }
+</style>

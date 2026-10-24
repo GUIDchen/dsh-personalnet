@@ -30,7 +30,7 @@ const covers = import.meta.glob<{ default: ImageMetadata }>("../../assets/covers
 const cover = covers[`../../assets/covers/${id}.jpg`]?.default;
 const lqip = (placeholders as Record<string, string>)[id];
 const repo = data.links.repo;
-const href = `${import.meta.env.BASE_URL}projects/${id}/`;
+const href = `${import.meta.env.BASE_URL}${lang === "en" ? "en/" : ""}projects/${id}/`;
 ---
 
 <article class="project-card" data-project-card>

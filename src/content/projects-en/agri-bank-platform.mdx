@@ -1,0 +1,38 @@
+---
+title: "Agri-bank Platform for Rural E-commerce"
+draft: false
+---
+
+## Background and problem
+
+Supply and demand information for agricultural products is scattered across farmers, cooperatives and distribution channels, which makes matching inefficient. The platform needed to integrate multi-source data to support supply-demand matching and analysis.
+
+## Constraints
+
+- Data comes from a variety of sources, with inconsistent formats and update frequencies.
+- Network and device conditions are limited in rural settings, so the platform had to stay lightweight and usable.
+- The data involves business information, so the scope of data visibility had to be controlled.
+
+## Approach and architecture
+
+The data pipeline is organised as "collection — cleaning — integration — analysis": a unified data model is established, information is organised by subject (farmers, cooperatives, channels), and queries and analysis are then designed around the matching scenarios.
+
+## Key decisions
+
+- **Unified subject model**: define the subjects and their relationships first, then talk about features.
+- **Incremental updates**: design update strategies according to each data source's characteristics, avoiding full reruns.
+- **Analysis serves the scenario**: only build metrics related to matching, rather than chasing breadth.
+
+## Results and measurement
+
+Completed the collection, integration and analysis of agri-business data, supporting the data needs of precise matching scenarios and providing a data foundation for platform features.
+
+## Technical details
+
+- Used Pandas/SQL for collection, cleaning and field alignment of agri-business data.
+- Established supply-demand matching fields and statistical definitions for agricultural products and agri-business resources.
+- Covered data ingestion, integrated analysis and delivery of matching scenarios on the platform side.
+
+## Reflection
+
+The key to integrating multi-source data is master data management. If I did it again, I would establish master data and de-duplication rules before developing the analysis features.

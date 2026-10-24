@@ -1,24 +1,47 @@
 ---
 title: YOLO 目标检测工程实践
 summary: 从数据标注、增强到训练调参与评估，搭建一套可复用的目标检测流程，并完成结果可视化。
-titleEn: "YOLO Object Detection in Practice"
-summaryEn: "Built a reusable object detection pipeline from annotation and augmentation to training, tuning and evaluation, with result visualisation."
+titleEn: YOLO Object Detection in Practice
+summaryEn: Built a reusable object detection pipeline from annotation and augmentation to training, tuning and evaluation, with result visualisation.
 domain: computer-vision
 tags: [yolo, opencv, dataset]
 role: 独立实践
-timeframe: { start: "2023.09", end: "2024.01", ongoing: false }
+timeframe:
+  start: "2023.09"
+  end: "2024.01"
+  ongoing: false
 status: completed
 featured: true
 order: 1
-stack: [Python, PyTorch, YOLO, OpenCV]
+stack:
+  - Python
+  - PyTorch
+  - YOLO
+  - OpenCV
 metrics:
-  - { label: 数据规模, value: "3,000+", unit: 张 }
-  - { label: 迭代轮次, value: "40+", unit: 次 }
+  - label: 数据规模
+    value: 3,000+
+    unit: 张
+  - label: 迭代轮次
+    value: 40+
+    unit: 次
 highlights:
   - 标注、增强、训练与评估的完整链路
   - 配置集中在 YAML，实验可复现
   - 检测结果可视化用于人工复核
 draft: false
+roleEn: Independent practice
+highlightsEn:
+  - Full pipeline from annotation and augmentation to training and evaluation
+  - YAML-driven configurations for reproducible experiments
+  - Visualised detections for manual review
+metricsEn:
+  - label: Dataset size
+    value: 3,000+
+    unit: images
+  - label: Training runs
+    value: 40+
+    unit: runs
 ---
 
 ## 背景与问题

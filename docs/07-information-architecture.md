@@ -149,6 +149,8 @@ flowchart TD
 - 记录当前在做、在学、在找的三组状态；数据来自 `src/data/now.ts`。
 - 顶部有更新时间与指向 `/uses`、`/about` 的链接；不进入主导航，从页脚与首页 CTA 进入。
 - 安全页 `/security/` 与 `/en/security/` 从页脚进入；全站背景由 `SiteBackground` 环境层提供，不占内容层级。
+- 时间线 `/timeline/` 与实验 `/experiments/` 从页脚/命令面板进入，不占主导航。
+- 英文详情 `/en/projects/<slug>/`、`/en/notes/<slug>/` 与中文详情互为 hreflang。
 
 ### 3.10 工具 `/uses/`
 

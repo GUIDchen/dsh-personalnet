@@ -1,0 +1,369 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPublishedProjects } from "@/lib/content";
+import { DOMAIN_META } from "@/data/domains";
+import { TIMELINE } from "@/data/timeline";
+import { TIMELINE_EN } from "@/data/timeline.en";
+import type { Lang } from "@/i18n";
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = "zh" } = Astro.props;
+const projects = await getPublishedProjects();
+const timeline = lang === "en" ? TIMELINE_EN : TIMELINE;
+const copy =
+  lang === "en"
+    ? {
+        kicker: "Index / Timeline",
+        title: "Timeline",
+        lead: "Project periods, domain distribution and the work/education timeline. Static HTML — no chart library.",
+        projects: "Projects by period",
+        domains: "Domains",
+        experience: "Experience",
+        year: "Year",
+        project: "Project",
+        period: "Period",
+        domain: "Domain",
+        table: "Accessible data table",
+        back: "Projects",
+      }
+    : {
+        kicker: "索引 / 时间线",
+        title: "时间线",
+        lead: "项目周期、领域分布与工作/教育经历。静态 HTML 渲染，不依赖图表库。",
+        projects: "项目周期",
+        domains: "领域分布",
+        experience: "经历",
+        year: "年份",
+        project: "项目",
+        period: "周期",
+        domain: "领域",
+        table: "可访问数据表",
+        back: "项目库",
+      };
+
+const parseMonth = (value: string) => {
+  const [year, month] = value.split(".").map(Number);
+  return (year ?? 2016) + ((month ?? 1) - 1) / 12;
+};
+const minYear = 2016;
+const maxYear = 2027;
+const span = maxYear - minYear;
+const rows = [...projects]
+  .sort((a, b) => parseMonth(a.data.timeframe.start) - parseMonth(b.data.timeframe.start))
+  .map((project) => {
+    const start = parseMonth(project.data.timeframe.start);
+    const end = project.data.timeframe.ongoing
+      ? maxYear
+      : parseMonth(project.data.timeframe.end ?? project.data.timeframe.start);
+    const left = ((start - minYear) / span) * 100;
+    const width = Math.max(((end - start) / span) * 100, 1.5);
+    return { project, left, width, start, end };
+  });
+const domainCounts = Object.keys(DOMAIN_META)
+  .map((id) => ({
+    id,
+    label: DOMAIN_META[id as keyof typeof DOMAIN_META][lang === "en" ? "labelEn" : "label"],
+    count: projects.filter((project) => project.data.domain === id).length,
+  }))
+  .filter((item) => item.count > 0);
+const maxCount = Math.max(...domainCounts.map((item) => item.count), 1);
+const years = Array.from({ length: maxYear - minYear }, (_, index) => minYear + index);
+const base = import.meta.env.BASE_URL;
+const projectsHref = `${base}${lang === "en" ? "en/projects/" : "projects/"}`;
+---
+
+<BaseLayout title={copy.title} description={copy.lead} lang={lang}>
+  <header class="page-head">
+    <p class="mono-label">{copy.kicker}</p>
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+    <p class="back">
+      <a href={projectsHref}>{copy.back} →</a>
+    </p>
+  </header>
+
+  <section class="panel" aria-labelledby="projects-title">
+    <h2 id="projects-title">{copy.projects}</h2>
+    <div class="axis" aria-hidden="true">
+      {years.map((year) => (
+        <span>{year}</span>
+      ))}
+    </div>
+    <ol class="gantt">
+      {rows.map(({ project, left, width }) => (
+        <li>
+          <div class="gantt-label">
+            <a href={`${base}${lang === "en" ? "en/" : ""}projects/${project.id}/`}>
+              {lang === "en" ? (project.data.titleEn ?? project.data.title) : project.data.title}
+            </a>
+            <span>
+              {project.data.timeframe.start} —{" "}
+              {project.data.timeframe.ongoing
+                ? lang === "en"
+                  ? "present"
+                  : "至今"
+                : project.data.timeframe.end}
+            </span>
+          </div>
+          <div class="track" aria-hidden="true">
+            <span
+              class="bar"
+              data-domain={project.data.domain}
+              style={`left:${left}%;width:${width}%`}
+            ></span>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="panel" aria-labelledby="domains-title">
+    <h2 id="domains-title">{copy.domains}</h2>
+    <ul class="domains">
+      {domainCounts.map((item) => (
+        <li>
+          <span>{item.label}</span>
+          <span class="domain-bar" style={`--value:${(item.count / maxCount) * 100}%`}></span>
+          <b>{item.count}</b>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="panel" aria-labelledby="experience-title">
+    <h2 id="experience-title">{copy.experience}</h2>
+    <ol class="experience">
+      {timeline.map((item) => (
+        <li>
+          <span>{item.period}</span>
+          <div>
+            <strong>{item.title}</strong>
+            <small>{item.org}</small>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <details class="panel table-panel">
+    <summary>{copy.table}</summary>
+    <table>
+      <thead>
+        <tr>
+          <th>{copy.project}</th>
+          <th>{copy.period}</th>
+          <th>{copy.domain}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(({ project }) => (
+          <tr>
+            <td>
+              {lang === "en" ? (project.data.titleEn ?? project.data.title) : project.data.title}
+            </td>
+            <td>
+              {project.data.timeframe.start} —{" "}
+              {project.data.timeframe.ongoing ? "present" : project.data.timeframe.end}
+            </td>
+            <td>{DOMAIN_META[project.data.domain][lang === "en" ? "labelEn" : "label"]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </details>
+</BaseLayout>
+
+<style>
+  .page-head {
+    max-width: 48rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+  h1 {
+    margin: 0.5rem 0 0.9rem;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    letter-spacing: -0.045em;
+  }
+  .lead {
+    margin: 0;
+    color: var(--muted);
+  }
+  .back {
+    margin: 1rem 0 0;
+    font-size: 0.875rem;
+  }
+  .panel {
+    margin-top: 1.5rem;
+    padding: clamp(1rem, 2.5vw, 1.4rem);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-raised);
+  }
+  .panel h2 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+  }
+  .axis {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 0.5rem;
+    margin-left: 12rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+  }
+  .gantt {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .gantt li {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .gantt-label {
+    display: grid;
+    gap: 0.15rem;
+    font-size: 0.82rem;
+  }
+  .gantt-label span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+  .track {
+    position: relative;
+    height: 1.15rem;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    opacity: 0.8;
+  }
+  .bar[data-domain="computer-vision"] {
+    background: oklch(0.65 0.14 30);
+  }
+  .bar[data-domain="ai-llm"] {
+    background: oklch(0.6 0.12 280);
+  }
+  .bar[data-domain="data-analytics"] {
+    background: oklch(0.65 0.1 190);
+  }
+  .bar[data-domain="embedded-systems"] {
+    background: oklch(0.62 0.1 130);
+  }
+  .bar[data-domain="infrastructure"] {
+    background: oklch(0.6 0.08 250);
+  }
+  .bar[data-domain="web-engineering"] {
+    background: oklch(0.64 0.12 60);
+  }
+  .bar[data-domain="research"] {
+    background: oklch(0.62 0.1 330);
+  }
+  .domains {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .domains li {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr) 2rem;
+    gap: 0.75rem;
+    align-items: center;
+    font-size: 0.82rem;
+  }
+  .domain-bar {
+    height: 0.55rem;
+    width: var(--value);
+    min-width: 2px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+  .domains b {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 400;
+    text-align: right;
+  }
+  .experience {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .experience li {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 0.75rem;
+    font-size: 0.82rem;
+  }
+  .experience span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+  }
+  .experience div {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .experience small {
+    color: var(--muted);
+  }
+  .table-panel summary {
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 0.45rem;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+  }
+  @media (max-width: 760px) {
+    .axis {
+      display: none;
+    }
+    .gantt li {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+    .gantt-label span {
+      display: block;
+    }
+    .domains li {
+      grid-template-columns: 8rem minmax(0, 1fr) 2rem;
+    }
+    .experience li {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+title: "Content Health: Turning Gaps into Todos"
+draft: false
+---
+
+## The problem
+
+The thing a content site fears most is looking finished: the page opens, but the case study has no screenshots, no repository and no verifiable metrics. Relying on human memory, things are easily missed.
+
+## The approach
+
+Five items are computed for each published project:
+
+1. GitHub source;
+2. Cover;
+3. Gallery;
+4. Metrics;
+5. Demo / paper / docs.
+
+The dashboard summarizes completeness and lists the missing items, with links that jump straight to the corresponding CMS entry. A gap is not a build error but a content todo; projects without evidence do not get fabricated links or screenshots.
+
+## Why at build time
+
+Health is a function of the content and needs no database. Astro reads the content collection at build time, computes the statistics and outputs them statically; the admin needs no extra API, and no token is ever put into the browser.
+
+## Limits
+
+- It can only check "whether it exists", not judge "whether it is good".
+- Metrics and links must be supplied by the author; the scripts do not guess.
+- Once older content is filled in, the next build updates automatically.
+
+## Implementation index
+
+- `src/pages/admin/index.astro`: evidence completeness and the missing-item list.
+- `scripts/content-audit.mjs`: a command-line evidence table.
+- `scripts/health-report.mjs`: scheduled health reports.

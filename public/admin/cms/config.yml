@@ -52,7 +52,9 @@ collections:
           hint: "小写字母、数字与连字符，1–6 个",
         }
       - { label: 角色, name: role, widget: string, hint: "40 字以内" }
+      - { label: Role (English), name: roleEn, widget: string, required: false }
       - { label: 团队, name: team, widget: string, required: false, hint: "选填，60 字以内" }
+      - { label: Team (English), name: teamEn, widget: string, required: false }
       - label: 时间
         name: timeframe
         widget: object
@@ -126,6 +128,16 @@ collections:
           max: 4,
           hint: "每条 80 字以内",
         }
+      - { label: Highlights (English), name: highlightsEn, widget: list, required: false, max: 4 }
+      - label: Metrics (English)
+        name: metricsEn
+        widget: list
+        required: false
+        max: 4
+        fields:
+          - { label: Label, name: label, widget: string }
+          - { label: Value, name: value, widget: string }
+          - { label: Unit, name: unit, widget: string, required: false }
       - { label: 草稿, name: draft, widget: boolean, default: false }
       - label: SEO
         name: seo
@@ -160,6 +172,13 @@ collections:
           widget: list,
           required: false,
           hint: "2–4 条，每篇详情页顶部",
+        }
+      - {
+          label: Key takeaways (English),
+          name: takeawaysEn,
+          widget: list,
+          required: false,
+          hint: "2–4 条英文",
         }
       - {
           label: 日期,
@@ -320,6 +339,30 @@ collections:
               - { label: Organisation, name: org, widget: string }
               - { label: Kind, name: kind, widget: select, options: [工作, 教育, 科研] }
               - { label: Detail, name: detail, widget: text, required: false }
+
+  - name: projectBodiesEn
+    label: 项目英文正文
+    folder: src/content/projects-en
+    extension: mdx
+    format: yaml-frontmatter
+    create: true
+    identifier_field: title
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: noteBodiesEn
+    label: 笔记英文正文
+    folder: src/content/notes-en
+    extension: mdx
+    format: yaml-frontmatter
+    create: true
+    identifier_field: title
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
 
   - name: github
     label: GitHub 项目

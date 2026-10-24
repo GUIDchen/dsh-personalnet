@@ -37,6 +37,25 @@
 - RSS 笔记 `pubDate` 原来只保留年月，统一变成每月 1 日；现在保留完整日期（如 2026-10-23）。
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [2.9.0] - 2026-10-24
+
+英文正文、Cloudflare 安全头与 P2 实验/时间线。
+
+### Added
+
+- 12 个项目、6 篇笔记的独立英文正文与 `/en/projects/<slug>/`、`/en/notes/<slug>/` 路由；hreflang 双向、语言切换保持同一 slug。
+- 英文侧栏字段 roleEn/teamEn/highlightsEn/metricsEn/takeawaysEn 与 Sveltia 英文正文 collections。
+- Cloudflare 响应头 CSP/HSTS/COOP；GitHub Pages 继续 meta CSP。
+- `pnpm perf:scroll` 滚动帧率探测与本机结果。
+- `/experiments/` WebGL 实验页：自定义 shader、IntersectionObserver、无 WebGL/reduced-motion 降级。
+- `/timeline/` 静态项目周期/领域分布/经历时间线与可访问表格。
+- `check:translations` 中英文完整性检查（18/18）。
+
+### Changed
+
+- 安全页/文档更新 CSP 现状；健康检查 15 项。
+- E2E 96、axe 30、LHCI 17。
+
 ## [2.8.0] - 2026-10-24
 
 网络攻击面、并发与信息展示审计。

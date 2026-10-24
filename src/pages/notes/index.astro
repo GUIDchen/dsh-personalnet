@@ -48,7 +48,7 @@ const projectsHref = localizePath("projects/", lang);
       <ol class="notes">
         {notes.map((note) => (
           <li>
-            <a href={`${base}notes/${note.id}/`}>
+            <a href={`${base}${lang === "en" ? "en/" : ""}notes/${note.id}/`}>
               <span class="date">{note.data.date}</span>
               <span class="body">
                 <span

@@ -1,15 +1,19 @@
 ---
 title: 给静态站点加一个媒体工作流
 summary: 用 Sveltia 的图片字段把封面与图库上传到 public/media，并在 Astro 里统一解析子路径与尺寸约束。
-titleEn: "A Media Workflow for a Static Site"
-summaryEn: "Using Sveltia image fields to upload covers and galleries to public/media, with base-path handling and size limits in Astro."
+titleEn: A Media Workflow for a Static Site
+summaryEn: Using Sveltia image fields to upload covers and galleries to public/media, with base-path handling and size limits in Astro.
 date: "2026-10-23"
 tags: [astro, cms, media]
 takeaways:
-  - "CMS 图片存 public/media，路径简单。"
-  - "ProjectMedia 统一补 BASE_URL。"
-  - "用体积预算换掉构建期优化。"
+  - CMS 图片存 public/media，路径简单。
+  - ProjectMedia 统一补 BASE_URL。
+  - 用体积预算换掉构建期优化。
 draft: false
+takeawaysEn:
+  - CMS images live in public/media with simple paths.
+  - ProjectMedia adds BASE_URL consistently.
+  - Trade build-time optimisation for a size budget.
 ---
 
 ## 背景

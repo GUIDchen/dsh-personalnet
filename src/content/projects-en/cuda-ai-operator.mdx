@@ -1,0 +1,38 @@
+---
+title: "CUDA Parallel Computing and AI Operator Practice"
+draft: false
+---
+
+## Background and problem
+
+Performance bottlenecks in model training and inference often land at the operator layer. I wanted to understand the GPU execution model by writing CUDA operators by hand, rather than staying at the level of calling framework APIs.
+
+## Constraints
+
+- A learning exercise with fragmented time.
+- Local GPU resources are limited, so experiments are small in scale.
+- Needed to integrate with the PyTorch ecosystem to verify correctness.
+
+## Approach and architecture
+
+Starting from basic operators such as vector addition and matrix multiplication, then gradually moving to normalisation and activation functions; each operator includes a naive implementation, a shared-memory optimisation and a correctness check.
+
+## Key decisions
+
+- **Correctness before speed**: use the CPU implementation as the baseline and optimise step by step.
+- **Optimise layer by layer**: improve in stages across thread organisation, memory access and instruction-level parallelism.
+- **Numerical alignment**: compare against PyTorch results and keep the error within a controlled range.
+
+## Results and measurement
+
+Completed CUDA parallel computing and operator optimisation exercises, producing reusable experimental code and notes that lay a foundation for edge-side and inference optimisation.
+
+## Technical details
+
+- Organised kernels by thread hierarchy and shared memory, comparing global memory access patterns.
+- Used tiled matrix multiplication to practise tiling, boundary handling and coalesced memory access.
+- Interpreted operator performance bottlenecks in terms of GPU memory bandwidth and occupancy.
+
+## Reflection
+
+Operator optimisation needs profiling tooling, not intuition. Next I will systematically learn to use tools such as Nsight.

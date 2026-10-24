@@ -1,0 +1,40 @@
+---
+title: "Poverty Relapse Monitoring and Governance Model"
+draft: false
+---
+
+## Background and problem
+
+Poverty relapse risk in rural western China is multi-factor and spans multiple periods. The research needed to integrate scattered social differentiation data into a computable indicator system before it could support risk identification and governance decisions.
+
+## Constraints
+
+- Data sources are scattered with inconsistent definitions, requiring cleaning and alignment first.
+- The research period is long (2024–2027), so the workflow must be reusable and transferable.
+- Individual and household information is involved, so analysis and presentation must be de-identified.
+
+## Approach and architecture
+
+The work advances through four layers — "identification → mechanism → intervention → management": the base layer is data collection and cleaning, the middle layer is classification prediction and cluster analysis, and the top layer is the explanation and presentation of governance decisions.
+
+## Key decisions
+
+- **Indicator system first**: determine which fields are obtainable, then design the model, avoiding "the model waiting for data".
+- **Scripted workflow**: cleaning, feature and evaluation scripts are organised in stages so experiments stay reproducible.
+- **Explanation first**: governance scenarios need interpretable results, so models and features with better interpretability are preferred.
+
+## Results and measurement
+
+Produced a reusable workflow for data collection, cleaning and modelling that supports classification prediction, cluster analysis and individual identification experiments, providing a data and methodology foundation for further research.
+
+> Specific indicators and conclusions are subject to the project team's published results; unpublished data is not shown on this site.
+
+## Technical details
+
+- Broke social differentiation data down into indicator definitions that can be collected and cleaned.
+- Validated risk stratification through classification prediction, cluster analysis and individual identification experiments.
+- Used SPSS/Stata for statistical testing and result verification.
+
+## Reflection
+
+The biggest cost in a multi-year project is drift in data definitions. If I did it again, I would lock down the data dictionary and version management in the first year to reduce alignment work later.

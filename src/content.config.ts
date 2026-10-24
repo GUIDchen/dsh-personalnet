@@ -36,7 +36,9 @@ const projects = defineCollection({
       .min(1)
       .max(6),
     role: z.string().max(40),
+    roleEn: z.string().max(80).optional(),
     team: z.string().max(60).optional(),
+    teamEn: z.string().max(100).optional(),
     timeframe,
     status: z.enum(["active", "completed", "archived", "experimental"]),
     featured: z.boolean().default(false),
@@ -65,6 +67,11 @@ const projects = defineCollection({
       .max(4)
       .default([]),
     highlights: z.array(z.string().max(80)).max(4).default([]),
+    highlightsEn: z.array(z.string().max(120)).max(4).optional(),
+    metricsEn: z
+      .array(z.object({ label: z.string(), value: z.string(), unit: z.string().optional() }))
+      .max(4)
+      .optional(),
     draft: z.boolean().default(false),
     seo: z
       .object({
@@ -92,6 +99,7 @@ const notes = defineCollection({
     summary: z.string().min(20).max(200),
     summaryEn: z.string().min(20).max(240).optional(),
     takeaways: z.array(z.string().min(4).max(80)).max(4).optional(),
+    takeawaysEn: z.array(z.string().min(4).max(120)).max(4).optional(),
     date: noteDate,
     tags: z
       .array(z.string().regex(/^[a-z0-9-]+$/))
@@ -101,4 +109,25 @@ const notes = defineCollection({
   }),
 });
 
-export const collections = { projects, notes };
+const projectBodiesEn = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/projects-en" }),
+  schema: z.object({
+    title: z.string().min(2).max(120),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const noteBodiesEn = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/notes-en" }),
+  schema: z.object({
+    title: z.string().min(2).max(120),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = {
+  projects,
+  notes,
+  "projects-en": projectBodiesEn,
+  "notes-en": noteBodiesEn,
+};

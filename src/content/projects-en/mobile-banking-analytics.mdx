@@ -1,0 +1,38 @@
+---
+title: "Mobile Banking User Behavior Analytics"
+draft: false
+---
+
+## Background and problem
+
+Mobile banking user behaviour is spread across multiple business stages, with inconsistent definitions and missing fields, making it hard to support business judgement directly. A stable data processing pipeline had to be established before any statistical analysis.
+
+## Constraints
+
+- The data is sensitive and was processed only within a controlled environment, with no raw records shared externally.
+- Business fields change with each release, so the cleaning logic had to be maintainable.
+- Analysis conclusions had to be understandable to non-technical colleagues.
+
+## Approach and architecture
+
+The workflow has four stages: collection, cleaning, metric calculation and statistical analysis. Field naming and time conventions were unified, reusable cleaning scripts were established, and metrics and reports were then organised around business questions.
+
+## Key decisions
+
+- **Documented definitions**: every metric states its definition and data source, avoiding the same name meaning different things.
+- **Layered scripts**: collection, cleaning and analysis are kept separate so each can be rerun independently.
+- **Explainable results**: prefer statistical methods the business can understand, with complex models used only as a supplement.
+
+## Results and measurement
+
+Established a reusable workflow for data collection, cleaning and statistical analysis that supports business decisions; specific business metrics are not disclosed on this site.
+
+## Technical details
+
+- Extracted features such as transactions, logins and feature usage from behaviour logs.
+- Used Pandas/SQL for cleaning, aggregation and segmented statistics.
+- Used classification/clustering results to explain user segments and business differences.
+
+## Reflection
+
+Definition drift across periods is the biggest cost. If I did it again, I would establish a field dictionary and version records before starting the analysis.

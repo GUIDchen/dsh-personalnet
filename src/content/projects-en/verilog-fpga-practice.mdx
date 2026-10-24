@@ -1,0 +1,38 @@
+---
+title: "Verilog / SystemVerilog and FPGA Practice"
+draft: false
+---
+
+## Background and problem
+
+After working on software and algorithms for a long time, I wanted to understand how hardware-level implementation works: how timing, parallelism and resource constraints shape a design.
+
+## Constraints
+
+- Mostly self-study, without a complete project environment.
+- Had to balance synthesizability against timing constraints.
+- The verification methodology (UVM) has a steep learning curve.
+
+## Approach and architecture
+
+Starting from the fundamentals of combinational and sequential logic, progressively completing modules such as counters, state machines and UART transceivers. Each module comes with a testbench, followed by learning the UVM verification structure.
+
+## Key decisions
+
+- **Small modules as drivers**: each concept maps to one synthesizable module.
+- **Verification in sync**: write the testbench while writing the design, avoiding "simulating without verifying".
+- **Contrast with software thinking**: use state machines and pipelines to mirror control flow and parallelism in software.
+
+## Results and measurement
+
+Completed the HDL fundamentals and FPGA flow exercises, producing synthesizable modules and test cases that lay a foundation for the hardware implementation of edge AI.
+
+## Technical details
+
+- Described and verified timing behaviour with state machines and testbenches.
+- Practised the stimulus, checking and coverage concepts of SystemVerilog/UVM.
+- Worked through the FPGA flow of synthesis, constraints, implementation and timing checks.
+
+## Reflection
+
+Hardware design has a longer feedback loop, and debugging relies more on waveforms. Next I will run one complete closed loop of "design — synthesis — implementation — on-board".

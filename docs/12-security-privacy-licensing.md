@@ -30,7 +30,8 @@ GitHub Pages 不能设置响应头。当前通过 `BaseLayout` 注入 meta CSP�
 - `frame-ancestors` 在 meta 中会被浏览器忽略，真正的点击劫持防护需要响应头。
 - 未使用 Astro `security.csp` 的 hash 方案，因为后台需要 unpkg 与 API；这是后续可评估的强化项。
 - 若启用 Umami，将域名加入 `script-src` 与 `connect-src`。
-- `public/_headers` 为 Cloudflare/Netlify 预留 nosniff、X-Frame-Options、Referrer-Policy、Permissions-Policy、admin X-Robots 与 _astro 长缓存；GitHub Pages 会忽略该文件。
+- Cloudflare Pages 通过 `public/_headers` 启用 CSP 响应头、HSTS、X-Frame-Options、Referrer-Policy、Permissions-Policy、COOP、admin X-Robots 与 _astro 长缓存；GitHub Pages 忽略该文件，仅使用 meta CSP。
+- Cloudflare 的 header CSP 是 admin 兼容超集；public 的 meta CSP 更严格，两者取交集。
 
 ## 3. 依赖策略
 

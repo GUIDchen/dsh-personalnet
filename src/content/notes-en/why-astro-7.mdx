@@ -1,0 +1,34 @@
+---
+title: "Why This Site Uses Astro 7"
+draft: false
+---
+
+## Requirements
+
+The core of this site is not an "app" but "content": a personal introduction, 12 project case studies, and a handful of technical notes. The only interactions are filtering, sorting, search, theme and a lightbox — no login, no database, no runtime backend.
+
+The requirements come down to four: content must be constrained by a type system, the first screen must be fast, deployment must require zero ops, and it must still be upgradeable five years from now.
+
+## Comparison
+
+Among the candidates, Next.js has the largest ecosystem, but bringing RSC and a caching model to static content adds more conceptual burden and default JS size than needed; Nuxt's content capabilities are close to Astro's, at the cost of default hydration; Hugo builds fastest, but its template expressiveness and componentization are insufficient, and a custom design means writing a lot of hand-written JS.
+
+Astro's fit is direct: zero client JS by default, content collections validated at build time with Zod, and islands to partially activate only where interaction is needed. Its assumption of a "content site plus a little interaction" matches this project exactly.
+
+## Trade-offs
+
+Choosing Astro 7 also means accepting its changes: 7.0 replaced the previous remark/rehype pipeline with Vite 8, a Rust compiler and Sätteri. For projects that do not depend on remark plugins this is almost invisible; but when plugins are needed, you have to switch back to unified explicitly.
+
+Another constraint is the toolchain: TypeScript 7 is already npm latest, but the type-checking and lint ecosystem has not caught up, so the project pins TypeScript 6.0.3 and writes the upgrade conditions into an ADR.
+
+## Conclusion
+
+Framework choice is not about "who is strongest" but "whose defaults are closest to your problem". This site's defaults are static, content-first and low-interaction, and Astro 7 turns exactly those defaults into the product.
+
+The related decisions are recorded in ADR 0001, 0004 and 0011.
+
+## Implementation index
+
+- `astro.config.mjs`: static output, site and integration configuration.
+- `src/content.config.ts`: Content Collections and the Zod schema.
+- `src/layouts/BaseLayout.astro`: SEO, theme, fonts and route layout.

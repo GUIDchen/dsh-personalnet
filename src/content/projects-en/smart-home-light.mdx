@@ -1,0 +1,38 @@
+---
+title: "Smart Home Lighting Control System"
+draft: false
+---
+
+## Background and problem
+
+I wanted to validate the smallest closed loop of "controlling hardware from a web page": the browser issues a command, the microcontroller performs the action, and the state is fed back to the page.
+
+## Constraints
+
+- Hardware resources were limited, and the microcontroller had to handle both communication and IO control.
+- The development period was short (about 1 month), so getting the main path working came first.
+- Basic error handling was needed to prevent lost commands from causing inconsistent state.
+
+## Approach and architecture
+
+The system has three layers: the web control side, the communication layer, and the microcontroller execution side. The web page sends control commands, the communication layer forwards them, and after parsing, the microcontroller drives the relay and returns the state.
+
+## Key decisions
+
+- **Minimal protocol**: custom short commands to reduce the parsing complexity on the microcontroller.
+- **State feedback**: return the actual state after every action, and let the page treat that as authoritative.
+- **Retry on failure**: when communication fails, the page notifies the user and allows the command to be resent.
+
+## Results and measurement
+
+Completed linked control between the web page and the microcontroller, implemented light switching and state feedback, and ran the full path from page to hardware.
+
+## Technical details
+
+- The web page sends lighting control commands to the microcontroller through an interface.
+- The microcontroller handles GPIO output and switch state feedback.
+- Integrated and tested the full path of page actions, device response and state synchronisation.
+
+## Reflection
+
+This project taught me what "end to end" means: behind a single button on a page sit protocol, timing and hardware state. If I did it again, I would add heartbeat and reconnection mechanisms.

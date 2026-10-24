@@ -1,0 +1,38 @@
+---
+title: "JavaWeb Personal Blog System"
+draft: false
+---
+
+## Background and problem
+
+The graduation project required going through the full software engineering process end to end: from requirements analysis to database design, coding, testing and documentation, rather than just writing a few pages.
+
+## Constraints
+
+- Solo work over roughly 8 months, so scope had to be controlled.
+- The tech stack was limited to the JavaWeb ecosystem.
+- The system had to be demonstrable, deployable and backed by complete documentation.
+
+## Approach and architecture
+
+A classic three-tier structure: presentation layer (JSP/Servlet), business layer, and data access layer (MySQL). The core modules were article management, search and comments, with permissions distinguishing visitors from administrators.
+
+## Key decisions
+
+- **Scope convergence**: no multi-user support and no rich text editor, to keep the core path high quality.
+- **Database first**: design the table structures and relationships before writing business code.
+- **Documentation in step**: requirements, design and test documents were updated alongside development and eventually became the thesis.
+
+## Results and measurement
+
+Completed the article publishing, search and comment modules; the system passed functional testing and could be deployed and run, resulting in a graduation thesis of more than 19,000 characters together with supporting documentation.
+
+## Technical details
+
+- Split controllers, views and data access according to the Servlet/JSP MVC layering.
+- Designed the table structures and indexes for articles, comments and search.
+- Covered CRUD, paginated search, comment submission and frontend-backend integration.
+
+## Reflection
+
+This was the first time I completed an "engineering" project rather than a "homework" exercise. If I did it again, I would use version control and automated tests instead of manual regression, and I would validate deployment earlier.

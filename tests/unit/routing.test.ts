@@ -27,11 +27,14 @@ describe("i18n routing", () => {
     expect(switchLanguagePath("/en/about/", "zh")).toBe("/about/");
   });
 
-  it("详情页回退到列表", () => {
+  it("详情页切换语言保持同一 slug", () => {
     expect(isDetailPath("/projects/yolo/")).toBe(true);
-    expect(switchLanguagePath("/projects/yolo/", "en")).toBe("/en/projects/");
-    expect(switchLanguagePath("/notes/why-astro-7/", "en")).toBe("/en/notes/");
-    expect(getAlternates("/projects/yolo/", "zh")).toEqual({ zh: "/projects/yolo/" });
+    expect(switchLanguagePath("/projects/yolo/", "en")).toBe("/en/projects/yolo/");
+    expect(switchLanguagePath("/notes/why-astro-7/", "en")).toBe("/en/notes/why-astro-7/");
+    expect(getAlternates("/projects/yolo/", "zh")).toEqual({
+      zh: "/projects/yolo/",
+      en: "/en/projects/yolo/",
+    });
   });
 
   it("列表页有中英文对等链接", () => {

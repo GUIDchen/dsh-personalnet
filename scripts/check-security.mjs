@@ -24,6 +24,9 @@ if (!layout.includes("Content-Security-Policy")) errors.push("BaseLayout 缺少 
 if (exists("public/_headers")) {
   const headers = read("public/_headers");
   for (const header of [
+    "Content-Security-Policy",
+    "Strict-Transport-Security",
+    "Cross-Origin-Opener-Policy",
     "X-Content-Type-Options",
     "X-Frame-Options",
     "Permissions-Policy",

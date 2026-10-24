@@ -38,6 +38,7 @@ jobs:
       - run: pnpm check:security
       - run: pnpm check:perf
       - run: pnpm check:privacy
+      - run: pnpm check:translations
       - run: pnpm check:admin
       - run: pnpm check:contrast
       - run: pnpm test:integration

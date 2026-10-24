@@ -42,7 +42,14 @@ const repos = [...githubData.repos].sort((a, b) => {
   if (a.featured !== b.featured) return a.featured ? -1 : 1;
   return a.order - b.order;
 });
-const resourceCategories = new Set(["工具 / 数据", "教育 / 文档", "教育 / 网络"]);
+const resourceCategories = new Set([
+  "工具 / 数据",
+  "工具 / 移动",
+  "工具 / 学习",
+  "工具 / 摄影",
+  "教育 / 文档",
+  "教育 / 网络",
+]);
 const groups = [
   {
     key: "engineering",

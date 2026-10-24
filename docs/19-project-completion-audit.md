@@ -19,7 +19,7 @@
 | 技术笔记 | ✅ 超出 | 6 篇，含关键要点、实现索引、相关笔记 |
 | 管理后台 | ✅ 超出（原非目标） | 仪表盘、Sveltia token-only、媒体、证据、GitHub 源 |
 | 中英文 | ✅ UI 完成，正文部分 | /en/ 路由、hreflang、英文标题摘要；正文仍中文 |
-| GitHub 项目索引 | ✅ 超出 | /github/、10 个 curated 仓库、Actions 同步 |
+| GitHub 项目索引 | ✅ 超出 | /github/、14 个 curated 仓库、Actions 同步 |
 | 元数据 | ✅ 完成 | sitemap、RSS、JSON Feed、robots、JSON-LD、OG、projects.json |
 | 部署上线 | ✅ 完成 | GitHub Pages，v2.0–v2.6 tag/release |
 | 自动化 | ✅ 完成 | CI、维护 workflow、健康报告 14 项、安全/性能/隐私检查 |

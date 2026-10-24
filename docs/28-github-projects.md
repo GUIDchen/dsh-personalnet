@@ -49,7 +49,7 @@
 | `pnpm sync:github` | 拉取 GitHub 元数据并生成 JSON |
 | `pnpm check:github` | 源/生成一致、字段、URL、重复项 |
 | `pnpm check:admin` | CMS 的 github collection 指向源文件 |
-| E2E | 10 个卡片、外链属性、英文摘要、页脚/后台入口 |
+| E2E | 14 个卡片、外链属性、英文摘要、页脚/后台入口 |
 
 ## 6. 边界
 

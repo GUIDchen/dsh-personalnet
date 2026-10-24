@@ -30,6 +30,7 @@
 - 公开界面移除 DSH 相关仓库与文案，GitHub 项目索引 13 → 10。
 - 页脚移除 MIT/开源文案，改为“保留所有权利”；About 关注方向移除“开源”。
 - GitHub 索引分为“工程与产品 / 工具与学习资料”，项目库与 GitHub 卡片改为 2 列；视觉复核记录在 docs/18 第 8 节。
+- 按用户要求恢复 4 个 DSH 仓库到 GitHub 索引（显示名去 DSH 前缀）：Personal Site、iPhone Remote、Learn CLI、Photo Archive；索引 10 → 14。
 
 ### Fixed
 

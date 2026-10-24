@@ -198,12 +198,27 @@
       ]
     },
     {
+      "repo": "dsh-personalnet",
+      "name": "Personal Site",
+      "summaryZh": "个人网站：项目、笔记与 CV，Astro 7 静态输出、中英文界面与质量门禁。",
+      "summaryEn": "Personal website with projects, notes and CV: Astro 7 static output, bilingual UI and quality gates.",
+      "category": "Web / 内容",
+      "order": 9,
+      "featured": false,
+      "language": "Astro",
+      "stars": 0,
+      "updatedAt": "2026-10-24",
+      "url": "https://github.com/GUIDchen/dsh-personalnet",
+      "homepage": "https://GUIDchen.github.io/dsh-personalnet/",
+      "topics": ["astro", "i18n", "personal-website", "portfolio", "static-site", "typescript"]
+    },
+    {
       "repo": "ruankao-network-engineer",
       "name": "Ruankao Network Engineer",
       "summaryZh": "软考中级网络工程师真题研究与考点精讲：42 页资料、27 道真题精析、十大知识域与可复现构建链。",
       "summaryEn": "Study of China's network-engineer exam: 42 pages, 27 worked questions, ten knowledge domains and a reproducible build.",
       "category": "教育 / 网络",
-      "order": 9,
+      "order": 10,
       "featured": false,
       "language": "Python",
       "stars": 0,
@@ -224,12 +239,37 @@
       ]
     },
     {
+      "repo": "dsh-iphone-mobile",
+      "name": "iPhone Remote",
+      "summaryZh": "从 iPhone 远程控制本地 DeepSeek Harness：零依赖网关、PWA、推送通知与 token 鉴权。",
+      "summaryEn": "Remote-control a local DeepSeek Harness from iPhone: zero-dependency gateway with PWA, push notifications and token auth.",
+      "category": "工具 / 移动",
+      "order": 11,
+      "featured": false,
+      "language": "JavaScript",
+      "stars": 0,
+      "updatedAt": "2026-10-23",
+      "url": "https://github.com/GUIDchen/dsh-iphone-mobile",
+      "homepage": "",
+      "topics": [
+        "cloudflare-tunnel",
+        "deepseek-harness",
+        "dsh",
+        "ios",
+        "nodejs",
+        "pwa",
+        "remote-control",
+        "tailscale",
+        "web-push"
+      ]
+    },
+    {
       "repo": "verilog-learning",
       "name": "Verilog Learning",
       "summaryZh": "Verilog / SystemVerilog 与 FPGA 学习实践。",
       "summaryEn": "Verilog/SystemVerilog and FPGA learning practice.",
       "category": "硬件 / 嵌入式",
-      "order": 10,
+      "order": 12,
       "featured": false,
       "language": "Verilog",
       "stars": 0,
@@ -237,6 +277,46 @@
       "url": "https://github.com/GUIDchen/verilog-learning",
       "homepage": "",
       "topics": []
+    },
+    {
+      "repo": "dsh-learn",
+      "name": "Learn CLI",
+      "summaryZh": "跨平台命令行技能练习与判定工具：637 道题、平台变体、离线判定，CLI / 网页 / macOS 共用一份内核。",
+      "summaryEn": "Cross-platform CLI skill practice and verification: 637 questions, platform variants and offline checks sharing one kernel across CLI, web and macOS.",
+      "category": "工具 / 学习",
+      "order": 13,
+      "featured": false,
+      "language": "JavaScript",
+      "stars": 0,
+      "updatedAt": "2026-10-24",
+      "url": "https://github.com/GUIDchen/dsh-learn",
+      "homepage": "https://github.com/GUIDchen/dsh-learn",
+      "topics": ["cli", "devops", "interview", "learning", "macos", "nodejs", "offline", "swiftui"]
+    },
+    {
+      "repo": "dsh-photo",
+      "name": "Photo Archive",
+      "summaryZh": "按文件名把 RAW 照片与同名 JPEG 配对并归档的零依赖 CLI。",
+      "summaryEn": "A zero-dependency CLI that pairs and archives RAW photos with same-named JPEGs.",
+      "category": "工具 / 摄影",
+      "order": 14,
+      "featured": false,
+      "language": "Python",
+      "stars": 0,
+      "updatedAt": "2026-10-23",
+      "url": "https://github.com/GUIDchen/dsh-photo",
+      "homepage": "",
+      "topics": [
+        "archiving",
+        "cli",
+        "cr3",
+        "culling",
+        "jpeg",
+        "photo-management",
+        "photography",
+        "python",
+        "raw"
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 # dsh-personalnet
 
-> 个人网站：7 个领域、12 个项目案例、6 篇技术笔记与 10 个 GitHub 仓库索引。静态优先、零运行时后端，支持中英文界面。
+> 个人网站：7 个领域、12 个项目案例、6 篇技术笔记与 14 个 GitHub 仓库索引。静态优先、零运行时后端，支持中英文界面。
 
 **在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Cloudflare 副本**：<https://guidchen.pages.dev/> · **Release**：[v2.8.0](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.8.0)
 

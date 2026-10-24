@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("GitHub 项目索引", () => {
-  test("展示 10 个公开仓库并链接到 GitHub", async ({ page }) => {
+  test("展示 14 个公开仓库并链接到 GitHub", async ({ page }) => {
     const response = await page.goto("/github/");
     expect(response?.status()).toBe(200);
     const cards = page.locator(".repo-card");
-    await expect(cards).toHaveCount(10);
+    await expect(cards).toHaveCount(14);
     const first = cards.first();
     await expect(first).toHaveAttribute("href", /^https:\/\/github\.com\/GUIDchen\//);
     await expect(first).toHaveAttribute("target", "_blank");

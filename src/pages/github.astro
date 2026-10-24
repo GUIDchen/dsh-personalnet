@@ -22,7 +22,8 @@ const copy =
         projects: "Case studies",
         profile: "GitHub profile",
         stats: ["public repositories", "languages", "latest update"],
-        list: "All repositories",
+        engineering: "Engineering & products",
+        resources: "Tools & study notes",
         empty: "No repositories yet.",
       }
     : {
@@ -32,7 +33,8 @@ const copy =
         projects: "项目案例",
         profile: "GitHub 主页",
         stats: ["个公开仓库", "种语言", "最近更新"],
-        list: "全部仓库",
+        engineering: "工程与产品",
+        resources: "工具与学习资料",
         empty: "暂无仓库。",
       };
 
@@ -40,6 +42,19 @@ const repos = [...githubData.repos].sort((a, b) => {
   if (a.featured !== b.featured) return a.featured ? -1 : 1;
   return a.order - b.order;
 });
+const resourceCategories = new Set(["工具 / 数据", "教育 / 文档", "教育 / 网络"]);
+const groups = [
+  {
+    key: "engineering",
+    title: copy.engineering,
+    repos: repos.filter((repo) => !resourceCategories.has(repo.category)),
+  },
+  {
+    key: "resources",
+    title: copy.resources,
+    repos: repos.filter((repo) => resourceCategories.has(repo.category)),
+  },
+].filter((group) => group.repos.length > 0);
 const languages = new Set(repos.map((repo) => repo.language).filter(Boolean));
 const latest = repos
   .map((repo) => repo.updatedAt)
@@ -78,21 +93,24 @@ const latest = repos
     </div>
   </dl>
 
-  <div class="list-head">
-    <h2>{copy.list}</h2>
-    <span class="mono-label">{repos.length}</span>
-  </div>
-
   {repos.length === 0 ? (
     <p class="empty">{copy.empty}</p>
   ) : (
-    <ul class="repo-grid">
-      {repos.map((repo) => (
-        <li>
-          <RepoCard repo={repo} lang={lang} />
-        </li>
-      ))}
-    </ul>
+    groups.map((group) => (
+      <section class="repo-group" aria-labelledby={`repo-group-${group.key}`}>
+        <div class="list-head">
+          <h2 id={`repo-group-${group.key}`}>{group.title}</h2>
+          <span class="mono-label">{group.repos.length}</span>
+        </div>
+        <ul class="repo-grid">
+          {group.repos.map((repo) => (
+            <li>
+              <RepoCard repo={repo} lang={lang} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
   )}
 </BaseLayout>
 
@@ -172,8 +190,12 @@ const latest = repos
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
     gap: 1rem;
+  }
+
+  .repo-group + .repo-group {
+    margin-top: 2.5rem;
   }
 
   .empty {

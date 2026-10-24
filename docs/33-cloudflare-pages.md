@@ -70,6 +70,30 @@ npx wrangler pages deploy dist --project-name=dsh-personalnet --branch=main
 
 登录凭据保存在本机 wrangler 配置，不进入仓库。
 
+## 3.1 Connect GitHub 打开空白页
+
+如果点击 Connect GitHub 后弹出 about:blank：
+
+1. Chrome 地址栏站点设置 → 弹出式窗口和重定向 → 允许 `https://dash.cloudflare.com`。
+2. 允许 cloudflare.com / github.com 的第三方 Cookie；关闭 uBlock/AdGuard/隐私扩展对该站点的拦截。
+3. 确认已在同一浏览器登录 GitHub。
+4. 直接打开 GitHub 安装页：`https://github.com/settings/installations`，找到 Cloudflare Pages/Workers & Pages → Configure → 授权 `GUIDchen/dsh-personalnet`。
+5. 回到 Cloudflare 重试；仍失败可换 Edge/Firefox 或隐身窗口（保留登录）。
+
+## 3.2 直接上传 fallback
+
+如果 Git 连接持续失败，可在 Cloudflare 创建项目时选择 **Upload your static files**：
+
+~~~bash
+SITE_URL=https://dsh-personalnet.pages.dev BASE_PATH=/ pnpm build
+cd dist && zip -qr ../dsh-personalnet-cloudflare.zip .
+~~~
+
+上传 zip 内容（不是 zip 文件作为单文件）。项目名 `dsh-personalnet`，上传后 `_headers` 仍生效。
+注意：直接上传项目不会自动跟随 GitHub；长期仍建议修复 Git 连接，或在 CI 配置 API Token。
+
+当前仓库的 `.artifacts/dsh-personalnet-cloudflare.zip` 是本次构建的可上传包。
+
 ## 4. 当前状态
 
 - 配置已提交，GitHub Pages 继续在线。

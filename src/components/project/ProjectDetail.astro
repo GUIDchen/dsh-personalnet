@@ -1,0 +1,520 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata, MarkdownHeading } from "astro";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Badge from "@/components/ui/Badge.astro";
+import ProjectCard from "@/components/project/ProjectCard.astro";
+import Gallery from "@/components/project/Gallery.astro";
+import RepoLink from "@/components/project/RepoLink.astro";
+import ProjectMedia from "@/components/project/ProjectMedia.astro";
+import Toc from "@/components/project/Toc.astro";
+import JsonLd from "@/components/seo/JsonLd.astro";
+import { getRelatedProjects, type ProjectView } from "@/lib/content";
+import { DOMAIN_META } from "@/data/domains";
+import { localizePath } from "@/i18n/routing";
+import placeholders from "@/data/cover-placeholders.json";
+import { breadcrumbJsonLd, projectJsonLd } from "@/lib/jsonld";
+import type { Lang } from "@/i18n";
+
+interface Props {
+  project: ProjectView;
+  Content: AstroComponentFactory;
+  headings: MarkdownHeading[];
+  lang?: Lang;
+  seoTitle?: string;
+}
+
+const { project, Content, headings, lang = "zh", seoTitle: seoOverride } = Astro.props;
+const isEn = lang === "en";
+const { data } = project;
+const covers = import.meta.glob<{ default: ImageMetadata }>("../../assets/covers/*.jpg", {
+  eager: true,
+});
+const cover = covers["../../assets/covers/" + project.id + ".jpg"];
+const lqip = (placeholders as Record<string, string>)[project.id];
+const galleryAssets = import.meta.glob<{ default: ImageMetadata }>(
+  "../../assets/projects/**/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true },
+);
+const title = isEn ? (data.titleEn ?? data.title) : data.title;
+const summary = isEn ? (data.summaryEn ?? data.summary) : data.summary;
+const role = isEn ? (data.roleEn ?? data.role) : data.role;
+const team = isEn ? (data.teamEn ?? data.team) : data.team;
+const highlights = isEn ? (data.highlightsEn ?? data.highlights) : data.highlights;
+const metrics = isEn ? (data.metricsEn ?? data.metrics) : data.metrics;
+const domain = DOMAIN_META[data.domain as keyof typeof DOMAIN_META];
+const statusLabels = isEn
+  ? { active: "Active", completed: "Completed", archived: "Archived", experimental: "Experimental" }
+  : { active: "进行中", completed: "已完成", archived: "已归档", experimental: "实验性" };
+const statusLabel = statusLabels[data.status as keyof typeof statusLabels];
+const related = await getRelatedProjects(project, 3);
+const periodEnd = data.timeframe.ongoing
+  ? isEn
+    ? "present"
+    : "至今"
+  : (data.timeframe.end ?? data.timeframe.start);
+const period = data.timeframe.start + " – " + periodEnd;
+const base = import.meta.env.BASE_URL;
+const zhPath = base + "projects/" + project.id + "/";
+const enPath = base + "en/projects/" + project.id + "/";
+const alternates = { zh: zhPath, en: enPath };
+const securityHref = localizePath("security/", lang);
+const seoTitle =
+  seoOverride ??
+  (isEn
+    ? project.id === "multimodal-medical-diagnosis"
+      ? "Multimodal Medical Diagnosis"
+      : project.id === "qingyang-east-data-west"
+        ? "Qingyang East Data West Cost Analysis"
+        : title
+    : data.title);
+const coverAlt = data.cover
+  ? isEn
+    ? title + " cover"
+    : data.cover.alt
+  : isEn
+    ? title + " cover"
+    : data.title + " 项目封面";
+const galleryImages = data.gallery.map((item, index) => {
+  const asset = galleryAssets["../../assets/projects/" + item.src]?.default;
+  return {
+    src: asset?.src ?? item.src,
+    alt: isEn ? title + " figure " + (index + 1) : item.alt,
+  };
+});
+const t = isEn
+  ? {
+      home: "Home",
+      projects: "Projects",
+      breadcrumb: "Breadcrumb",
+      demo: "Demo",
+      role: "Role",
+      period: "Period",
+      status: "Status",
+      team: "Team",
+      stack: "Stack",
+      highlights: "Highlights",
+      metrics: "Metrics",
+      links: "Links",
+      source: "Source",
+      paper: "Paper / report",
+      doc: "Documentation",
+      related: "Related projects",
+      boundaryTitle: "Scope and security",
+      boundaryText:
+        "This is a static case study. The page does not run project code or collect uploads, logins or visitor data. Metrics come from project records and local experiments; reproduce details from the source or report.",
+      security: "Read the site security model",
+    }
+  : {
+      home: "首页",
+      projects: "项目",
+      breadcrumb: "面包屑",
+      demo: "演示",
+      role: "角色",
+      period: "周期",
+      status: "状态",
+      team: "团队",
+      stack: "技术栈",
+      highlights: "亮点",
+      metrics: "指标",
+      links: "链接",
+      source: "源码",
+      paper: "论文 / 报告",
+      doc: "文档",
+      related: "同领域项目",
+      boundaryTitle: "展示边界与技术安全",
+      boundaryText:
+        "本页是静态案例展示，不运行项目代码，也不接收上传、登录或用户数据。指标来自项目记录与本地实验，复现细节以源码或报告为准。",
+      security: "查看站点安全模型",
+    };
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={summary}
+  image={"/og/" + project.id + ".jpg"}
+  lang={lang}
+  alternates={alternates}
+>
+  <JsonLd data={projectJsonLd(project, "projects/" + project.id + "/")} />
+  <JsonLd
+    data={breadcrumbJsonLd([
+      { name: t.home, path: isEn ? "/en/" : "/" },
+      { name: t.projects, path: isEn ? "/en/projects/" : "/projects/" },
+      { name: title, path: (isEn ? "en/" : "") + "projects/" + project.id + "/" },
+    ])}
+  />
+
+  <nav class="crumbs" aria-label={t.breadcrumb}>
+    <ol>
+      <li>
+        <a href={base + (isEn ? "en/" : "")}>{t.home}</a>
+      </li>
+      <li>
+        <a href={base + (isEn ? "en/projects/" : "projects/")}>{t.projects}</a>
+      </li>
+      <li aria-current="page">{title}</li>
+    </ol>
+  </nav>
+
+  <article>
+    <header class="head">
+      <p class="mono-label">{isEn ? domain.labelEn : domain.label}</p>
+      <div class="title-row">
+        <h1>{title}</h1>
+        <div class="title-actions">
+          {data.links.repo && <RepoLink repo={data.links.repo} title={title} lang={lang} compact />}
+          {data.links.demo && (
+            <a class="demo-link" href={data.links.demo} target="_blank" rel="noopener noreferrer">
+              {t.demo} ↗
+            </a>
+          )}
+        </div>
+      </div>
+      <p class="summary">{summary}</p>
+      <dl class="meta">
+        <div>
+          <dt>{t.role}</dt>
+          <dd>{role}</dd>
+        </div>
+        <div>
+          <dt>{t.period}</dt>
+          <dd>{period}</dd>
+        </div>
+        <div>
+          <dt>{t.status}</dt>
+          <dd>{statusLabel}</dd>
+        </div>
+        {team && (
+          <div>
+            <dt>{t.team}</dt>
+            <dd>{team}</dd>
+          </div>
+        )}
+      </dl>
+    </header>
+
+    {(data.cover || cover) && (
+      <figure
+        class="cover"
+        style={
+          !data.cover && lqip
+            ? 'background-image:url("' +
+              lqip +
+              '");background-size:cover;background-position:center'
+            : undefined
+        }
+      >
+        {data.cover ? (
+          <ProjectMedia src={data.cover.src} alt={coverAlt} loading="eager" />
+        ) : (
+          cover && (
+            <Picture
+              src={cover.default}
+              formats={["avif", "webp"]}
+              widths={[640, 960, 1280, 1600]}
+              sizes="(max-width: 960px) 100vw, 896px"
+              alt={coverAlt}
+              loading="lazy"
+              decoding="async"
+            />
+          )
+        )}
+      </figure>
+    )}
+
+    <div class="layout">
+      <div class="prose">
+        <Content />
+        <section class="boundary" aria-labelledby="boundary-title">
+          <h2 id="boundary-title">{t.boundaryTitle}</h2>
+          <p>
+            {t.boundaryText} <a href={securityHref}>{t.security} →</a>
+          </p>
+        </section>
+      </div>
+      <aside class="side" aria-label={isEn ? "Project information" : "项目信息"}>
+        <Toc headings={headings} lang={lang} />
+        <section>
+          <h2>{t.stack}</h2>
+          <ul class="stack">
+            {data.stack.map((item) => (
+              <li>
+                <Badge tone="outline">{item}</Badge>
+              </li>
+            ))}
+          </ul>
+        </section>
+        {highlights.length > 0 && (
+          <section>
+            <h2>{t.highlights}</h2>
+            <ul class="highlights">
+              {highlights.map((item: string) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {metrics.length > 0 && (
+          <section>
+            <h2>{t.metrics}</h2>
+            <dl class="metrics">
+              {metrics.map((metric) => (
+                <div>
+                  <dt>{metric.label}</dt>
+                  <dd>
+                    {metric.value}
+                    {metric.unit ? <span>{metric.unit}</span> : null}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+        {(data.links.repo || data.links.demo || data.links.paper || data.links.doc) && (
+          <section>
+            <h2>{t.links}</h2>
+            <ul class="links">
+              {data.links.repo && (
+                <li>
+                  <a href={data.links.repo}>{t.source}</a>
+                </li>
+              )}
+              {data.links.demo && (
+                <li>
+                  <a href={data.links.demo}>{t.demo}</a>
+                </li>
+              )}
+              {data.links.paper && (
+                <li>
+                  <a href={data.links.paper}>{t.paper}</a>
+                </li>
+              )}
+              {data.links.doc && (
+                <li>
+                  <a href={data.links.doc}>{t.doc}</a>
+                </li>
+              )}
+            </ul>
+          </section>
+        )}
+      </aside>
+    </div>
+  </article>
+
+  <Gallery images={galleryImages} />
+
+  {related.length > 0 && (
+    <section class="related" aria-labelledby="related-title">
+      <h2 id="related-title">{t.related}</h2>
+      <ul class="related-grid">
+        {related.map((item, index) => (
+          <li>
+            <ProjectCard project={item} index={index + 1} lang={lang} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .crumbs li:not(:last-child)::after {
+    content: "/";
+    margin-left: 0.5rem;
+    color: var(--border-strong);
+  }
+  .crumbs a {
+    text-decoration: none;
+  }
+  .head {
+    max-width: 58rem;
+  }
+  .title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .title-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.7rem;
+    flex-shrink: 0;
+  }
+  .demo-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-decoration: none;
+  }
+  .demo-link:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
+  }
+  h1 {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(2rem, 5.5vw, 3.75rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+  .summary {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+    color: var(--muted);
+    max-width: 46rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    margin: 2.25rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .meta dt {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .meta dd {
+    margin: 0.35rem 0 0;
+    font-size: 0.9375rem;
+  }
+  .cover {
+    margin: clamp(2rem, 4vw, 2.75rem) 0 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--surface);
+    background-size: cover;
+    background-position: center;
+  }
+  .cover :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .layout {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    align-items: start;
+  }
+  .side {
+    position: sticky;
+    top: 5.5rem;
+    display: grid;
+    gap: 1.75rem;
+  }
+  .side h2 {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .stack,
+  .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .links {
+    display: grid;
+    gap: 0.35rem;
+  }
+  .highlights {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .highlights li {
+    padding-left: 0.8rem;
+    border-left: 2px solid var(--accent);
+  }
+  .metrics {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+  }
+  .metrics dt {
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+  .metrics dd {
+    margin: 0.1rem 0 0;
+    font-size: 1.15rem;
+  }
+  .metrics span {
+    margin-left: 0.25rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+  .boundary {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .boundary h2 {
+    font-size: 1.05rem;
+  }
+  .boundary p {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .related {
+    margin-top: clamp(3rem, 7vw, 5rem);
+  }
+  .related-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  }
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      position: static;
+      order: -1;
+    }
+    .title-row {
+      flex-direction: column;
+    }
+    .title-actions {
+      padding-top: 0;
+    }
+  }
+</style>

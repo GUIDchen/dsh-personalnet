@@ -37,6 +37,17 @@
 - RSS 笔记 `pubDate` 原来只保留年月，统一变成每月 1 日；现在保留完整日期（如 2026-10-23）。
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [2.9.2] - 2026-10-24
+
+详情页共享视图重构。
+
+### Changed
+
+- 新增 src/components/project/ProjectDetail.astro、src/components/note/NoteDetail.astro。
+- 中文/英文项目/笔记详情路由改为薄包装；布局、hreflang、TOC、相关项与 JSON-LD 统一。
+- ADR 0024；TD-01 关闭。
+- 版本 2.9.2。
+
 ## [2.9.1] - 2026-10-24
 
 工程文档补齐与时间线逻辑抽离。

@@ -2,7 +2,7 @@
 
 > 个人网站：7 个领域、12 个项目案例、6 篇技术笔记与 14 个 GitHub 仓库索引。静态优先、零运行时后端，支持中英文界面。
 
-**在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Cloudflare 副本**：<https://guidchen.pages.dev/> · **Release**：[v2.9.1](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.9.1)
+**在线预览**：<https://guidchen.github.io/dsh-personalnet/> · **Cloudflare 副本**：<https://guidchen.pages.dev/> · **Release**：[v2.9.2](https://github.com/GUIDchen/dsh-personalnet/releases/tag/v2.9.2)
 
 [![文档](https://img.shields.io/badge/docs-39%20%E7%AF%87-4B5563)](#文档)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2F855A)](./LICENSE)
@@ -48,45 +48,46 @@
 
 ## 状态
 
-| 里程碑 | 内容                                    | 状态      |
-| ------ | --------------------------------------- | --------- |
-| M0     | 调研、对比、架构、12 篇 ADR、文档基线   | ✅ 完成   |
-| M1     | Astro 7 工程脚手架 + CI                 | ✅ 完成   |
-| M2     | 设计系统与页面骨架                      | ✅ 完成   |
-| M3     | 内容模型与全部页面                      | ✅ 完成   |
-| M4     | 搜索、动效、OG、图片优化                | ✅ 完成   |
-| M5     | 质量门禁（单测/E2E/a11y/性能）          | ✅ 完成   |
-| M6     | MIT 开源发布 v1.0.0                     | ✅ 完成   |
-| M7     | 维护基线（手册/简历页/robots/脚手架）   | ✅ 完成   |
-| M8     | 技术笔记、合并 RSS、SEO 审计、LQIP      | ✅ 完成   |
-| M9     | 审阅借鉴、Hero、Now/Uses、命令面板      | ✅ 完成   |
-| M10    | 中英文界面、/en 路由、hreflang          | ✅ 完成   |
-| M11    | Sveltia 管理后台、内容模型、校验        | ✅ 完成   |
-| M12    | 健康报告、每周审计、Agent 长跑契约      | ✅ 完成   |
-| M13    | 公网部署与 v2.0.0 发布                  | ✅ 完成   |
-| M14    | 管理仪表盘、站点资料 CMS、JSON 迁移     | ✅ 完成   |
-| M15    | 项目封面卡、GitHub 链接、视觉升级       | ✅ 完成   |
-| M16    | 媒体上传、图库、内容健康度              | ✅ 完成   |
-| M17    | 3 篇笔记、JSON Feed、后台部署状态       | ✅ 完成   |
-| M18    | v2.2.0 发布                             | ✅ 完成   |
-| M19    | 12 项目/6 笔记英文标题与摘要            | ✅ 完成   |
-| M20    | 后台 token-only 登录与登录指引          | ✅ 完成   |
-| M21    | GitHub 项目索引、后台源与 Actions 同步  | ✅ 完成   |
-| M22    | v2.4.0 发布                             | ✅ 完成   |
-| M23    | About/笔记/项目详情、安全模型、CSS 背景 | ✅ 完成   |
-| M24    | v2.5.0 发布                             | ✅ 完成   |
-| M25    | 滚动流畅度、项目技术细节、笔记实现索引  | ✅ 完成   |
-| M26    | v2.6.0 发布                             | ✅ 完成   |
-| M27    | 完成度复审、关闭全视口预取、隐私检查    | ✅ 完成   |
-| M28    | v2.7.0 发布                             | ✅ 完成   |
-| M29    | CSP/安全头、并发探测、公开/私有信息审计 | ✅ 完成   |
-| M30    | v2.8.0 发布                             | ✅ 完成   |
-| M31    | Cloudflare Pages 配置与双站文档         | ✅ 完成   |
-| M32    | Cloudflare Pages 直接上传部署           | ✅ 完成   |
-| M33    | Cloudflare 自动部署（API Token）        | ✅ 完成   |
-| M34    | 英文正文、CSP 安全头、实验与时间线      | ✅ 完成   |
-| M35    | v2.9.0 发布                             | ✅ 完成   |
-| M36    | 工程文档补齐与时间线纯函数化            | ⏳ 进行中 |
+| 里程碑 | 内容                                    | 状态    |
+| ------ | --------------------------------------- | ------- |
+| M0     | 调研、对比、架构、12 篇 ADR、文档基线   | ✅ 完成 |
+| M1     | Astro 7 工程脚手架 + CI                 | ✅ 完成 |
+| M2     | 设计系统与页面骨架                      | ✅ 完成 |
+| M3     | 内容模型与全部页面                      | ✅ 完成 |
+| M4     | 搜索、动效、OG、图片优化                | ✅ 完成 |
+| M5     | 质量门禁（单测/E2E/a11y/性能）          | ✅ 完成 |
+| M6     | MIT 开源发布 v1.0.0                     | ✅ 完成 |
+| M7     | 维护基线（手册/简历页/robots/脚手架）   | ✅ 完成 |
+| M8     | 技术笔记、合并 RSS、SEO 审计、LQIP      | ✅ 完成 |
+| M9     | 审阅借鉴、Hero、Now/Uses、命令面板      | ✅ 完成 |
+| M10    | 中英文界面、/en 路由、hreflang          | ✅ 完成 |
+| M11    | Sveltia 管理后台、内容模型、校验        | ✅ 完成 |
+| M12    | 健康报告、每周审计、Agent 长跑契约      | ✅ 完成 |
+| M13    | 公网部署与 v2.0.0 发布                  | ✅ 完成 |
+| M14    | 管理仪表盘、站点资料 CMS、JSON 迁移     | ✅ 完成 |
+| M15    | 项目封面卡、GitHub 链接、视觉升级       | ✅ 完成 |
+| M16    | 媒体上传、图库、内容健康度              | ✅ 完成 |
+| M17    | 3 篇笔记、JSON Feed、后台部署状态       | ✅ 完成 |
+| M18    | v2.2.0 发布                             | ✅ 完成 |
+| M19    | 12 项目/6 笔记英文标题与摘要            | ✅ 完成 |
+| M20    | 后台 token-only 登录与登录指引          | ✅ 完成 |
+| M21    | GitHub 项目索引、后台源与 Actions 同步  | ✅ 完成 |
+| M22    | v2.4.0 发布                             | ✅ 完成 |
+| M23    | About/笔记/项目详情、安全模型、CSS 背景 | ✅ 完成 |
+| M24    | v2.5.0 发布                             | ✅ 完成 |
+| M25    | 滚动流畅度、项目技术细节、笔记实现索引  | ✅ 完成 |
+| M26    | v2.6.0 发布                             | ✅ 完成 |
+| M27    | 完成度复审、关闭全视口预取、隐私检查    | ✅ 完成 |
+| M28    | v2.7.0 发布                             | ✅ 完成 |
+| M29    | CSP/安全头、并发探测、公开/私有信息审计 | ✅ 完成 |
+| M30    | v2.8.0 发布                             | ✅ 完成 |
+| M31    | Cloudflare Pages 配置与双站文档         | ✅ 完成 |
+| M32    | Cloudflare Pages 直接上传部署           | ✅ 完成 |
+| M33    | Cloudflare 自动部署（API Token）        | ✅ 完成 |
+| M34    | 英文正文、CSP 安全头、实验与时间线      | ✅ 完成 |
+| M35    | v2.9.0 发布                             | ✅ 完成 |
+| M36    | 工程文档补齐与时间线纯函数化            | ✅ 完成 |
+| M37    | 中英文详情共享视图重构                  | ✅ 完成 |
 
 ## 技术栈
 
@@ -153,7 +154,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 
 ```
 .
-├─ docs/            # 软件工程文档（39 篇 + 23 篇 ADR）
+├─ docs/            # 软件工程文档（39 篇 + 24 篇 ADR）
 ├─ src/             # Astro 源码（页面/组件/内容/样式/逻辑）
 ├─ scripts/         # 内容校验、体积预算、文档检查、OG 生成
 ├─ tests/           # unit / integration / e2e / a11y
@@ -164,7 +165,7 @@ Cloudflare Pages 备选配置见 [部署文档](./docs/11-deployment-operations.
 ## 文档
 
 - [文档索引](./docs/README.md)
-- 决策记录：[ADR 0001–0023](./docs/adr/)
+- 决策记录：[ADR 0001–0024](./docs/adr/)
 - 需求与范围：[SRS](./docs/02-requirements.md)、[愿景](./docs/01-vision-and-scope.md)
 - 设计：[设计系统](./docs/06-design-system.md)、[信息架构](./docs/07-information-architecture.md)
 - 内容：[内容模型](./docs/08-content-model.md)、[迁移清单](./docs/14-content-migration.md)

@@ -8,7 +8,7 @@
 |---|---|
 | 项目 | dsh-personalnet（个人网站） |
 | 文档负责人 | 陈陇刚 |
-| 状态 | Approved（v2.9.1） |
+| 状态 | Approved（v2.9.2） |
 | 最后更新 | 2026-10-24 |
 | 文档语言 | 简体中文（术语首现保留英文） |
 
@@ -43,7 +43,7 @@
 | 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
 | 17 | [17-maintenance-runbook.md](./17-maintenance-runbook.md) | 维护手册（发布/升级/内容/故障） | Approved |
 | 18 | [18-benchmark-and-gap-analysis.md](./18-benchmark-and-gap-analysis.md) | 优秀个人网站基准调研与差距分析 | Approved |
-| 19 | [19-project-completion-audit.md](./19-project-completion-audit.md) | v2.9.1 完成度审计与 KPI 对照 | Approved |
+| 19 | [19-project-completion-audit.md](./19-project-completion-audit.md) | v2.9.2 完成度审计与 KPI 对照 | Approved |
 | 20 | [20-borrowing-notes.md](./20-borrowing-notes.md) | 优秀站点借鉴清单与不借鉴理由 | Approved |
 | 21 | [21-i18n.md](./21-i18n.md) | 中英文界面、路由与 SEO | Approved |
 | 22 | [22-admin.md](./22-admin.md) | Sveltia CMS 管理后台 | Approved |
@@ -63,7 +63,7 @@
 | 36 | [36-data-and-api-contracts.md](./36-data-and-api-contracts.md) | 数据模型、路由、Feed/JSON 契约 | Approved |
 | 37 | [37-operations-and-recovery.md](./37-operations-and-recovery.md) | 备份、恢复、密钥轮换、事故分级 | Approved |
 | 38 | [38-onboarding-and-code-conventions.md](./38-onboarding-and-code-conventions.md) | 上手指南、分层边界、代码约定 | Approved |
-| ADR | [adr/](./adr/) | 23 篇架构决策记录 | Approved |
+| ADR | [adr/](./adr/) | 24 篇架构决策记录 | Approved |
 
 ## 文档规则
 
@@ -83,3 +83,5 @@
 | 2026-10-23 | 1.2.0 | 新增技术笔记、合并 RSS、中文 SEO 审计与封面 LQIP |
 | 2026-10-23 | 未发布 | 新增基准调研（18）、审计（19）、借鉴（20）、中英文（21）、后台（22）、自动化（23）、日志（24）、上线清单（25）与后台/视觉调研（26） |
 | 2026-10-24 | 2.9.1 | 新增工程流程（34）、质量/风险（35）、数据契约（36）、运维恢复（37）、上手约定（38）；新增 ADR 0020–0023；更新 v2.9 审计与双站状态 |
+
+| 2026-10-24 | 2.9.2 | 详情页共享视图、ADR 0024、TD-01 关闭 |

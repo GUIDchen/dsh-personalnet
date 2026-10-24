@@ -55,7 +55,7 @@
 
 | ID | 债务 | 影响 | 建议 | 优先级 |
 |---|---|---|---|---|
-| TD-01 | 中英文项目/笔记详情视图仍有两份页面代码 | 样式/行为修改需同步两处 | 抽取 ProjectDetail/NoteDetail 共享视图，按 lang 注入 | P1 |
+| TD-01 | ~~中英文详情视图重复~~ | 已在 2.9.2 抽取 ProjectDetail/NoteDetail | — | ✅ 已还 |
 | TD-02 | 实验页 WebGL 脚本内联在 .astro | 页面文件偏大，难单测 | 抽到 src/scripts 或组件，保留 CSP 兼容 | P2 |
 | TD-03 | 英文详情 SEO 标题有两处 slug 特判 | 新增长标题需手工补 | 在 schema 增加 seoTitleEn/descriptionEn | P2 |
 | TD-04 | LHCI 17 页在共享 runner 偶发 TBT 抖动 | CI 需重跑 | 固定性能关键页 + 独立实验页基线 | P1 |

@@ -1,0 +1,293 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Toc from "@/components/project/Toc.astro";
+import JsonLd from "@/components/seo/JsonLd.astro";
+import {
+  getPublishedNotes,
+  getRelatedNotes,
+  getAdjacentNotes,
+  estimateReadingTime,
+} from "@/lib/notes";
+import { breadcrumbJsonLd, noteJsonLd } from "@/lib/jsonld";
+import type { Lang } from "@/i18n";
+import type { MarkdownHeading } from "astro";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  note: CollectionEntry<"notes">;
+  Content: AstroComponentFactory;
+  headings: MarkdownHeading[];
+  lang?: Lang;
+  readingTime?: number;
+}
+
+const { note, Content, headings, lang = "zh", readingTime: readingOverride } = Astro.props;
+const isEn = lang === "en";
+const title = isEn ? (note.data.titleEn ?? note.data.title) : note.data.title;
+const seoTitle =
+  isEn && note.id === "pagefind-static-search" ? "Pagefind for a Static Site" : title;
+const summary = isEn ? (note.data.summaryEn ?? note.data.summary) : note.data.summary;
+const takeaways = isEn ? (note.data.takeawaysEn ?? []) : (note.data.takeaways ?? []);
+const notes = await getPublishedNotes();
+const related = getRelatedNotes(note, notes, 3);
+const adjacent = getAdjacentNotes(note, notes);
+const readingTime = readingOverride ?? estimateReadingTime(note.body ?? "");
+const base = import.meta.env.BASE_URL;
+const alternates = {
+  zh: base + "notes/" + note.id + "/",
+  en: base + "en/notes/" + note.id + "/",
+};
+const t = isEn
+  ? {
+      home: "Home",
+      notes: "Notes",
+      breadcrumb: "Breadcrumb",
+      read: "min read",
+      takeaways: "Key takeaways",
+      previous: "Previous",
+      next: "Next",
+      related: "Related notes",
+    }
+  : {
+      home: "首页",
+      notes: "笔记",
+      breadcrumb: "面包屑",
+      read: "分钟阅读",
+      takeaways: "关键要点",
+      previous: "上一篇",
+      next: "下一篇",
+      related: "相关笔记",
+    };
+---
+
+<BaseLayout title={seoTitle} description={summary} lang={lang} alternates={alternates}>
+  <JsonLd data={noteJsonLd(note, "notes/" + note.id + "/")} />
+  <JsonLd
+    data={breadcrumbJsonLd([
+      { name: t.home, path: isEn ? "/en/" : "/" },
+      { name: t.notes, path: isEn ? "/en/notes/" : "/notes/" },
+      { name: title, path: (isEn ? "en/" : "") + "notes/" + note.id + "/" },
+    ])}
+  />
+
+  <nav class="crumbs" aria-label={t.breadcrumb}>
+    <ol>
+      <li>
+        <a href={base + (isEn ? "en/" : "")}>{t.home}</a>
+      </li>
+      <li>
+        <a href={base + (isEn ? "en/notes/" : "notes/")}>{t.notes}</a>
+      </li>
+      <li aria-current="page">{title}</li>
+    </ol>
+  </nav>
+
+  <article>
+    <header class="head">
+      <p class="mono-label">
+        {t.notes} / {note.data.date}
+      </p>
+      <h1>{title}</h1>
+      <p class="summary">{summary}</p>
+      <div class="meta">
+        <span>
+          {readingTime} {t.read}
+        </span>
+        {note.data.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    </header>
+
+    {takeaways.length > 0 && (
+      <aside class="takeaways" aria-labelledby="takeaways-title">
+        <h2 id="takeaways-title">{t.takeaways}</h2>
+        <ul>
+          {takeaways.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <div class="layout">
+      <div class="prose">
+        <Content />
+      </div>
+      <aside class="side" aria-label={isEn ? "Note information" : "笔记信息"}>
+        <Toc headings={headings} lang={lang} />
+      </aside>
+    </div>
+  </article>
+
+  <nav class="adjacent" aria-label={isEn ? "Note navigation" : "笔记导航"}>
+    {adjacent.prev ? (
+      <a href={base + (isEn ? "en/notes/" : "notes/") + adjacent.prev.id + "/"}>
+        <span class="mono-label">{t.previous}</span>
+        <span>
+          {isEn
+            ? (adjacent.prev.data.titleEn ?? adjacent.prev.data.title)
+            : adjacent.prev.data.title}
+        </span>
+      </a>
+    ) : (
+      <span />
+    )}
+    {adjacent.next ? (
+      <a class="next" href={base + (isEn ? "en/notes/" : "notes/") + adjacent.next.id + "/"}>
+        <span class="mono-label">{t.next}</span>
+        <span>
+          {isEn
+            ? (adjacent.next.data.titleEn ?? adjacent.next.data.title)
+            : adjacent.next.data.title}
+        </span>
+      </a>
+    ) : (
+      <span />
+    )}
+  </nav>
+
+  {related.length > 0 && (
+    <section class="related" aria-labelledby="related-title">
+      <h2 id="related-title">{t.related}</h2>
+      <ul>
+        {related.map((item) => (
+          <li>
+            <a href={base + (isEn ? "en/notes/" : "notes/") + item.id + "/"}>
+              <span class="mono-label">{item.data.date}</span>
+              <span>{isEn ? (item.data.titleEn ?? item.data.title) : item.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .crumbs li:not(:last-child)::after {
+    content: "/";
+    margin-left: 0.5rem;
+    color: var(--border-strong);
+  }
+  .crumbs a {
+    text-decoration: none;
+  }
+  .head {
+    max-width: 52rem;
+  }
+  h1 {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+  .summary {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.9vw, 1.25rem);
+    color: var(--muted);
+    max-width: 46rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .tag {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+  }
+  .takeaways {
+    max-width: 52rem;
+    margin: 1.5rem 0 0;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    background: color-mix(in oklch, var(--surface) 55%, transparent);
+  }
+  .takeaways h2 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .takeaways ul {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+  }
+  .layout {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    margin-top: 2.5rem;
+    align-items: start;
+  }
+  .side {
+    position: sticky;
+    top: 5.5rem;
+  }
+  .adjacent {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  .adjacent a {
+    display: grid;
+    gap: 0.25rem;
+    text-decoration: none;
+  }
+  .adjacent .next {
+    text-align: right;
+  }
+  .related {
+    margin-top: 2.5rem;
+  }
+  .related ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .related a {
+    display: grid;
+    gap: 0.2rem;
+    text-decoration: none;
+  }
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      position: static;
+      order: -1;
+    }
+  }
+</style>

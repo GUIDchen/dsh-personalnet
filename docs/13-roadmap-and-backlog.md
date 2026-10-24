@@ -49,6 +49,7 @@
 | M34 | P1 英文正文/CSP/滚动与 P2 实验/时间线（v2.9.0） | 18 篇英文正文、响应头、experiments/timeline | E2E/axe/LHCI/CSP | ✅ 完成 |
 | M35 | v2.9.0 发布 | 文档、版本、tag、部署、公网验收 | 公网 200 + CI | ✅ 完成 |
 | M36 | 工程文档与时间线重构（v2.9.1） | docs/34–38、ADR 0020–0023、lib/timeline | docs/unit/CI | ✅ 完成 |
+| M37 | 详情共享视图（v2.9.2） | ProjectDetail/NoteDetail、ADR 0024 | E2E/axe/CI | ✅ 完成 |
 
 ## 2. Backlog
 

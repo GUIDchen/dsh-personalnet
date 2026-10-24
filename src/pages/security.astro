@@ -39,7 +39,7 @@ const copy =
           },
           {
             title: "Known limits",
-            body: "GitHub Pages does not allow custom response headers, so a site-specific CSP/HSTS policy cannot be set here. GitHub provides transport security and platform-level protections. Report issues rather than assuming a bug bounty.",
+            body: "GitHub Pages does not allow custom response headers. A meta CSP, strict referrer policy and admin noindex are in place; HSTS, frame-ancestors and arbitrary headers require Cloudflare or another CDN. GitHub provides transport security and platform-level protections.",
           },
         ],
         report: "Report a security issue",
@@ -74,7 +74,7 @@ const copy =
           },
           {
             title: "已知限制",
-            body: "GitHub Pages 不支持自定义响应头，因此无法在本站设置站点级 CSP/HSTS。传输安全与平台防护由 GitHub 提供。请通过邮件报告问题，不要假设存在漏洞赏金。",
+            body: "GitHub Pages 不支持自定义响应头。本站通过 meta 启用 CSP、严格 referrer 与后台 noindex；HSTS、frame-ancestors 与任意响应头需要 Cloudflare 等 CDN。传输安全与平台防护由 GitHub 提供。请通过邮件报告问题，不要假设存在漏洞赏金。",
           },
         ],
         report: "报告安全问题",

@@ -35,6 +35,37 @@ const alternates = Astro.props.alternates ?? getAlternates(Astro.url.pathname, l
 const descriptionText =
   description ??
   (lang === "en" ? "Chen Longgang — AI, data and software engineering." : profile.tagline);
+
+// GitHub Pages 不能设置响应头；meta CSP 是兜底。Cloudflare 迁移后由 public/_headers 提供更强约束。
+const csp = bare
+  ? [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://unpkg.com",
+      "style-src 'self' 'unsafe-inline' https://unpkg.com",
+      "img-src 'self' data: https:",
+      "font-src 'self' https:",
+      "connect-src 'self' https://api.github.com",
+      "media-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "worker-src 'self' blob:",
+      "manifest-src 'self'",
+    ].join("; ")
+  : [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https:",
+      "font-src 'self'",
+      "connect-src 'self'",
+      "media-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "worker-src 'self' blob:",
+      "manifest-src 'self'",
+    ].join("; ");
 ---
 
 <!doctype html>
@@ -42,6 +73,8 @@ const descriptionText =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Content-Security-Policy" content={csp} />
     <ClientRouter />
     <Meta
       title={title}

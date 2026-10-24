@@ -18,6 +18,20 @@ const exists = (path) => {
 };
 
 if (!exists("SECURITY.md")) errors.push("缺少 SECURITY.md");
+if (!exists("public/_headers")) errors.push("缺少 public/_headers（安全头/缓存预留）");
+const layout = exists("src/layouts/BaseLayout.astro") ? read("src/layouts/BaseLayout.astro") : "";
+if (!layout.includes("Content-Security-Policy")) errors.push("BaseLayout 缺少 CSP meta");
+if (exists("public/_headers")) {
+  const headers = read("public/_headers");
+  for (const header of [
+    "X-Content-Type-Options",
+    "X-Frame-Options",
+    "Permissions-Policy",
+    "X-Robots-Tag",
+  ]) {
+    if (!headers.includes(header)) errors.push("_headers 缺少 " + header);
+  }
+}
 if (!exists("public/.well-known/security.txt")) {
   errors.push("缺少 public/.well-known/security.txt");
 } else {

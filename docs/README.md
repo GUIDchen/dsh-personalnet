@@ -8,7 +8,7 @@
 |---|---|
 | 项目 | dsh-personalnet（个人网站） |
 | 文档负责人 | 陈陇刚 |
-| 状态 | Approved（v2.7.0） |
+| 状态 | Approved（v2.8.0） |
 | 最后更新 | 2026-10-23 |
 | 文档语言 | 简体中文（术语首现保留英文） |
 
@@ -55,6 +55,7 @@
 | 29 | [29-background-research.md](./29-background-research.md) | 站点背景与动态视觉调研 | Approved |
 | 30 | [30-git-workflow.md](./30-git-workflow.md) | Git 工作流与变更记录 | Approved |
 | 31 | [31-deployment-options.md](./31-deployment-options.md) | 独立网站部署方案调研 | Draft（待审阅） |
+| 32 | [32-public-private-audit.md](./32-public-private-audit.md) | 公开展示与后台/个人信息审计 | Approved |
 | ADR | [adr/](./adr/) | 19 篇架构决策记录 | Approved |
 
 ## 文档规则

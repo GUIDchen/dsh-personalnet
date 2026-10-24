@@ -16,6 +16,27 @@
 
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [2.8.0] - 2026-10-24
+
+网络攻击面、并发与信息展示审计。
+
+### Added
+
+- meta CSP（public/admin 两套）、严格 referrer、`public/_headers` 预留安全头与长缓存。
+- `check:privacy` 与公开展示/后台信息审计（docs/32）。
+- 静态并发探测脚本 `pnpm test:load`，记录 GitHub Pages 40 请求/并发 10 的参考结果。
+- 仪表盘增加"公开只读、无 token"提示。
+
+### Changed
+
+- 文档补充高并发模型、CSP 限制、部署方案与 P0/P1/P2 状态。
+- 安全页更新 CSP 现状：meta 已启用，HSTS/frame-ancestors 仍需 CDN。
+
+### Fixed
+
+- 关闭 `prefetchAll` 全视口预取，降低滚动时的批量页面请求。
+- 修复 GitHub sync workflow 的 detached HEAD 推送；后台源文件可正常同步。
+
 ## [2.7.0] - 2026-10-24
 
 完成度复审与滚动/隐私收口。

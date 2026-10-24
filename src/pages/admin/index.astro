@@ -91,6 +91,10 @@ const stats = [
     <p class="lead">
       项目、笔记与站点资料都在同一个 Git 仓库里。保存即提交，GitHub Actions 自动部署。
     </p>
+    <p class="public-note">
+      此页为公开只读页（noindex），不包含 token；写操作必须在内容编辑器登录。 如需彻底私有，应使用
+      Cloudflare Access 等平台级访问控制，而不是前端隐藏。
+    </p>
     <div class="hero-actions">
       <a class="button button--primary" href={`${cms}#/collections/projects/new`} data-astro-reload>
         新建项目
@@ -324,6 +328,14 @@ const stats = [
     font-size: clamp(2.4rem, 6vw, 4.4rem);
     letter-spacing: -0.045em;
   }
+  .public-note {
+    margin: 0.9rem 0 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+  }
+
   .lead {
     margin: 0;
     color: var(--muted);

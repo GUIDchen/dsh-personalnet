@@ -1,6 +1,6 @@
 {
   "name": "dsh-personalnet",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "private": true,
   "type": "module",
   "description": "个人网站：7 个领域、12 个项目案例与 3 篇技术笔记（Astro 7 + Tailwind 4）",
@@ -41,6 +41,7 @@
     "deploy:check": "node scripts/deploy-preflight.mjs",
     "gen:og": "node scripts/generate-og.mjs",
     "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
+    "test:load": "node scripts/load-test.mjs",
     "test:coverage": "vitest run --coverage",
     "test:integration": "node scripts/check-dist.mjs",
     "check:budget": "node scripts/check-budget.mjs",

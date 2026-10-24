@@ -1,0 +1,13 @@
+# Cloudflare Pages / Netlify 兼容的响应头配置；GitHub Pages 会忽略本文件。
+# 当前线上是 GitHub Pages，CSP 由 BaseLayout 的 meta 兜底。
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

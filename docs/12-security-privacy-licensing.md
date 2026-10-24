@@ -23,23 +23,14 @@
 
 ## 2. 内容安全策略（CSP）
 
-通过 Astro `security.csp`（v6 起稳定）生成：
+GitHub Pages 不能设置响应头。当前通过 `BaseLayout` 注入 meta CSP：
 
-```
-default-src 'self';
-img-src 'self' data:;
-style-src 'self' 'unsafe-inline';
-script-src 'self' 'sha256-...';
-font-src 'self';
-connect-src 'self';
-frame-ancestors 'none';
-base-uri 'self';
-form-action 'self';
-```
-
-- 内联主题脚本使用 hash 白名单，不使用 `unsafe-inline` 执行脚本。
+- public：`default-src 'self'`；脚本/样式仅 self + `unsafe-inline`（Astro 内联脚本/样式所需）；`connect-src 'self'`；图片 self/data/https；字体 self；禁止 object；允许本地 WASM（Pagefind）。
+- admin（bare）：额外允许 `https://unpkg.com`（Sveltia bundle）与 `https://api.github.com`（token 登录/提交）；不启用 OAuth 弹出。
+- `frame-ancestors` 在 meta 中会被浏览器忽略，真正的点击劫持防护需要响应头。
+- 未使用 Astro `security.csp` 的 hash 方案，因为后台需要 unpkg 与 API；这是后续可评估的强化项。
 - 若启用 Umami，将域名加入 `script-src` 与 `connect-src`。
-- GitHub Pages 无法设置响应头时，通过 `<meta http-equiv="Content-Security-Policy">` 注入（能力弱于响应头，文档说明）。
+- `public/_headers` 为 Cloudflare/Netlify 预留 nosniff、X-Frame-Options、Referrer-Policy、Permissions-Policy、admin X-Robots 与 _astro 长缓存；GitHub Pages 会忽略该文件。
 
 ## 3. 依赖策略
 

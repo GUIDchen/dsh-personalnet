@@ -1,7 +1,7 @@
 ---
 文档编号: 33
 标题: Cloudflare Pages 双站部署
-状态: Draft（待授权部署）
+状态: Deployed（直接上传；Git 自动部署待接）
 最后更新: 2026-10-24
 维护者: 陈陇刚
 ---
@@ -17,9 +17,9 @@
 | 站点 | 路径 | 用途 |
 |---|---|---|
 | GitHub Pages | https://guidchen.github.io/dsh-personalnet/ | 现有主站，继续保留 |
-| Cloudflare Pages | https://dsh-personalnet.pages.dev/ | 新增独立副本，根路径部署 |
+| Cloudflare Pages | https://guidchen.pages.dev/ | 新增独立副本，根路径部署 |
 
-Cloudflare 构建使用 `SITE_URL=https://dsh-personalnet.pages.dev`、`BASE_PATH=/`；GitHub Pages 继续使用原有的 BASE_PATH。两者 canonical、sitemap、RSS/Feed 各自独立。
+Cloudflare 构建使用 `SITE_URL=https://guidchen.pages.dev`、`BASE_PATH=/`；GitHub Pages 继续使用原有的 BASE_PATH。两者 canonical、sitemap、RSS/Feed 各自独立。
 
 ## 2. 已提交的部署配置
 
@@ -37,7 +37,7 @@ Cloudflare 构建使用 `SITE_URL=https://dsh-personalnet.pages.dev`、`BASE_PAT
 2. 选择 GitHub 仓库 GUIDchen/dsh-personalnet，分支 main。
 3. Build command：`pnpm build`；Output directory：`dist`。
 4. 环境变量：
-   - `SITE_URL=https://dsh-personalnet.pages.dev`
+   - `SITE_URL=https://guidchen.pages.dev`
    - `BASE_PATH=/`
    - `PNPM_VERSION=12.8.1`
    - `NODE_VERSION=24`
@@ -64,8 +64,8 @@ pnpm deploy:cloudflare
 
 ~~~bash
 npx wrangler login
-npx wrangler pages project create dsh-personalnet --production-branch=main
-npx wrangler pages deploy dist --project-name=dsh-personalnet --branch=main
+npx wrangler pages project create guidchen --production-branch=main
+npx wrangler pages deploy dist --project-name=guidchen --branch=main
 ~~~
 
 登录凭据保存在本机 wrangler 配置，不进入仓库。
@@ -85,24 +85,27 @@ npx wrangler pages deploy dist --project-name=dsh-personalnet --branch=main
 如果 Git 连接持续失败，可在 Cloudflare 创建项目时选择 **Upload your static files**：
 
 ~~~bash
-SITE_URL=https://dsh-personalnet.pages.dev BASE_PATH=/ pnpm build
-cd dist && zip -qr ../dsh-personalnet-cloudflare.zip .
+SITE_URL=https://guidchen.pages.dev BASE_PATH=/ pnpm build
+cd dist && zip -qr ../guidchen-pages.zip .
 ~~~
 
-上传 zip 内容（不是 zip 文件作为单文件）。项目名 `dsh-personalnet`，上传后 `_headers` 仍生效。
+上传 zip 内容（不是 zip 文件作为单文件）。项目名 `guidchen`，上传后 `_headers` 仍生效。
 注意：直接上传项目不会自动跟随 GitHub；长期仍建议修复 Git 连接，或在 CI 配置 API Token。
 
-当前仓库的 `.artifacts/dsh-personalnet-cloudflare.zip` 是本次构建的可上传包。
+当前仓库的 `.artifacts/guidchen-pages.zip` 是本次构建的可上传包。
 
 ## 4. 当前状态
 
-- 配置已提交，GitHub Pages 继续在线。
-- **尚未执行 Cloudflare 部署**：当前环境没有 Cloudflare API token，也没有完成 wrangler 登录。
-- 完成授权后运行 `pnpm deploy:cloudflare` 或手动运行 workflow。
+- **已部署**：2026-10-24 通过 Cloudflare Pages 直接上传创建项目 `guidchen`。
+- 线上：https://guidchen.pages.dev/
+- 构建方式：`SITE_URL=https://guidchen.pages.dev`、`BASE_PATH=/`，上传 `guidchen-pages.zip`。
+- GitHub Pages 继续在线：https://guidchen.github.io/dsh-personalnet/
+- **尚未接 Git 自动部署**：当前是直接上传快照；仓库更新后需要重新上传，或修复 Git 连接/配置 API Token。
+- 验证：首页/项目/笔记/GitHub/安全/后台/Feed/sitemap 200；canonical、sitemap、robots 指向 `guidchen.pages.dev`；CSP、X-Frame-Options、Permissions-Policy、admin X-Robots 生效；搜索与 admin token 登录可用。
 
 ## 5. 部署后验收
 
-- [ ] `https://dsh-personalnet.pages.dev/` 200
+- [x] `https://guidchen.pages.dev/` 200
 - [ ] `/projects/`、`/notes/`、`/github/`、`/security/`、`/admin/` 200
 - [ ] canonical/sitemap/RSS/JSON Feed 指向 pages.dev
 - [ ] `_headers` 生效：X-Frame-Options、Permissions-Policy、admin X-Robots、_astro 缓存

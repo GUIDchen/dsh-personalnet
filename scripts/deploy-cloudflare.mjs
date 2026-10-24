@@ -6,7 +6,7 @@
  */
 import { spawnSync } from "node:child_process";
 
-const project = process.env.CLOUDFLARE_PROJECT_NAME || "dsh-personalnet";
+const project = process.env.CLOUDFLARE_PROJECT_NAME || "guidchen";
 const siteUrl = process.env.CLOUDFLARE_SITE_URL || "https://" + project + ".pages.dev";
 const env = {
   ...process.env,

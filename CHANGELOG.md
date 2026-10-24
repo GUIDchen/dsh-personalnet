@@ -9,22 +9,16 @@
 
 ### Added
 
-- `pnpm audit:content` 内容证据报告：源码/封面/图库/指标/外部链接。
-- 健康报告增加站点资料、媒体与内容证据检查，共 10 项。
-
-### Changed
-
-- 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
-
-## [Unreleased]
-
 ### Added
 
 - Cloudflare Pages 构建目标（wrangler.toml、deploy-cloudflare workflow、本地 deploy:cloudflare）。
-- 双站文档 docs/33；GitHub Pages 保持在线，Cloudflare 根路径独立构建。
+- 双站文档 docs/33；GitHub Pages 与 Cloudflare Pages 同时在线。
 - _headers 在 Cloudflare 上生效（安全头、admin X-Robots、_astro 长缓存）。
 
-> 尚未执行 Cloudflare 实际部署：本机 wrangler OAuth 超时，未获得 API token；配置已就绪，待授权。
+### Changed
+
+- Cloudflare Pages 已通过直接上传部署到 https://guidchen.pages.dev/；当前不是 Git 自动部署，更新需重新上传或配置 API Token。
+- 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
 ## [2.8.0] - 2026-10-24
 

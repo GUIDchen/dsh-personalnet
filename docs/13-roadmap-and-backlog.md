@@ -44,7 +44,7 @@
 | M29 | 安全头、并发探测、公开/私有信息审计（v2.8.0） | CSP meta/_headers、test:load、docs/32 | 构建/E2E/a11y/安全检查 | ✅ 完成 |
 | M30 | v2.8.0 发布 | 文档、版本、tag、部署、公网验收 | 公网 200 + CI | ✅ 完成 |
 | M31 | Cloudflare Pages 双站配置（v2.9.0 待发布） | wrangler.toml、workflow、deploy 脚本、docs/33 | 本地 root 构建/E2E | ✅ 配置完成 |
-| M32 | Cloudflare Pages 实际部署 | 需 Cloudflare 授权/Token | pages.dev 200 + 验收 | 待授权 |
+| M32 | Cloudflare Pages 实际部署 | 直接上传快照 | pages.dev 200 + 验收 | ✅ 完成（非 Git 自动） |
 
 ## 2. Backlog
 

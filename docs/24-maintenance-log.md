@@ -39,6 +39,7 @@
 | v2.7.0 | 复审与滚动/隐私收口 | e8f8aa2 | 公网 200、deploy success、tag/release | 真实截图/仓库 URL 仍待补 |
 | M29 | CSP/安全头、并发探测、公开/私有审计 | 41544cb | check:security/privacy、test:load 40×200 | — |
 | v2.8.0 | 安全头与信息展示审计 | 41544cb | 公网 200、deploy success、tag/release | 真实截图/仓库 URL 仍待补 |
+| Cloudflare | Pages 直接上传双站 | 897f694 / be3a0b2 | guidchen.pages.dev 200、headers/search/admin | 未接 Git 自动部署 |
 | 维护增强 | 内容证据审计、站点/媒体健康检查、链接容错 | 本提交 | health 14 项 0 失败 | — |
 
 ### 备注

@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ASTRO_TELEMETRY_DISABLED: "1"
-      SITE_URL: ${{ vars.CLOUDFLARE_SITE_URL || 'https://dsh-personalnet.pages.dev' }}
+      SITE_URL: ${{ vars.CLOUDFLARE_SITE_URL || 'https://guidchen.pages.dev' }}
       BASE_PATH: "/"
-      CLOUDFLARE_PROJECT_NAME: ${{ vars.CLOUDFLARE_PROJECT_NAME || 'dsh-personalnet' }}
+      CLOUDFLARE_PROJECT_NAME: ${{ vars.CLOUDFLARE_PROJECT_NAME || 'guidchen' }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

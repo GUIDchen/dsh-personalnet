@@ -56,7 +56,7 @@
 | 30 | [30-git-workflow.md](./30-git-workflow.md) | Git 工作流与变更记录 | Approved |
 | 31 | [31-deployment-options.md](./31-deployment-options.md) | 独立网站部署方案调研 | Draft（待审阅） |
 | 32 | [32-public-private-audit.md](./32-public-private-audit.md) | 公开展示与后台/个人信息审计 | Approved |
-| 33 | [33-cloudflare-pages.md](./33-cloudflare-pages.md) | Cloudflare Pages 双站部署 | Draft（待授权） |
+| 33 | [33-cloudflare-pages.md](./33-cloudflare-pages.md) | Cloudflare Pages 双站部署 | Deployed（直接上传） |
 | ADR | [adr/](./adr/) | 19 篇架构决策记录 | Approved |
 
 ## 文档规则

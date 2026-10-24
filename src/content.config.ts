@@ -62,6 +62,7 @@ const projects = defineCollection({
         doc: link.optional(),
       })
       .default({}),
+    repoVisibility: z.enum(["public", "private", "none"]).optional(),
     metrics: z
       .array(z.object({ label: z.string(), value: z.string(), unit: z.string().optional() }))
       .max(4)
@@ -77,6 +78,8 @@ const projects = defineCollection({
       .object({
         title: z.string().max(60).optional(),
         description: z.string().max(160).optional(),
+        titleEn: z.string().max(60).optional(),
+        descriptionEn: z.string().max(160).optional(),
         ogImage: z.string().optional(),
       })
       .optional(),
@@ -105,6 +108,14 @@ const notes = defineCollection({
       .array(z.string().regex(/^[a-z0-9-]+$/))
       .max(6)
       .default([]),
+    seo: z
+      .object({
+        title: z.string().max(60).optional(),
+        description: z.string().max(160).optional(),
+        titleEn: z.string().max(60).optional(),
+        descriptionEn: z.string().max(160).optional(),
+      })
+      .optional(),
     draft: z.boolean().default(false),
   }),
 });

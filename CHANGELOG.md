@@ -37,6 +37,20 @@
 - RSS 笔记 `pubDate` 原来只保留年月，统一变成每月 1 日；现在保留完整日期（如 2026-10-23）。
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
+## [2.9.3] - 2026-10-24
+
+剩余技术债清理。
+
+### Changed
+
+- TD-02：实验页 WebGL 脚本抽到 src/scripts/experiment-field.ts，新增尺寸纯函数单测。
+- TD-03：projects.seo/notes.seo 增加英文 title/description，移除 slug 特判。
+- TD-04：LHCI 改为 3 次运行、median 聚合；保留共享 runner 缓冲。
+- TD-06：新增 docs/39 英文审阅记录；英文正文禁止 CJK。
+- TD-09：ADR 0025 明确 token-only，关闭 OAuth 债。
+- TD-08：新增 repoVisibility public/private/none 与缺失提示；内容待作者确认。
+- 版本 2.9.3。
+
 ## [2.9.2] - 2026-10-24
 
 详情页共享视图重构。

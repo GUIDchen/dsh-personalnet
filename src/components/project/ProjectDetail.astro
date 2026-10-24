@@ -61,14 +61,10 @@ const enPath = base + "en/projects/" + project.id + "/";
 const alternates = { zh: zhPath, en: enPath };
 const securityHref = localizePath("security/", lang);
 const seoTitle =
-  seoOverride ??
-  (isEn
-    ? project.id === "multimodal-medical-diagnosis"
-      ? "Multimodal Medical Diagnosis"
-      : project.id === "qingyang-east-data-west"
-        ? "Qingyang East Data West Cost Analysis"
-        : title
-    : data.title);
+  seoOverride ?? (isEn ? (data.seo?.titleEn ?? title) : (data.seo?.title ?? data.title));
+const seoDescription = isEn
+  ? (data.seo?.descriptionEn ?? summary)
+  : (data.seo?.description ?? summary);
 const coverAlt = data.cover
   ? isEn
     ? title + " cover"
@@ -98,6 +94,8 @@ const t = isEn
       metrics: "Metrics",
       links: "Links",
       source: "Source",
+      noPublicRepo: "No public repository",
+      privateRepo: "Private repository",
       paper: "Paper / report",
       doc: "Documentation",
       related: "Related projects",
@@ -120,6 +118,8 @@ const t = isEn
       metrics: "指标",
       links: "链接",
       source: "源码",
+      noPublicRepo: "无公开仓库",
+      privateRepo: "私有仓库",
       paper: "论文 / 报告",
       doc: "文档",
       related: "同领域项目",
@@ -132,7 +132,7 @@ const t = isEn
 
 <BaseLayout
   title={seoTitle}
-  description={summary}
+  description={seoDescription}
   image={"/og/" + project.id + ".jpg"}
   lang={lang}
   alternates={alternates}
@@ -272,7 +272,11 @@ const t = isEn
             </dl>
           </section>
         )}
-        {(data.links.repo || data.links.demo || data.links.paper || data.links.doc) && (
+        {(data.links.repo ||
+          data.links.demo ||
+          data.links.paper ||
+          data.links.doc ||
+          data.repoVisibility) && (
           <section>
             <h2>{t.links}</h2>
             <ul class="links">
@@ -295,6 +299,12 @@ const t = isEn
                 <li>
                   <a href={data.links.doc}>{t.doc}</a>
                 </li>
+              )}
+              {!data.links.repo && data.repoVisibility === "none" && (
+                <li class="repo-note">{t.noPublicRepo}</li>
+              )}
+              {!data.links.repo && data.repoVisibility === "private" && (
+                <li class="repo-note">{t.privateRepo}</li>
               )}
             </ul>
           </section>

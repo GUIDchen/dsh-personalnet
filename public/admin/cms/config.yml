@@ -111,6 +111,14 @@ collections:
           - { label: Demo, name: demo, widget: string, required: false }
           - { label: 论文 / 报告, name: paper, widget: string, required: false }
           - { label: 文档, name: doc, widget: string, required: false }
+      - {
+          label: 仓库可见性,
+          name: repoVisibility,
+          widget: select,
+          required: false,
+          options: [public, private, none],
+          hint: "无链接时明确标注",
+        }
       - label: 指标
         name: metrics
         widget: list
@@ -147,6 +155,14 @@ collections:
         fields:
           - { label: 标题, name: title, widget: string, required: false, hint: "60 字以内" }
           - { label: 描述, name: description, widget: string, required: false, hint: "160 字以内" }
+          - { label: English title, name: titleEn, widget: string, required: false }
+          - {
+              label: English description,
+              name: descriptionEn,
+              widget: text,
+              required: false,
+              hint: "160 chars",
+            }
           - { label: OG 图, name: ogImage, widget: string, required: false }
       - { label: 正文, name: body, widget: markdown }
 
@@ -190,6 +206,22 @@ collections:
         }
       - { label: 标签, name: tags, widget: list, required: false, max: 6, hint: "0–6 个" }
       - { label: 草稿, name: draft, widget: boolean, default: false }
+      - label: SEO
+        name: seo
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: 标题, name: title, widget: string, required: false, hint: "60 字以内" }
+          - { label: 描述, name: description, widget: string, required: false, hint: "160 字以内" }
+          - { label: English title, name: titleEn, widget: string, required: false }
+          - {
+              label: English description,
+              name: descriptionEn,
+              widget: text,
+              required: false,
+              hint: "160 chars",
+            }
       - { label: 正文, name: body, widget: markdown }
 
   - name: site

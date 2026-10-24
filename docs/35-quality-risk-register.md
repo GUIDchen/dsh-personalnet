@@ -56,14 +56,14 @@
 | ID | 债务 | 影响 | 建议 | 优先级 |
 |---|---|---|---|---|
 | TD-01 | ~~中英文详情视图重复~~ | 已在 2.9.2 抽取 ProjectDetail/NoteDetail | — | ✅ 已还 |
-| TD-02 | 实验页 WebGL 脚本内联在 .astro | 页面文件偏大，难单测 | 抽到 src/scripts 或组件，保留 CSP 兼容 | P2 |
-| TD-03 | 英文详情 SEO 标题有两处 slug 特判 | 新增长标题需手工补 | 在 schema 增加 seoTitleEn/descriptionEn | P2 |
-| TD-04 | LHCI 17 页在共享 runner 偶发 TBT 抖动 | CI 需重跑 | 固定性能关键页 + 独立实验页基线 | P1 |
-| TD-05 | Cloudflare Token 曾在会话暴露 | 自动部署凭据风险 | 轮换并更新 GitHub Secret | P0 |
-| TD-06 | 12 项目/6 笔记英文待作者审阅 | 技术表达风险 | 逐篇审阅并记录 | P1 |
-| TD-07 | 12 项目真实截图/图库缺失 | 证据不足 | 作者提供素材后按 27 上传 | P0 |
-| TD-08 | 10 个案例缺 GitHub URL | 可验证性不足 | 作者确认后补 links.repo | P0 |
-| TD-09 | OAuth 未启用（token-only） | 登录体验一般 | 外部凭据具备后实现 Worker | P2 |
+| TD-02 | ~~实验页 WebGL 脚本内联~~ | 已在 2.9.3 抽到 src/scripts/experiment-field.ts | 纯函数单测 | ✅ 已还 |
+| TD-03 | ~~英文 SEO 标题 slug 特判~~ | 已改为 seo.titleEn/descriptionEn | schema/CMS/check:seo | ✅ 已还 |
+| TD-04 | ~~LHCI 17 页在共享 runner 偶发 TBT 抖动~~ | 已改为 3 次 median 聚合 | 连续 CI 验证 | ✅ 已还（待连续验证） |
+| TD-05 | Cloudflare Token 曾在会话暴露 | 自动部署凭据风险 | 用户轮换并更新 GitHub Secret | P0 blocked（用户） |
+| TD-06 | 12 项目/6 笔记英文待作者审阅 | 已内部审阅，作者签字待办 | docs/39 审阅表 | P1（作者 gate） |
+| TD-07 | 12 项目真实截图/图库缺失 | 证据不足 | 作者提供素材后按 27 上传 | P0 blocked（素材） |
+| TD-08 | 10 个案例缺 GitHub URL | repoVisibility 已实现，内容待确认 | 作者确认 public/private/none | P0 blocked（作者） |
+| TD-09 | ~~OAuth 未启用~~ | 已由 ADR 0025 明确为 token-only，不再作为债 | 未来多人/移动需求另立 ADR | ✅ 已关闭 |
 
 ## 5. 技术债处理规则
 

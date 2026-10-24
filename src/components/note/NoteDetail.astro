@@ -25,9 +25,13 @@ interface Props {
 const { note, Content, headings, lang = "zh", readingTime: readingOverride } = Astro.props;
 const isEn = lang === "en";
 const title = isEn ? (note.data.titleEn ?? note.data.title) : note.data.title;
-const seoTitle =
-  isEn && note.id === "pagefind-static-search" ? "Pagefind for a Static Site" : title;
 const summary = isEn ? (note.data.summaryEn ?? note.data.summary) : note.data.summary;
+const seoTitle = isEn
+  ? (note.data.seo?.titleEn ?? title)
+  : (note.data.seo?.title ?? note.data.title);
+const seoDescription = isEn
+  ? (note.data.seo?.descriptionEn ?? summary)
+  : (note.data.seo?.description ?? summary);
 const takeaways = isEn ? (note.data.takeawaysEn ?? []) : (note.data.takeaways ?? []);
 const notes = await getPublishedNotes();
 const related = getRelatedNotes(note, notes, 3);
@@ -61,7 +65,7 @@ const t = isEn
     };
 ---
 
-<BaseLayout title={seoTitle} description={summary} lang={lang} alternates={alternates}>
+<BaseLayout title={seoTitle} description={seoDescription} lang={lang} alternates={alternates}>
   <JsonLd data={noteJsonLd(note, "notes/" + note.id + "/")} />
   <JsonLd
     data={breadcrumbJsonLd([

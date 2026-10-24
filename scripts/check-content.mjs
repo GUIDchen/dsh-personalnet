@@ -96,6 +96,12 @@ for (const file of files) {
 
   if (/^cover:/m.test(fm) && !/^\s+alt:/m.test(fm)) errors.push(`${file}: cover 缺少 alt`);
 
+  const hasRepo = /^\s+repo:\s*\S+/m.test(fm);
+  const hasRepoVisibility = /^repoVisibility:\s*(public|private|none)/m.test(fm);
+  if (!hasRepo && !hasRepoVisibility) {
+    warnings.push(`${file}: 缺少 links.repo 或 repoVisibility`);
+  }
+
   if (/1[3-9]\d{9}/.test(text)) errors.push(`${file}: 疑似手机号`);
   for (const key of SENSITIVE_KEYS) {
     if (new RegExp("^" + key + ":", "mi").test(fm)) errors.push(`${file}: 含敏感字段 ${key}`);

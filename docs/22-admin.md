@@ -126,7 +126,7 @@
    - 创建 fine-grained token：Repository access 只选本仓库；权限 `Contents: Read and write`（Metadata 自动只读；simple workflow 不需要 Pull requests）。
    - token 只保存在浏览器 localStorage，不写入仓库。
 3. **为什么没有 GitHub OAuth 按钮**：Sveltia 在未配置 `base_url` 时默认使用 `https://api.netlify.com/auth`；本站不在 Netlify，也没有 Netlify OAuth 应用，会出现 `error No data`。因此暂时关闭 OAuth，避免按钮进入不可用流程。
-4. 未来启用 OAuth：
+4. 当前决策：ADR 0025 明确保持 token-only；未来启用 OAuth：
    - 部署 [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) Cloudflare Worker；
    - 创建 GitHub OAuth App，callback 指向 Worker；
    - backend 增加 `base_url: https://<worker>`，并将 `auth_methods` 改为 `[oauth, token]`；

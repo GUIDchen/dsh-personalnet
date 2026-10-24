@@ -35,7 +35,7 @@ function checkBodies(sourceDir, bodyDir, label) {
     }
     const body = translated[2];
     if (!/^##\s+/m.test(body)) errors.push(label + " 英文正文缺少 H2: " + file);
-    if (/[\u4e00-\u9fff]/.test(body)) warnings.push(label + " 英文正文仍含中文: " + file);
+    if (/[\u4e00-\u9fff]/.test(body)) errors.push(label + " 英文正文仍含中文: " + file);
     if (!meta.titleEn || !meta.summaryEn) errors.push(label + " 缺少 titleEn/summaryEn: " + file);
   }
   for (const orphan of bodyFiles) errors.push(label + " 英文正文无对应中文: " + orphan);

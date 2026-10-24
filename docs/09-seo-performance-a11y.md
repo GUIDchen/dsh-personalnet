@@ -146,7 +146,7 @@ WCAG 2.2 AA：可感知、可操作、可理解、健壮。
 
 ## 7. 测量与回归
 
-- CI：LHCI 对 17 个 URL 各跑 1 次，预算写在 `lighthouserc.json`；共享 runner 使用缓冲阈值（性能 ≥0.75、LCP ≤2.5s、TBT ≤1000ms、CLS ≤0.05）。
+- CI：LHCI 对 17 个 URL 各跑 3 次，性能/LCP/CLS/TBT 取 median，预算写在 `lighthouserc.json`；共享 runner 使用缓冲阈值（性能 ≥0.75、LCP ≤2.5s、TBT ≤1000ms、CLS ≤0.05）。
 - 滚动基线：`pnpm perf:scroll` 在 Chromium 内采样 rAF 帧间隔，输出 p50/p95/max 到 reports/scroll-fps.json；本次本机结果 122 帧、p50/95 16.7ms、max 16.8ms（headless 固定 60fps，只作基线，不作为真机/Safari 结论）。
 - 真机：Safari Web Inspector → Timelines → Rendering Frames；记录设备、系统、滚动路径，不伪造数据。
 - 本地：`pnpm build && pnpm preview` 后用 DevTools Performance 记录；目标值仍是 LCP ≤1.8s、TBT ≤150ms。

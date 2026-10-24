@@ -50,6 +50,7 @@
 | M35 | v2.9.0 发布 | 文档、版本、tag、部署、公网验收 | 公网 200 + CI | ✅ 完成 |
 | M36 | 工程文档与时间线重构（v2.9.1） | docs/34–38、ADR 0020–0023、lib/timeline | docs/unit/CI | ✅ 完成 |
 | M37 | 详情共享视图（v2.9.2） | ProjectDetail/NoteDetail、ADR 0024 | E2E/axe/CI | ✅ 完成 |
+| M38 | 技术债 TD-02/03/04/06/09（v2.9.3） | 脚本/SEO/LHCI/审阅/ADR/repoVisibility | CI/axe/docs | ✅ 完成 |
 
 ## 2. Backlog
 

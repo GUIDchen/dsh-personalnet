@@ -121,7 +121,9 @@ cd dist && zip -qr ../guidchen-pages.zip .
 - 线上：https://guidchen.pages.dev/
 - 构建方式：`SITE_URL=https://guidchen.pages.dev`、`BASE_PATH=/`，上传 `guidchen-pages.zip`。
 - GitHub Pages 继续在线：https://guidchen.github.io/dsh-personalnet/
-- **自动部署待配置 API Token**：workflow 已监听 main；site/project/account 变量已配置，只缺 `CLOUDFLARE_API_TOKEN` secret。在配置前，`guidchen.pages.dev` 是直接上传快照，不会跟随 GitHub 更新。
+- **自动部署已启用**：workflow 监听 main，site/project/account 变量与 `CLOUDFLARE_API_TOKEN` secret 已配置；d76e907 运行成功，Cloudflare 已自动更新。
+- 后台保存 → GitHub commit → deploy.yml 更新 GitHub Pages；deploy-cloudflare-pages 更新 `guidchen.pages.dev`。
+- 注意：API token 已在会话中暴露；建议在 Cloudflare 控制台撤销并创建新 token，更新 GitHub secret 后继续自动部署。
 - 验证：首页/项目/笔记/GitHub/安全/后台/Feed/sitemap 200；canonical、sitemap、robots 指向 `guidchen.pages.dev`；CSP、X-Frame-Options、Permissions-Policy、admin X-Robots 生效；搜索与 admin token 登录可用。
 
 ## 5. 部署后验收

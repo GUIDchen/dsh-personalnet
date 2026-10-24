@@ -83,7 +83,7 @@
 | M30    | v2.8.0 发布                             | ✅ 完成     |
 | M31    | Cloudflare Pages 配置与双站文档         | ✅ 完成     |
 | M32    | Cloudflare Pages 直接上传部署           | ✅ 完成     |
-| M33    | Cloudflare 自动部署（API Token）        | ⏳ 待 token |
+| M33    | Cloudflare 自动部署（API Token）        | ✅ 完成     |
 
 ## 技术栈
 

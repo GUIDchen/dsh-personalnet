@@ -18,7 +18,8 @@
 ### Changed
 
 - Cloudflare Pages 已通过直接上传部署到 https://guidchen.pages.dev/；当前不是 Git 自动部署。
-- deploy-cloudflare-pages workflow 改为监听 main；配置 `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` 后，后台保存即可自动更新 Cloudflare 副本；未配置时只构建并跳过。
+- deploy-cloudflare-pages workflow 改为监听 main；配置 token/账号变量后，后台保存即可自动更新 Cloudflare 副本。
+- 自动部署已验证：d76e907 运行成功，Cloudflare 使用 npx wrangler 4.152.0 直接更新 `guidchen` 项目。
 
 ### Added
 

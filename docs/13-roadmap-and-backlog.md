@@ -45,7 +45,7 @@
 | M30 | v2.8.0 发布 | 文档、版本、tag、部署、公网验收 | 公网 200 + CI | ✅ 完成 |
 | M31 | Cloudflare Pages 双站配置（v2.9.0 待发布） | wrangler.toml、workflow、deploy 脚本、docs/33 | 本地 root 构建/E2E | ✅ 配置完成 |
 | M32 | Cloudflare Pages 实际部署 | 直接上传快照 | pages.dev 200 + 验收 | ✅ 完成（非 Git 自动） |
-| M33 | Cloudflare 自动部署 | workflow 监听 main；变量已配 | 配置 API Token 后 push 自动更新 | ⏳ 待 token |
+| M33 | Cloudflare 自动部署 | workflow 监听 main；token/变量已配 | d76e907 自动部署成功 | ✅ 完成 |
 
 ## 2. Backlog
 

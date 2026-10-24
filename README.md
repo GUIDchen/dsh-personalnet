@@ -84,7 +84,7 @@
 | M31    | Cloudflare Pages 配置与双站文档         | ✅ 完成   |
 | M32    | Cloudflare Pages 直接上传部署           | ✅ 完成   |
 | M33    | Cloudflare 自动部署（API Token）        | ✅ 完成   |
-| M34    | 英文正文、CSP 安全头、实验与时间线      | ⏳ 进行中 |
+| M34    | 英文正文、CSP 安全头、实验与时间线      | ✅ 完成   |
 | M35    | v2.9.0 发布                             | ⏳ 进行中 |
 
 ## 技术栈

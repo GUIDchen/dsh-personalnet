@@ -14,6 +14,8 @@ const copy =
         title: "Field",
         lead: "A small WebGL study: a perspective field reacts to time and pointer without a 3D library. It is intentionally isolated from the main reading experience.",
         note: "Custom shader · no Three.js · reduced-motion aware",
+        play: "Play field",
+        pause: "Pause field",
         fallback: "WebGL is unavailable. The static field below is the fallback.",
         back: "Back to projects",
       }
@@ -22,6 +24,8 @@ const copy =
         title: "场",
         lead: "一个很小的 WebGL 实验：透视场随时间与指针变化，不引入 3D 库。它刻意与主阅读体验隔离。",
         note: "自定义 shader · 无 Three.js · 尊重 reduced-motion",
+        play: "播放场",
+        pause: "暂停场",
         fallback: "当前浏览器不支持 WebGL，下面显示静态降级。",
         back: "返回项目库",
       };
@@ -43,7 +47,16 @@ const copy =
     </div>
     <div class="stage-caption">
       <span>WebGL / fragment shader</span>
-      <span>pointer + time</span>
+      <button
+        type="button"
+        class="stage-toggle"
+        data-webgl-toggle
+        data-play={copy.play}
+        data-pause={copy.pause}
+        aria-pressed="false"
+      >
+        {copy.play}
+      </button>
     </div>
   </section>
 
@@ -55,6 +68,7 @@ const copy =
 <script>
   const canvas = document.querySelector<HTMLCanvasElement>("[data-webgl-field]");
   const fallback = document.querySelector<HTMLElement>("[data-webgl-fallback]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-webgl-toggle]");
 
   if (canvas && fallback) {
     const gl = canvas.getContext("webgl", { alpha: true, antialias: true });
@@ -114,6 +128,7 @@ const copy =
         const mouse = { x: 0, y: 0 };
         let frame = 0;
         let visible = true;
+        let playing = false;
 
         const resize = () => {
           const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -123,35 +138,56 @@ const copy =
           gl.viewport(0, 0, canvas.width, canvas.height);
         };
 
-        const draw = (now: number) => {
+        const render = (now: number) => {
           gl.uniform2f(uRes, canvas.width, canvas.height);
           gl.uniform1f(uTime, (now - start) / 1000);
           gl.uniform2f(uMouse, mouse.x, mouse.y);
           gl.clearColor(0, 0, 0, 0);
           gl.clear(gl.COLOR_BUFFER_BIT);
           gl.drawArrays(gl.TRIANGLES, 0, 3);
-          if (!reduce && visible) frame = requestAnimationFrame(draw);
+        };
+
+        const draw = (now: number) => {
+          render(now);
+          if (playing && visible) frame = requestAnimationFrame(draw);
+        };
+
+        const setPlaying = (next: boolean) => {
+          playing = next;
+          if (toggle) {
+            toggle.setAttribute("aria-pressed", String(playing));
+            toggle.textContent = playing
+              ? (toggle.dataset.pause ?? "Pause")
+              : (toggle.dataset.play ?? "Play");
+          }
+          cancelAnimationFrame(frame);
+          frame = 0;
+          if (playing && visible) frame = requestAnimationFrame(draw);
         };
 
         canvas.addEventListener("pointermove", (event) => {
           const rect = canvas.getBoundingClientRect();
           mouse.x = (event.clientX - rect.left) / rect.width - 0.5;
           mouse.y = 0.5 - (event.clientY - rect.top) / rect.height;
+          if (!playing) render(performance.now());
         });
 
+        toggle?.addEventListener("click", () => setPlaying(!playing));
+
         const observer = new IntersectionObserver(([entry]) => {
-          const wasVisible = visible;
           visible = entry?.isIntersecting ?? false;
-          if (visible && !reduce && !wasVisible) frame = requestAnimationFrame(draw);
           if (!visible) {
             cancelAnimationFrame(frame);
             frame = 0;
+          } else if (playing) {
+            frame = requestAnimationFrame(draw);
           }
         });
         observer.observe(canvas);
         window.addEventListener("resize", resize);
         resize();
-        draw(start);
+        render(start);
+        if (reduce && toggle) toggle.hidden = true;
       } catch {
         canvas.hidden = true;
         fallback.hidden = false;
@@ -217,15 +253,31 @@ const copy =
   }
   .stage-caption {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 0.65rem 0.85rem;
+    padding: 0.5rem 0.85rem;
     border-top: 1px solid var(--border);
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 0.65rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+  }
+  .stage-toggle {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    cursor: pointer;
+  }
+  .stage-toggle[aria-pressed="true"] {
+    color: var(--accent);
+    border-color: var(--accent);
   }
   .back {
     margin-top: 2rem;

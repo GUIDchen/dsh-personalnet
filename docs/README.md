@@ -8,8 +8,8 @@
 |---|---|
 | 项目 | dsh-personalnet（个人网站） |
 | 文档负责人 | 陈陇刚 |
-| 状态 | Approved（v2.9.0） |
-| 最后更新 | 2026-10-23 |
+| 状态 | Approved（v2.9.1） |
+| 最后更新 | 2026-10-24 |
 | 文档语言 | 简体中文（术语首现保留英文） |
 
 ## 阅读路径
@@ -18,6 +18,7 @@
 - **参与开发**：`02-requirements.md` → `05-architecture.md` → `08-content-model.md` → `10-testing-strategy.md`
 - **设计与内容**：`06-design-system.md` → `07-information-architecture.md` → `15-writing-style.md`
 - **发布与运维**：`11-deployment-operations.md` → `12-security-privacy-licensing.md` → `13-roadmap-and-backlog.md`
+- **工程流程与交接**：`34-engineering-process.md` → `35-quality-risk-register.md` → `37-operations-and-recovery.md` → `38-onboarding-and-code-conventions.md`
 
 ## 文档清单
 
@@ -42,7 +43,7 @@
 | 16 | [16-component-catalog.md](./16-component-catalog.md) | 组件目录与契约 | Approved |
 | 17 | [17-maintenance-runbook.md](./17-maintenance-runbook.md) | 维护手册（发布/升级/内容/故障） | Approved |
 | 18 | [18-benchmark-and-gap-analysis.md](./18-benchmark-and-gap-analysis.md) | 优秀个人网站基准调研与差距分析 | Approved |
-| 19 | [19-project-completion-audit.md](./19-project-completion-audit.md) | v2.7.0 完成度审计与 v2.0 KPI 对照 | Approved |
+| 19 | [19-project-completion-audit.md](./19-project-completion-audit.md) | v2.9.1 完成度审计与 KPI 对照 | Approved |
 | 20 | [20-borrowing-notes.md](./20-borrowing-notes.md) | 优秀站点借鉴清单与不借鉴理由 | Approved |
 | 21 | [21-i18n.md](./21-i18n.md) | 中英文界面、路由与 SEO | Approved |
 | 22 | [22-admin.md](./22-admin.md) | Sveltia CMS 管理后台 | Approved |
@@ -56,8 +57,13 @@
 | 30 | [30-git-workflow.md](./30-git-workflow.md) | Git 工作流与变更记录 | Approved |
 | 31 | [31-deployment-options.md](./31-deployment-options.md) | 独立网站部署方案调研 | Draft（待审阅） |
 | 32 | [32-public-private-audit.md](./32-public-private-audit.md) | 公开展示与后台/个人信息审计 | Approved |
-| 33 | [33-cloudflare-pages.md](./33-cloudflare-pages.md) | Cloudflare Pages 双站部署 | Deployed（直接上传） |
-| ADR | [adr/](./adr/) | 19 篇架构决策记录 | Approved |
+| 33 | [33-cloudflare-pages.md](./33-cloudflare-pages.md) | Cloudflare Pages 双站部署 | Deployed（自动） |
+| 34 | [34-engineering-process.md](./34-engineering-process.md) | 生命周期、DoR/DoD、变更控制 | Approved |
+| 35 | [35-quality-risk-register.md](./35-quality-risk-register.md) | 质量场景、风险与技术债登记 | Approved |
+| 36 | [36-data-and-api-contracts.md](./36-data-and-api-contracts.md) | 数据模型、路由、Feed/JSON 契约 | Approved |
+| 37 | [37-operations-and-recovery.md](./37-operations-and-recovery.md) | 备份、恢复、密钥轮换、事故分级 | Approved |
+| 38 | [38-onboarding-and-code-conventions.md](./38-onboarding-and-code-conventions.md) | 上手指南、分层边界、代码约定 | Approved |
+| ADR | [adr/](./adr/) | 23 篇架构决策记录 | Approved |
 
 ## 文档规则
 
@@ -76,3 +82,4 @@
 | 2026-10-23 | 1.1.0 | 新增维护手册、简历打印页与 robots；补充内容脚手架说明 |
 | 2026-10-23 | 1.2.0 | 新增技术笔记、合并 RSS、中文 SEO 审计与封面 LQIP |
 | 2026-10-23 | 未发布 | 新增基准调研（18）、审计（19）、借鉴（20）、中英文（21）、后台（22）、自动化（23）、日志（24）、上线清单（25）与后台/视觉调研（26） |
+| 2026-10-24 | 2.9.1 | 新增工程流程（34）、质量/风险（35）、数据契约（36）、运维恢复（37）、上手约定（38）；新增 ADR 0020–0023；更新 v2.9 审计与双站状态 |

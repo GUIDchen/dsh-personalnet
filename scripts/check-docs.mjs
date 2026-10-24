@@ -102,7 +102,7 @@ for (const file of files) {
 if (!existsSync(ADR_DIR)) {
   errors.push("缺少 docs/adr/ 目录");
 } else {
-  if (adrFiles.length !== 19) warnings.push("ADR 数量为 " + adrFiles.length + "（预期 19）");
+  if (adrFiles.length !== 23) warnings.push("ADR 数量为 " + adrFiles.length + "（预期 23）");
   for (const adr of adrFiles) {
     const text = readFileSync(adr, "utf8");
     for (const section of ["## 背景", "## 决策", "## 后果"]) {

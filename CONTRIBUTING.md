@@ -37,6 +37,7 @@ pnpm lint
 pnpm check
 pnpm test
 pnpm build
+pnpm ci:verify
 ```
 
 涉及 UI 的改动请附桌面与移动端截图；涉及内容的改动请确认无隐私信息（见 `docs/12-security-privacy-licensing.md`）。
@@ -55,6 +56,8 @@ PR 描述包含四部分：
 - 文档在 `docs/`，新增文档需在 `docs/README.md` 索引。
 - 决策变更需新增 ADR，而不是修改已接受的 ADR 结论。
 - 运行 `pnpm test:docs` 校验索引与链接。
+- 工程流程与 DoD 见 [34](./docs/34-engineering-process.md)；质量/风险见 [35](./docs/35-quality-risk-register.md)。
+- 数据/接口契约见 [36](./docs/36-data-and-api-contracts.md)；运维恢复见 [37](./docs/37-operations-and-recovery.md)；上手约定见 [38](./docs/38-onboarding-and-code-conventions.md)。
 
 ## 行为准则
 

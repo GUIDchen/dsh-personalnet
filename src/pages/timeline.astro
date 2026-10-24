@@ -5,6 +5,7 @@ import { DOMAIN_META } from "@/data/domains";
 import { TIMELINE } from "@/data/timeline";
 import { TIMELINE_EN } from "@/data/timeline.en";
 import type { Lang } from "@/i18n";
+import { buildTimelineRows, domainCounts, timelineYears } from "@/lib/timeline";
 
 interface Props {
   lang?: Lang;
@@ -43,33 +44,13 @@ const copy =
         back: "项目库",
       };
 
-const parseMonth = (value: string) => {
-  const [year, month] = value.split(".").map(Number);
-  return (year ?? 2016) + ((month ?? 1) - 1) / 12;
-};
-const minYear = 2016;
-const maxYear = 2027;
-const span = maxYear - minYear;
-const rows = [...projects]
-  .sort((a, b) => parseMonth(a.data.timeframe.start) - parseMonth(b.data.timeframe.start))
-  .map((project) => {
-    const start = parseMonth(project.data.timeframe.start);
-    const end = project.data.timeframe.ongoing
-      ? maxYear
-      : parseMonth(project.data.timeframe.end ?? project.data.timeframe.start);
-    const left = ((start - minYear) / span) * 100;
-    const width = Math.max(((end - start) / span) * 100, 1.5);
-    return { project, left, width, start, end };
-  });
-const domainCounts = Object.keys(DOMAIN_META)
-  .map((id) => ({
-    id,
-    label: DOMAIN_META[id as keyof typeof DOMAIN_META][lang === "en" ? "labelEn" : "label"],
-    count: projects.filter((project) => project.data.domain === id).length,
-  }))
-  .filter((item) => item.count > 0);
-const maxCount = Math.max(...domainCounts.map((item) => item.count), 1);
-const years = Array.from({ length: maxYear - minYear }, (_, index) => minYear + index);
+const rows = buildTimelineRows(projects);
+const counts = domainCounts(projects).map((item) => ({
+  ...item,
+  label: DOMAIN_META[item.id as keyof typeof DOMAIN_META][lang === "en" ? "labelEn" : "label"],
+}));
+const maxCount = Math.max(...counts.map((item) => item.count), 1);
+const years = timelineYears();
 const base = import.meta.env.BASE_URL;
 const projectsHref = `${base}${lang === "en" ? "en/projects/" : "projects/"}`;
 ---
@@ -122,7 +103,7 @@ const projectsHref = `${base}${lang === "en" ? "en/projects/" : "projects/"}`;
   <section class="panel" aria-labelledby="domains-title">
     <h2 id="domains-title">{copy.domains}</h2>
     <ul class="domains">
-      {domainCounts.map((item) => (
+      {counts.map((item) => (
         <li>
           <span>{item.label}</span>
           <span class="domain-bar" style={`--value:${(item.count / maxCount) * 100}%`}></span>

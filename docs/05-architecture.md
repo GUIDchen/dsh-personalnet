@@ -2,7 +2,7 @@
 文档编号: 05
 标题: 架构说明（arc42）
 状态: Approved
-最后更新: 2026-10-23
+最后更新: 2026-10-24
 维护者: 陈陇刚
 ---
 
@@ -76,6 +76,10 @@ flowchart TB
     Home["index.astro"]
     Projects["projects/index.astro"]
     Detail["projects/[slug].astro"]
+    EnDetail["en/projects/[slug].astro"]
+    EnNote["en/notes/[slug].astro"]
+    Timeline["timeline.astro"]
+    Experiments["experiments.astro"]
     About["about.astro"]
     Search["search.astro"]
     NotFound["404.astro"]
@@ -97,9 +101,11 @@ flowchart TB
     Facets["facets.ts"]
     Seo["seo.ts / jsonld.ts"]
     Format["format.ts"]
+    TimelineLib["timeline.ts"]
   end
   subgraph Data["内容与数据"]
     MDX["content/projects/*.mdx"]
+    MDXEN["content/projects-en、notes-en（body）"]
     DataFiles["data/profile.ts、domains.ts…"]
     Schema["content.config.ts（Zod）"]
   end
@@ -117,8 +123,10 @@ flowchart TB
 | `src/layouts` | 页面骨架、SEO、全局脚本挂载 | 不直接读内容集合 |
 | `src/components` | 展示与交互，props 驱动 | 不访问文件系统 |
 | `src/lib` | 纯函数领域逻辑（筛选、排序、SEO、格式化） | 不依赖 DOM |
-| `src/content` | 内容数据（MDX） | 不写代码逻辑 |
+| `src/content` | 内容数据（MDX）；中文元数据 + 英文 body-only | 不写代码逻辑 |
 | `src/data` | 结构化个人数据（TS） | 不放长文 |
+| `src/lib/timeline.ts` | 时间线解析/排序/分布（纯函数） | 不依赖 DOM |
+| `public/_headers` | Cloudflare CSP/HSTS/缓存/admin noindex | 不影响 GitHub Pages |
 | `scripts` | 构建/校验/生成工具 | 不参与页面渲染 |
 
 ## 6. 运行时视图
@@ -235,7 +243,7 @@ flowchart LR
 
 ## 9. 架构决策
 
-12 篇 ADR 见 `adr/`，索引：0001 框架、0002 设计令牌、0003 内容模型、0004 交互层、0005 搜索、0006 i18n、0007 部署、0008 测试、0009 分析、0010 许可、0011 TS 版本、0012 后端策略。
+23 篇 ADR 见 `adr/`，索引：0001 框架、0002 设计令牌、0003 内容模型、0004 交互层、0005 搜索、0006 i18n、0007 部署、0008 测试、0009 分析、0010 许可、0011 TS 版本、0012 后端策略、0013–0019 双语/后台/自动化/媒体/GitHub/背景，0020 英文 body-only、0021 Cloudflare CSP、0022 静态优先 WebGL、0023 静态时间线。
 
 ## 10. 质量需求与场景
 
@@ -247,6 +255,8 @@ flowchart LR
 | 用户仅用键盘 | Tab/Enter/Esc | 可完成筛选、搜索、灯箱关闭 | axe 0 serious |
 | 搜索引擎抓取 | 爬虫 | sitemap + JSON-LD + canonical | 结构化数据校验通过 |
 | 子路径部署 | `BASE_PATH=/repo/` | 所有链接与索引正确 | e2e 通过 |
+| 英文详情 | 访问 /en/projects/<slug>/ | 英文正文、同 slug hreflang、语言切换 | E2E 通过 |
+| Cloudflare CSP | 公网加载 admin/搜索 | 响应头 + meta 交集，无 console 错误 | curl + 浏览器 |
 
 ## 11. 风险与技术债
 
@@ -257,6 +267,11 @@ flowchart LR
 | Pagefind 与 base path | 索引路径问题 | 专项构建 + e2e |
 | 内容量增长 | 构建时间上升 | 增量构建、OG 缓存、按需生成 |
 | 单维护者 | 知识集中 | 文档 + ADR + 自动化门禁 |
+| TD-01 详情视图重复 | 中英文项目/笔记详情各一份 | P1：抽共享视图（35 §4） |
+| TD-02 实验脚本内联 | experiments.astro 偏大 | P2：抽脚本/组件 |
+| TD-03 SEO 标题特判 | 长英文标题需手工映射 | P2：schema seoTitleEn |
+| TD-04 CI 性能抖动 | 共享 runner TBT 波动 | 局部重跑 + 性能证据 |
+| TD-05 Token 暴露 | 自动部署凭据风险 | 立即轮换 |
 
 ## 12. 术语
 

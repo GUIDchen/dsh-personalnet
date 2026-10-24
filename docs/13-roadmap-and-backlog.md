@@ -48,6 +48,7 @@
 | M33 | Cloudflare 自动部署 | workflow 监听 main；token/变量已配 | d76e907 自动部署成功 | ✅ 完成 |
 | M34 | P1 英文正文/CSP/滚动与 P2 实验/时间线（v2.9.0） | 18 篇英文正文、响应头、experiments/timeline | E2E/axe/LHCI/CSP | ✅ 完成 |
 | M35 | v2.9.0 发布 | 文档、版本、tag、部署、公网验收 | 公网 200 + CI | ✅ 完成 |
+| M36 | 工程文档与时间线重构（v2.9.1） | docs/34–38、ADR 0020–0023、lib/timeline | docs/unit/CI | 进行中 |
 
 ## 2. Backlog
 

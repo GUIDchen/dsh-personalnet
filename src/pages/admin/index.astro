@@ -214,6 +214,10 @@ const stats = [
             <span>03</span>Actions 构建并发布到 Pages
           </li>
         </ol>
+        <p class="muted">
+          GitHub Pages 保存即自动部署；Cloudflare 副本配置 CLOUDFLARE_API_TOKEN 后由
+          deploy-cloudflare-pages workflow 自动更新。
+        </p>
         <p class="deploy" data-deploy-status data-repo={repo}>
           最近部署：检查中…
         </p>
@@ -262,6 +266,20 @@ const stats = [
               rel="noopener noreferrer"
             >
               同步 GitHub <span>Actions</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://guidchen.pages.dev/" target="_blank" rel="noopener noreferrer">
+              Cloudflare 副本 <span>pages.dev</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={`${repo}/actions/workflows/deploy-cloudflare.yml`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Cloudflare 部署 <span>Actions</span>
             </a>
           </li>
           <li>

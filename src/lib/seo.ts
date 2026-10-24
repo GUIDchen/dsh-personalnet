@@ -13,10 +13,10 @@ export function absoluteUrl(path: string): string {
   return new URL(withBase(path), site).href;
 }
 
-/** 把 "2024.06" 转为 Date（用于 RSS / JSON-LD）。 */
+/** 把 "2024.06" 或 "2024-06-18" 转为 Date（用于 RSS / JSON-LD）；缺日时按 1 日。 */
 export function toDate(value: string): Date {
-  const [year = "1970", month = "01"] = value.split(".");
-  return new Date(`${year}-${month.padStart(2, "0")}-01T00:00:00Z`);
+  const [year = "1970", month = "01", day = "01"] = value.replace(/[./]/g, "-").split("-");
+  return new Date(`${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T00:00:00Z`);
 }
 
 /** 中文展示的周期，例如 "2023.09 – 2024.01" 或 "2025.07 – 至今"。 */

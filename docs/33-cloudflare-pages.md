@@ -43,14 +43,27 @@ Cloudflare 构建使用 `SITE_URL=https://guidchen.pages.dev`、`BASE_PATH=/`；
    - `NODE_VERSION=24`
 5. 保存并部署。之后每次 push main，Cloudflare 自动构建；GitHub Pages 的 deploy workflow 不受影响。
 
-### B. API Token（手动/CI）
+### B. API Token + GitHub Actions（推荐自动部署）
 
 创建 Cloudflare API Token，权限至少：
 
 - Account → Cloudflare Pages: Edit
 - Account → Account Settings: Read（获取 Account ID）
 
-然后在本地：
+在 GitHub 仓库 Settings → Secrets and variables → Actions 添加：
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+部署 workflow `.github/workflows/deploy-cloudflare.yml` 已配置：
+
+- `push main` 自动触发；
+- `workflow_dispatch` 手动触发；
+- 使用 `wrangler pages deploy` 更新现有 `guidchen` 项目；
+- 未配置 secrets 时只构建并跳过部署，不会失败；
+- 可选仓库变量：`CLOUDFLARE_SITE_URL`、`CLOUDFLARE_PROJECT_NAME`。
+
+本地也可以：
 
 ~~~bash
 export CLOUDFLARE_API_TOKEN=...
@@ -58,7 +71,7 @@ export CLOUDFLARE_ACCOUNT_ID=...
 pnpm deploy:cloudflare
 ~~~
 
-或在 GitHub 仓库 Secrets 配置 `CLOUDFLARE_API_TOKEN`、`CLOUDFLARE_ACCOUNT_ID`，手动运行 deploy-cloudflare-pages workflow。可设置仓库变量 `CLOUDFLARE_SITE_URL`、`CLOUDFLARE_PROJECT_NAME`。
+配置 secrets 后，后台 Sveltia 保存 → commit → 两个 workflow 分别部署 GitHub Pages 与 Cloudflare Pages。
 
 ### C. Wrangler 本地登录
 
@@ -100,7 +113,7 @@ cd dist && zip -qr ../guidchen-pages.zip .
 - 线上：https://guidchen.pages.dev/
 - 构建方式：`SITE_URL=https://guidchen.pages.dev`、`BASE_PATH=/`，上传 `guidchen-pages.zip`。
 - GitHub Pages 继续在线：https://guidchen.github.io/dsh-personalnet/
-- **尚未接 Git 自动部署**：当前是直接上传快照；仓库更新后需要重新上传，或修复 Git 连接/配置 API Token。
+- **自动部署待配置 secrets**：workflow 已监听 main，但需要 `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`；在配置前，`guidchen.pages.dev` 是直接上传快照，不会跟随 GitHub 更新。
 - 验证：首页/项目/笔记/GitHub/安全/后台/Feed/sitemap 200；canonical、sitemap、robots 指向 `guidchen.pages.dev`；CSP、X-Frame-Options、Permissions-Policy、admin X-Robots 生效；搜索与 admin token 登录可用。
 
 ## 5. 部署后验收

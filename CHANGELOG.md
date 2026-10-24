@@ -17,7 +17,12 @@
 
 ### Changed
 
-- Cloudflare Pages 已通过直接上传部署到 https://guidchen.pages.dev/；当前不是 Git 自动部署，更新需重新上传或配置 API Token。
+- Cloudflare Pages 已通过直接上传部署到 https://guidchen.pages.dev/；当前不是 Git 自动部署。
+- deploy-cloudflare-pages workflow 改为监听 main；配置 `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` 后，后台保存即可自动更新 Cloudflare 副本；未配置时只构建并跳过。
+
+### Fixed
+
+- RSS 笔记 `pubDate` 原来只保留年月，统一变成每月 1 日；现在保留完整日期（如 2026-10-23）。
 - 外部链接检查把 403/405 与网络错误降级为警告，404/410/5xx 仍失败。
 
 ## [2.8.0] - 2026-10-24

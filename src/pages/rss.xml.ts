@@ -28,7 +28,7 @@ export async function GET(context: APIContext) {
       title: note.data.title,
       description: note.data.summary,
       link: absoluteUrl(`notes/${note.id}/`),
-      pubDate: toDate(note.data.date.replace(/-/g, ".")),
+      pubDate: toDate(note.data.date),
       categories: note.data.tags,
     })),
   ]

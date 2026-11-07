@@ -54,13 +54,13 @@
     "test:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "7.3.4",
-    "@astrojs/markdown-satteri": "0.4.5",
-    "@astrojs/mdx": "8.1.1",
+    "@astrojs/markdown-remark": "7.3.5",
+    "@astrojs/markdown-satteri": "0.4.6",
+    "@astrojs/mdx": "8.1.2",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.4",
     "@tailwindcss/vite": "4.3.3",
-    "astro": "7.4.2",
+    "astro": "7.4.5",
     "astro-pagefind": "2.0.1",
     "pagefind": "1.5.2",
     "tailwindcss": "4.3.3",

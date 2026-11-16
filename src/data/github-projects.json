@@ -181,7 +181,7 @@
       "order": 8,
       "featured": false,
       "language": "JavaScript",
-      "stars": 0,
+      "stars": 1,
       "updatedAt": "2026-10-23",
       "url": "https://github.com/GUIDchen/shaanxi-exam-prep",
       "homepage": "",
@@ -207,7 +207,7 @@
       "featured": false,
       "language": "Astro",
       "stars": 0,
-      "updatedAt": "2026-11-07",
+      "updatedAt": "2026-11-14",
       "url": "https://github.com/GUIDchen/dsh-personalnet",
       "homepage": "https://GUIDchen.github.io/dsh-personalnet/",
       "topics": ["astro", "i18n", "personal-website", "portfolio", "static-site", "typescript"]
